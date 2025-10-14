@@ -455,7 +455,7 @@ export const GlyphInfo = {
         const sac = player.reality.glyphs.sac.glitch.add(added ?? 0);
       return sac.pow(0.85).div(15).add(1);
       },
-      description: amount => `Multiply Memory Chunk gain by ${formatX(amount, 2, 3)}`,
+      description: amount => `Multiply Chaos Dimensions by ${formatX(amount, 2, 3)}`,
       cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
     },
     hasAlchemyResource: true,
