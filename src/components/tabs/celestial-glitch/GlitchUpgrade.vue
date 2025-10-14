@@ -73,9 +73,9 @@ export default {
       if (this.isRebuyable) this.isAutobuyerOn = Autobuyer.realityUpgrade(upgrade.id).isActive;
     },
     bulk(){
-      if (!this.upgrade.isRebuyable) {
+      if (!this.upgrade.isRebuyable && !Glitch.isRunning) {
         const value = this.upgrade.config?.ReqBits?.();
-        if (value) player.celestials.glitch.augment.effectbits = value;
+        if (value != undefined) player.celestials.glitch.augment.effectbits = value;
         return;
       }
       for(let x=0; x < 10; x++) this.upgrade.purchase();

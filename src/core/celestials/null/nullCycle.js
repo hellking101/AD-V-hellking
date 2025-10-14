@@ -113,7 +113,7 @@ class NullCycleState extends DimensionState {
     if (this.tier % 2 == 0) mult = mult.mul(NullUpgrades.all[3].effectOrDefault(1));
 
     
-    if (NullUpgrades.all[10].isUnlocked && this.tier == NullCycles.highestUnlocked) mult = mult.mul(this.amount.add(10).absLog10().pow(2.5));
+    if (NullUpgrades.all[11].isUnlocked && this.tier == NullCycles.highestUnlocked) mult = mult.mul(this.amount.add(10).absLog10().pow(2.5));
 
     if (mult.gt(1)) {
       mult = mult.pow(Parallax.power);

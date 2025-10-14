@@ -424,7 +424,7 @@ export function beginProcessReality(realityProps) {
   // Save a few important props before resetting all resources. We need to do this before processing glyphs so
   // that we don't try to reality again while async is running, but we need to retain RNG and level or else
   // glyphs will be generated with values based on post-reset values
-  const glyphsToProcess = realityProps.simulatedRealities.add(realityProps.alreadyGotGlyph ? 0 : 1);
+  const glyphsToProcess = realityProps.simulatedRealities.add(realityProps.alreadyGotGlyph ? 0 : 1).toNumber();
   const rng = GlyphGenerator.getRNG(false);
   const glyphLevel = gainedGlyphLevel();
   finishProcessReality(realityProps);
@@ -433,8 +433,8 @@ export function beginProcessReality(realityProps) {
   // sampling code in order to just directly give all the glyphs. The later code is a fixed amount of overhead
   // which is large enough that quick realities can cause it to softlock the game due to lag on slower devices
   // Note: This is mostly a copy-paste of a code block in processManualReality() with slight modifications
-  if (glyphsToProcess.lt(100)) {
-    for (let glyphNum = 0; glyphNum < glyphsToProcess.toNumber(); glyphNum++) {
+  if (glyphsToProcess < 100) {
+    for (let glyphNum = 0; glyphNum < glyphsToProcess; glyphNum++) {
       GlyphSelection.generate(GlyphSelection.choiceCount, glyphLevel);
       if (EffarigUnlock.glyphFilter.isUnlocked) {
         const glyphChoices = GlyphSelection.glyphList(GlyphSelection.choiceCount,
@@ -556,13 +556,13 @@ export function beginProcessReality(realityProps) {
         GameIntervals.stop();
         ui.$viewModel.modal.progressBar = {
           label: "Simulating Amplified Reality",
-          info: () => `The game is currently calculating all the resources you would gain from repeating the
+          get info() {return `The game is currently calculating all the resources you would gain from repeating the
             Reality you just completed ${formatInt(glyphsToProcess)} more times. Pressing "Quick Glyphs" with
             more than ${formatInt(glyphsToSample)} Glyphs remaining will speed up the calculation by automatically
             sacrificing all the remaining Glyphs you would get. Pressing "Skip Glyphs" will ignore all resources
             related to Glyphs and stop the simulation after giving all other resources.
             ${Ra.unlocks.unlockGlyphAlchemy.canBeApplied ? `Pressing either button to speed up
-            simulation will not update any resources within Glyph Alchemy.` : ""}`,
+            simulation will not update any resources within Glyph Alchemy.` : ""}`},
           progressName: "Realities",
           current: doneSoFar,
           max: glyphsToProcess,

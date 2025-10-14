@@ -22,7 +22,6 @@ export const breakInfinityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "x10 Infinity Points",
     effect: () => 10,
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
   name: "Chaos",
@@ -34,7 +33,6 @@ export const breakInfinityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Get 1e50 times more Infinity Points",
     effect: () => 1e50,
-    formatEffect: value => formatX(value, 2, 2),
     isUseless: () => Pelle.isDoomed
   },
   {
@@ -56,7 +54,7 @@ export const breakInfinityUG = [
     checkRequirement: () => player.replicanti.amount.gte(10) && player.replicanti.chance.eq(0.01) && player.replicanti.interval.gte(1000),
     progLock: () => PlayerProgress.eternityUnlocked(),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Replicanti speed is incresed it's amount",
+    description: "Replicanti speed is increased by it's own amount",
     effect: () => player.replicanti.amount.log10().sqrt().add(1),
     formatEffect: value => formatX(value, 2, 2),
     isUseless: () => Pelle.isDoomed

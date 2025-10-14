@@ -493,7 +493,7 @@ export const ra = {
     },
     nullUnlock: {
       id: 47,
-      reward: () => `Unlock Null, the Celestial of Void (NYI)`,
+      reward: () => `Unlock Null, the Celestial of Void`,
       pet: "null",
       level: 150,
       displayIcon: `<span class="fas fa-droplet"></span>`,
@@ -508,7 +508,7 @@ export const ra = {
     },
     nullUpgrade4: {
       id: 50,
-      reward: () => `Unlock the Celestial of ??? (NYI)`,
+      reward: () => `Unlock the Celestial of Fragmentation (NYI)`,
       pet: "null",
       level: 200,
       displayIcon: `<span class="fas fa-droplet"></span>`,

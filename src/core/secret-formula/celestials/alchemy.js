@@ -532,7 +532,7 @@ export const alchemyResources = {
     effect: amount => amount,
     tier: 6,
     unlockedAt: 45,
-    description: () => `You can create a Glitch Glyph ${ VisualViewport.isExtreme ? '' : '(unlocked later)' }`,
+    get description() {return `You can create a Glitch Glyph ${ VisualViewport.isExtreme ? '' : '(unlocked later)' }`},
     formatEffect: value => `Create a ${formatInt(value)} level Glitch Glyph`,
     reagents: [
       {

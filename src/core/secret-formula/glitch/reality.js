@@ -10,7 +10,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Gain x1e25 more EP",
     effect: () => 1e25,
-    formatEffect: value => formatX(value, 2, 2),
     isUseless: () => Pelle.isDoomed
   },
   {
@@ -23,7 +22,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: "Gain 15 times more Tachyon Particles",
     effect: () => 15,
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
     name: "Real Time Complex",
@@ -35,7 +33,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Gain 25 more Perks Points and Realities",
     effect: () => 25,
-    formatEffect: value => format(value, 2, 2)
   },
   {
     name: "Immensity",
@@ -46,7 +43,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "All TD gain a 1e100 multiplier",
     effect: () => Decimal.add(1e100),
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
     name: "Sacrifisal Power",
@@ -58,7 +54,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "EC4 and EC8 have no path requierment (unlock other paths at the same row)",
     effect: 1,
-    formatEffect: value => formatX(value, 2, 2),
   },
   {
     name: "Limiting Reality",
@@ -69,7 +64,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Gain 25 additional Perk Points",
     effect: () => 25,
-    formatEffect: value => format(value, 2, 2)
   },
 {
     name: "External Dilation",
@@ -81,7 +75,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Glyphs have additional effect",
     effect: 1,
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
     name: "Alternitve Realitive",
@@ -92,7 +85,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Real time storing is fulled automatically and 60 times faster",
     effect: 60,
-    formatEffect: value => format(value, 2, 2)
   },
   {
     name: "I hate V's Achievements",
@@ -103,7 +95,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: () => `Gain ${format(10)} space theorem`,
     effect: 10,
-    formatEffect: value => format(value, 2, 2)
   },
   {
     name: "Ra forgot to make this",
@@ -114,7 +105,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Unlock a Glitched memory",
     effect: 1,
-    formatEffect: value => format(value, 2, 2)
   },
   {
     name: "Astral Confrontment",
@@ -125,7 +115,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: () => `Gain ${format(50)} times more Dark Matter and Energy`,
     effect: 50,
-    formatEffect: value => format(value, 2)
   },
   {
     name: "Galactic Overload",
@@ -149,7 +138,6 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Unlock two new Treasa shop items",
     effect: () => 1,
-    formatEffect: () => "Active"
   },
   {
     name: "Overlight Powerforce",
@@ -161,6 +149,5 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Unlock a Pelle Rift",
     effect: () => 1,
-    formatEffect: () => "Unlocked"
   },
 ];

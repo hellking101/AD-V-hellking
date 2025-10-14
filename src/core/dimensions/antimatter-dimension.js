@@ -310,7 +310,7 @@ export function buyManyDimension(tier) {
   const cost = dimension.costUntil10;
 
   if ((!preInfinityUGs.all[3].config.hasFailed() && !preInfinityUGs.all[3].isBought) && (player.options.confirmations.glitchCL && 
- !PlayerProgress.metaUnlocked()) && player.dimensionBoosts.eq(4) && player.galaxies.eq(0)) {
+  !PlayerProgress.metaUnlocked()) && player.dimensionBoosts.eq(4) && player.galaxies.eq(0)) {
     if(dimension.bought.lt(1)) buyOneDimension(tier);
     return;
   }

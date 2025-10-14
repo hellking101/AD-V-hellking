@@ -1,6 +1,5 @@
 import { RebuyableMechanicState } from "./game-mechanics";
 import { DC } from "./constants";
-import Payments from "./payments";
 
 export const shop = {};
 

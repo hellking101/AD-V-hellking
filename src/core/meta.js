@@ -140,14 +140,14 @@ export function finishProcessMeta() {
   player.eternityChalls = {};
   player.challenge.eternity.current = 0;
   player.challenge.eternity.unlocked = DC.D0;
-  player.challenge.eternity.requirementBits = DC.D0;
+  player.challenge.eternity.requirementBits = 0;
   player.respec = false;
   player.eterc8ids = 50;
   player.eterc8repl = 40;
 
   Player.resetRequirements("meta");
 
-  Currency.timeTheorems.reset();
+  Currency.timeTheorems.respec();
   player.dilation.studies = [];
   player.dilation.active = false;
 

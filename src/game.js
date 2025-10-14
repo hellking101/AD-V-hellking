@@ -5,8 +5,6 @@ import { DEV } from "@/env";
 import { SpeedrunMilestones } from "./core/speedrun";
 import { supportedBrowsers } from "./supported-browsers";
 
-import Payments from "./core/payments";
-
 if (GlobalErrorHandler.handled) {
   throw new Error("Initialization failed");
 }
@@ -554,6 +552,7 @@ export function realTimeMechanics(realDiff) {
     GameUI.update();
     if(realityUGs.all[7].isBought) {
       Autobuyers.tick();
+      BlackHoles.updatePhases(realDiff);
       return false;
     }
     return true
@@ -1229,8 +1228,7 @@ export function init() {
   }
   GameStorage.load();
   Tabs.all.find(t => t.config.id === player.options.lastOpenTab).show(true);
-  Payments.init();
-
+  
   // funny title
   document.title = "Antimatter Dimensions: " + titles[randomInt(0,titles.length++)];
 }

@@ -41,7 +41,7 @@ export const preInfinityUG = [
     id: 3,
     requirement: () => `Have ${format(1e50)} Antimatter with upto four Dimension Boosts, no Galaxies and only one of each Dimension tier brought (pre-Infinity)`,
     hasFailed: () => AntimatterDimensions.all.some(ad => ad.bought.gt(1)),
-    checkRequirement: () => player.antimatter.gte(1e50) && AntimatterDimensions.all.some(ad => ad.bought.lt(2)),
+    checkRequirement: () => player.antimatter.gte(1e50) && AntimatterDimensions.all.every(ad => ad.bought.lt(2)),
     progLock: () => player.dimensionBoosts.gt(4) || player.galaxies.gt(0) || PlayerProgress.infinityUnlocked(),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "1st ADs multiplier by the amount of 8th ADs",
@@ -82,7 +82,6 @@ export const preInfinityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Double infinity point gain",
     effect: () => 2,
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
     name: "Galactic Instance",
@@ -94,7 +93,6 @@ export const preInfinityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Triple infinity point gain",
     effect: () => 3,
-    formatEffect: value => formatX(value, 2, 2)
   },
   
 ];

@@ -141,77 +141,78 @@ export default {
       
     <BlackHoleChargingSliders />
 
-      <div class="l-glitch-panel-container">
-        <div class="c-glitch-panel-title">
-          <i
-            :class="collapsedPower ? 'fas fa-expand-arrows-alt' : 'fas fa-compress-arrows-alt'"
-            class="c-collapse-icon-clickable"
-            @click="toggleCollapsePower"
-          />
-          {{sName()}} layer one upgrades (power)
-        </div>
-      <div
-        v-if="!collapsedPower"
-        class="l-glitch-content-container"
-      >
-        
-          <div class="l-reality-upgrade-grid">
-            <div class="c-glitch-upgrade-infotext">
-            the first 4 are repeatable, the others are like reality upgrades but can't be locked
-          </div>
-      
-          <div
-          v-for="row in 4"
-          :key="row"
-          class="l-reality-upgrade-grid__row">
-            
-          <GlitchUpgrade
-            v-for="column in 4"
-            :key="id(row, column)"
-            :upgrade="upgradesPower[id(row, column)]"/>
-          </div>
-      
-          </div>
-          
-        </div>
+    <div class="l-glitch-panel-container">
+      <div class="c-glitch-panel-title">
+        <i
+          :class="collapsedPower ? 'fas fa-expand-arrows-alt' : 'fas fa-compress-arrows-alt'"
+          class="c-collapse-icon-clickable"
+          @click="toggleCollapsePower"
+        />
+        {{sName()}} layer one upgrades (power)
       </div>
+    <div
+      v-if="!collapsedPower"
+      class="l-glitch-content-container"
+    >
+      
+        <div class="l-reality-upgrade-grid">
+          <div class="c-glitch-upgrade-infotext">
+          the first 4 are repeatable, the others are like reality upgrades but can't be locked.
+          Shift clicking sets Aguments.
+        </div>
+    
+        <div
+        v-for="row in 4"
+        :key="row"
+        class="l-reality-upgrade-grid__row">
+          
+        <GlitchUpgrade
+          v-for="column in 4"
+          :key="id(row, column)"
+          :upgrade="upgradesPower[id(row, column)]"/>
+        </div>
+    
+        </div>
+        
+      </div>
+    </div>
 
     <div
-      v-if="completions > 0"
-      class="l-glitch-panel-container">
-        <div class="c-glitch-panel-title">
-          <i
-            :class="collapsedSpeed ? 'fas fa-expand-arrows-alt' : 'fas fa-compress-arrows-alt'"
-            class="c-collapse-icon-clickable"
-            @click="toggleCollapseSpeed"
-          />
-          {{sName()}} layer two upgrades (speed)
-        </div>
-      <div
-        v-if="!collapsedSpeed"
-        class="l-glitch-content-container"
-      >
-        
-          <div class="l-reality-upgrade-grid">
-            <div class="c-glitch-upgrade-infotext">
-            
-          </div>
+    v-if="completions > 0"
+    class="l-glitch-panel-container">
+      <div class="c-glitch-panel-title">
+        <i
+          :class="collapsedSpeed ? 'fas fa-expand-arrows-alt' : 'fas fa-compress-arrows-alt'"
+          class="c-collapse-icon-clickable"
+          @click="toggleCollapseSpeed"
+        />
+        {{sName()}} layer two upgrades (speed)
+      </div>
+    <div
+      v-if="!collapsedSpeed"
+      class="l-glitch-content-container"
+    >
       
-          <div
-          v-for="row in 1"
-          :key="row"
-          class="l-reality-upgrade-grid__row">
-            
-          <GlitchUpgrade
-            v-for="column in 4"
-            :key="id(row, column)"
-            :upgrade="upgradesSpeed[id(row, column)]"/>
-          </div>
-      
-          </div>
+        <div class="l-reality-upgrade-grid">
+          <div class="c-glitch-upgrade-infotext">
           
         </div>
+    
+        <div
+        v-for="row in 1"
+        :key="row"
+        class="l-reality-upgrade-grid__row">
+          
+        <GlitchUpgrade
+          v-for="column in 4"
+          :key="id(row, column)"
+          :upgrade="upgradesSpeed[id(row, column)]"/>
+        </div>
+    
+        </div>
+        
       </div>
+    </div>
     
     </div>
 </template>

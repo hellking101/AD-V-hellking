@@ -102,6 +102,7 @@ export const shopPurchases = {
   allCosmeticSets: {
     key: "allCosmeticSets",
     cost: () => {
+      if (GlyphAppearanceHandler.lockedSets.length == 0) return 0;
       // Both of these are also on the payment backend, which would need to be changed as well
       const baseCost = 21;
       const totalSets = Object.keys(GameDatabase.reality.glyphCosmeticSets).length;
@@ -114,6 +115,7 @@ export const shopPurchases = {
     description: "Unlock all remaining Glyph cosmetic sets at once",
     instantPurchase: true,
     onPurchase: () => {
+      if (GlyphAppearanceHandler.lockedSets.length == 0) return;
       // The actual unlocks are handled in the ShopPurchaseData object, so we just show notifications here
       GameUI.notify.info(`You have unlocked all sets for Glyph cosmetics!`, 15000);
       GlyphAppearanceHandler.applyNotification();
@@ -124,6 +126,7 @@ export const shopPurchases = {
   glitchChall: {
     key: "glitchChall",
     cost: () => {
+      if(realityUGs.allBought) return 0;
       if(eternityUGs.allBought) return 50;
       if(breakInfinityUGs.allBought) return 20;
       if(preInfinityUGs.allBought) return 10;
@@ -144,7 +147,7 @@ export const shopPurchases = {
 
       breakInfinityUGs.all.forEach(x => {
 
-        if(!player.break) return;
+        if(!PlayerProgress.hasBroken()) return;
 
         if(!x.isBought && !unlocked) {
           player.glitch.breakinfinity.upgradebits |= 1 << x.id;
@@ -155,7 +158,7 @@ export const shopPurchases = {
 
       eternityUGs.all.forEach(x => {
 
-        if(player.eternities.eq(0)) return;
+        if(!PlayerProgress.eternityUnlocked()) return;
 
         if(!x.isBought && !unlocked) {
           player.glitch.eternity.upgradebits |= 1 << x.id;
@@ -167,7 +170,7 @@ export const shopPurchases = {
 
       realityUGs.all.forEach(x => {
 
-        if(player.realities === 0) return;
+        if(!PlayerProgress.realityUnlocked()) return;
 
         if(!x.isBought && !unlocked) {
           player.glitch.reality.upgradebits |= 1 << x.id;
@@ -175,14 +178,6 @@ export const shopPurchases = {
           unlocked = true;
         } 
       });
-
-      if(!unlocked){
-        GameUI.notify.error("could not unlock anything (STDs are returned)");
-        if(realityUGs.allBought) player.IAP.STDcoins = player.IAP.STDcoins.add(50);
-        if(eternityUGs.allBought) player.IAP.STDcoins = player.IAP.STDcoins.add(20);
-        if(breakInfinityUGs.allBought) player.IAP.STDcoins = player.IAP.STDcoins.add(10);
-        if(preInfinityUGs.allBought) player.IAP.STDcoins = player.IAP.STDcoins.add(5);
-      }
     }
   },
 };

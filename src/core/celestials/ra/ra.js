@@ -217,6 +217,8 @@ class RaPetState extends GameMechanicState {
   get maxMemories(){ return DC.E309 }
 
   tick(realDiff, generateChunks) {
+    if (this.level >= Ra.levelCap) return;
+
     const seconds = realDiff.div(1000);
     if(this.name == "Cante" || this.name == "Null") {
       if(!this.isUnlocked) return;

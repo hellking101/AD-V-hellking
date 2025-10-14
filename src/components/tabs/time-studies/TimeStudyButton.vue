@@ -109,7 +109,7 @@ export default {
       return { ...this.study.config, formatCost: value => (value.gte(1e6) ? format(value) : formatInt(value)) };
     },
     showDefaultCostDisplay() {
-      const costCond = (this.showCost && !this.showStCost) || this.STCost.eq(0);
+      const costCond = (this.showCost && !this.showStCost) || Decimal.eq(this.STCost, 0);
       return !this.setup.isSmall && !this.doomedRealityStudy && costCond;
     },
     isDisabledByEnslaved() {

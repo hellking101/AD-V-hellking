@@ -62,7 +62,7 @@ export const NullData = {
         id: 7,
         description: () => `Abyssal Matter slightly boosts Cycles`,
         cost: new Decimal(1e50),
-        effect: () =>Currency.abyssalMatter.value.pow(0.065).max(1),
+        effect: () => Currency.abyssalMatter.value.pow(0.065).max(1),
         formatEffect: e => `${formatX(e,2,2)}`,
       },
       {

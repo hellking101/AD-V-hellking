@@ -10,7 +10,6 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "gain x5 more EP",
     effect: () => 5,
-    formatEffect: value => formatX(value, 2, 2)
   },
   {
   name: "Eternity Power",
@@ -22,7 +21,6 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Free Tickspeed threshold decreased to 1.3",
     effect: () => 1.3,
-    formatEffect: value => formatInt(value),
     isUseless: () => Pelle.isDoomed
   },
   {
@@ -32,9 +30,8 @@ export const eternityUG = [
     progLock: () => false,
     checkRequirement: () => player.replicanti.galaxies.eq(15),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Gain 3 additional RG",
+    description: "Gain 3 additional RGs",
     effect: () => 3,
-    formatEffect: value => "+" + formatInt(value)
   },
   {
     name: "Study Forever",
@@ -45,7 +42,6 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: "150 free Tickspeed upgrades",
     effect: () => 150,
-    formatEffect: value => "+" + formatInt(value),
   },
   {
     name: "Wrong Timeline",
@@ -56,7 +52,7 @@ export const eternityUG = [
     progLock: () => PlayerProgress.realityUnlocked(),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Get more EP based on IP",
-    effect: () => player.infinityPoints.add(1).log10().sqrt(),
+    effect: () => player.infinityPoints.add(1).log10().pow(1.2),
     formatEffect: value => formatX(value, 2, 2)
   },
   {
@@ -69,7 +65,6 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "1500 free Tickspeed upgrades",
     effect: () => 1500,
-    formatEffect: value => "+" + formatInt(value),
     isUseless: () => Pelle.isDoomed
   },
 

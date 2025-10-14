@@ -3,8 +3,6 @@ import "vue-loading-overlay/dist/vue-loading.css";
 
 import Loading from "vue-loading-overlay";
 
-import Payments from "@/core/payments";
-
 import PrimaryButton from "@/components/PrimaryButton";
 import ShopButton from "./ShopButton";
 
@@ -43,9 +41,6 @@ export default {
       if (this.creditsClosed) return;
       SecretAchievement(33).unlock();
       Modal.message.show("You cannot purchase STD coins, they are gained over time");
-    },
-    onCancel() {
-      Payments.cancelPurchase(false);
     },
     toggleEnable() {
       if (ShopPurchaseData.availableSTD.lt(0)) return;
@@ -103,7 +98,6 @@ export default {
     <loading
       :active="isLoading"
       :can-cancel="true"
-      :on-cancel="onCancel"
       :is-full-page="true"
     />
   </div>

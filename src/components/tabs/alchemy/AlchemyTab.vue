@@ -57,7 +57,7 @@ export default {
     glitchGlyphCreationClass() {
       return {
         "o-primary-btn--subtab-option": true,
-        "tutorial--glow": !this.createdGlitchGlyph
+        "tutorial--glow": !this.createdGlitchGlyph && this.glitchCreationVisible
       };
     },
     reactions() {
