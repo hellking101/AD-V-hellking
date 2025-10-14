@@ -182,7 +182,7 @@ export const GlyphGenerator = {
   // from having none of each basic glyphs which are requied to beat pelle
   doomedGlyph(type) {
     const effects = GlyphEffects.all.filter(e => e.id.startsWith(type)).map(i => i.id);
-    effects.push(GlyphEffects.timespeed);
+    effects.push(GlyphEffects.timespeed.id);
     const glyphLevel = Decimal.max(player.records.bestReality.glyphLevel, 10000);
     return {
       id: undefined,
