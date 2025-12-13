@@ -5,7 +5,6 @@ import AutobuyersTab from "./autobuyers/AutobuyersTab";
 import AutomatorTab from "./automator/AutomatorTab";
 import BlackHoleTab from "./black-hole/BlackHoleTab";
 import BreakInfinityTab from "./break-infinity/BreakInfinityTab";
-import CelestialNavigationTab from "./celestial-navigation/CelestialNavigationTab";
 import ChallengeRecordsTab from "./challenge-records/ChallengeRecordsTab";
 import EffarigTab from "./celestial-effarig/EffarigTab";
 import EnslavedTab from "./celestial-enslaved/EnslavedTab";
@@ -44,10 +43,8 @@ import VTab from "./celestial-v/VTab";
 
 // mod
 import entropy from "./glitch/entropy";
-import preinfinity from "./glitch/preinfinitytab";
-import glitchbreak from "./glitch/breakinfinitytab";
-import glitcheternity from "./glitch/eternitytab";
-import glitchreality from "./glitch/realitytab";
+import GlitchChallengesTab from "./glitch/glitchchallengestab.vue";
+import RemakeTab from "./remake/RemakeTab";
 
 import GlitchTab from "./celestial-glitch/GlitchTab";
 
@@ -101,14 +98,11 @@ const TabComponents = {
   PerksTab,
   BlackHoleTab,
   AlchemyTab,
-  CelestialNavigationTab,
   ShopTab,
   MultiplierBreakdownTab,
   entropy,
-  preinfinity,
-  glitchbreak,
-  glitcheternity,
-  glitchreality,
+  GlitchChallengesTab,
+  RemakeTab,
   GlitchTab,
   ChaosDimensionsTab, // meta
   MetaFabricatorTab,

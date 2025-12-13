@@ -149,7 +149,7 @@ export default {
       costs.am.copyFrom(TimeTheoremPurchaseType.am.cost);
       costs.ip.copyFrom(TimeTheoremPurchaseType.ip.cost);
       costs.ep.copyFrom(TimeTheoremPurchaseType.ep.cost);
-      this.showST = V.spaceTheorems.gt(0) && !Pelle.isDoomed;
+      this.showST = V.spaceTheorems.gt(0);
       this.STamount = V.availableST;
       this.hasTTGen = this.theoremGeneration.gt(0);
       this.showTTGen = this.hasTTGen && (ui.view.shiftDown === this.invertTTgenDisplay);

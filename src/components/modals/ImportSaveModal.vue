@@ -172,8 +172,8 @@ export default {
         <div v-if="progress.isRealityUnlocked">
           Realities: {{ formatPostBreak(player.realities, 2) }}
         </div>
-        <div v-if="progress.hasFullCompletion">
-          Finished Doomed: {{ formatInt(player.records.fullGameCompletions) }}
+        <div v-if="progress.hasPelleCompletion">
+          Finished Doomed: {{ formatInt(player.pelleResets) }}
         </div>
         <div v-if="progress.isMetaUnlocked">
           Metas: {{ formatPostBreak(player.meta.metas, 2) }}

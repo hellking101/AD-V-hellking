@@ -482,6 +482,7 @@ export const normalAchievements = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Antimatter Dimensions gain a multiplier based on current antimatter.",
     effect: () => Currency.antimatter.value.pow(0.00002).plus(1),
+    cap: DC.EE35,
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -563,6 +564,7 @@ export const normalAchievements = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Antimatter Dimensions are stronger the more unspent antimatter you have.",
     effect: () => Currency.antimatter.value.pow(0.00002).plus(1),
+    cap: DC.EE35,
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -733,7 +735,7 @@ export const normalAchievements = [
     checkRequirement: () => player.totalTickGained.gte(308),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     reward: "Time Dimensions gain a multiplier based on tickspeed.",
-    effect: () => Tickspeed.perSecond.pow(0.000005),
+    effect: () => GameCache.tickspeedPerSecond.value.pow(0.000005),
     formatEffect: value => `${formatX(value, 2, 2)}`
   },
   {
@@ -1376,13 +1378,10 @@ export const normalAchievements = [
   },
   {
     id: 188,
-    name: "The End",
-    description: "Beat the game.",
+    name: "Can you fix the broken?",
+    description: "Leave your Doomed Reality.",
     checkRequirement: () => GameEnd.endState > END_STATE_MARKERS.GAME_END && !GameEnd.removeAdditionalEnd,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    get reward() {
-      return `Unlock Glitch's speedy Reality`;
-    },
   },
   {
     id: 191,
@@ -1416,8 +1415,8 @@ export const normalAchievements = [
   },
   {
     id: 195,
-    name: "I Guess That Was Expected",
-    get description() {return `Reach the Antimatter hard cap`},
+    name: "Wait there's no hard cap?",
+    get description() {return `Reach ${format('ee50')} Antimatter outside a Doomed Reality`},
     checkRequirement: () => Currency.antimatter.gte("ee50") && !Pelle.isDoomed,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
   },
@@ -1439,9 +1438,6 @@ export const normalAchievements = [
     description: `Escape the confinements of the multiverse`,
     checkRequirement: () => true,
     checkEvent: GAME_EVENT.META_RESET_AFTER,
-    get reward() {
-      return `Gain autobuyers for the Galaxy Generator`;
-    },
   },
   {
     id: 201,
@@ -1508,8 +1504,22 @@ export const normalAchievements = [
   {
     id: 211,
     name: "Things are getting Chaotic",
-    get description() { return `Get ${Currency.chaosMatter.gt(0) ? "Chaotic Matter" : "???"}`},
+    get description() { return `Gain Chaotic Matter`},
     checkRequirement: () => Currency.chaosMatter.gt(0),
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER,
+  },
+  {
+    id: 212,
+    name: "Null and Void",
+    get description() { return `Unlock Null`},
+    checkRequirement: () => Ra.unlocks.nullUnlock.isUnlocked,
+    checkEvent: GAME_EVENT.GAME_TICK_AFTER,
+  },
+  {
+    id: 213,
+    name: "Things are getting Corrupt",
+    get description() { return `Gain Corrupt Matter`},
+    checkRequirement: () => Currency.corruptMatter.gt(0),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
   },
   

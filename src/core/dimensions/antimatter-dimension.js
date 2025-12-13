@@ -76,9 +76,8 @@ export function getDimensionFinalMultiplierUncached(tier) {
   multiplier = applyNDMultipliers(multiplier, tier);
   multiplier = applyNDPowers(multiplier, tier);
 
-  const glyphDilationPowMultiplier = getAdjustedGlyphEffect("dilationpow");
-  if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
-    multiplier = dilatedValueOf(multiplier.pow(glyphDilationPowMultiplier));
+  if (player.dilation.active) {
+    multiplier = dilatedValueOf(multiplier.pow(getAdjustedGlyphEffect("dilationpow")));
   } else if (Enslaved.isRunning) {
     multiplier = dilatedValueOf(multiplier);
   }
@@ -90,17 +89,6 @@ export function getDimensionFinalMultiplierUncached(tier) {
   if (AlchemyResource.inflation.isUnlocked && multiplier.gte(AlchemyResource.inflation.effectValue)) {
     multiplier = multiplier.pow(1.05);
   }
-
-  multiplier = multiplier.pow(Achievement(205).effectOrDefault(DC.D1));
-
-  if(multiplier.gt("ee26") && !MetaFabricatorUpgrade(15).isBought) multiplier = multiplier.pow( multiplier.log10().div(1e26).pow(0.5).recip() );
-  if(multiplier.gt("ee30")) multiplier = multiplier.pow( multiplier.log10().div(1e30).pow(0.85).recip() );
-
-  multiplier = multiplier.pow(Ra.unlocks.repAD.effectOrDefault(1));
-  
-  if(multiplier.gt("ee50")) multiplier = multiplier.pow( multiplier.log10().div(1e50).pow(0.3).recip() );
-  if(multiplier.gt("ee100")) multiplier = multiplier.pow( multiplier.log10().div(1e100).pow(0.35).recip() );
-  if(multiplier.gt("ee200")) multiplier = multiplier.pow( multiplier.log10().div(1e200).pow(0.5).recip() );
   
   return multiplier;
 }
@@ -165,12 +153,8 @@ function applyNDPowers(mult, tier) {
   const glyphPowMultiplier = new Decimal(getAdjustedGlyphEffect("powerpow"));
   const glyphEffarigPowMultiplier = getAdjustedGlyphEffect("effarigdimensions");
 
-  if (InfinityChallenge(4).isRunning && player.postC4Tier !== tier) {
-    multiplier = multiplier.pow(InfinityChallenge(4).effectValue);
-  }
-  if (InfinityChallenge(4).isCompleted) {
-    multiplier = multiplier.pow(InfinityChallenge(4).reward.effectValue);
-  }
+  if (InfinityChallenge(4).isRunning && player.postC4Tier !== tier) multiplier = multiplier.pow(InfinityChallenge(4).effectValue);
+  if (InfinityChallenge(4).isCompleted) multiplier = multiplier.pow(InfinityChallenge(4).reward.effectValue);
 
   multiplier = multiplier.pow(MetaFabricatorUpgrades.all[1].effectOrDefault(1));
 
@@ -184,7 +168,10 @@ function applyNDPowers(mult, tier) {
       AlchemyResource.power,
       Achievement(183),
       PelleRifts.paradox,
-      PelleRifts.glitch
+      PelleRifts.glitch,
+      Achievement(205),
+      Ra.unlocks.repAD,
+      Ra.unlocks.nullDamagedMRGain
     );
 
   multiplier = multiplier.pow(getAdjustedGlyphEffect("curseddimensions"));
@@ -195,10 +182,7 @@ function applyNDPowers(mult, tier) {
 
   multiplier = multiplier.pow(VUnlocks.adPow.effectOrDefault(1));
 
-  if (PelleStrikes.infinity.hasStrike) {
-    multiplier = multiplier.pow(0.5);
-  }
-
+  if (!Pelle.joined && PelleStrikes.infinity.hasStrike) multiplier = multiplier.pow(0.5);
 
   return multiplier;
 }
@@ -216,16 +200,15 @@ function applyNDNerfs(mult, tier) {
     mult = mult.pow(Glitch.ADnerf);
   }
   
-  let mul = GlitchRealityUpgrades.all[4].effectOrDefault(DC.D1).pow(GlitchRealityUpgrades.all[12].isBought ? 2 : 1).pow(Glitch.decay.recip());
+  let mul = GlitchRealityUpgrades.all[4].effectOrDefault(DC.D1).pow(Glitch.decay.recip());
 
-  if (Glitch.isRunning && !GlitchRealityUpgrades.all[4].isBought) mult = mult.mul(1e25);
+  if (Glitch.isRunning && !GlitchRealityUpgrades.all[4].isBought) mult = mult.mul(1e26);
   
   mult = mult.pow(GlitchRealityUpgrades.all[15].effectOrDefault(1));
   
   if (V.isRunningExtreme) {
     mult = mult.pow(0.001);
   }
-  if(Pelle.isDoomed) mul = mul.pow(Decimal.div(1e60, Currency.realityShards.value.add(1).min(1e60).pow(0.16)));
   
   if(player.dilation.active && Pelle.isDoomed) mul = dilatedValueOf(mul);
   
@@ -594,7 +577,7 @@ class AntimatterDimensionState extends DimensionState {
    * @returns {Decimal}
    */
   get rateOfChange() {
-    if (this.cappedProductionInNormalChallenges.gt('ee50')) return DC.D0;
+    if (this.cappedProductionInNormalChallenges.gt('ee12')) return DC.D0;
     const tier = this.tier;
     if (tier === 8 ||
       (tier > 3 && EternityChallenge(3).isRunning) ||
@@ -705,9 +688,9 @@ class AntimatterDimensionState extends DimensionState {
   }
 
   get isAvailableForPurchase() {
-    if (!EternityMilestone.unlockAllND.isReached && DimBoost.totalBoosts.add(4).lt(this.tier)) return false;
-    const hasPrevTier = this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0);
-    if (!EternityMilestone.unlockAllND.isReached && !hasPrevTier) return false;
+    if (EternityMilestone.unlockAllND.isReached) return true;
+    if (DimBoost.totalBoosts.add(4).lt(this.tier)) return false;
+    if (!(this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0))) return false;
     return this.tier < 7 || !NormalChallenge(10).isRunning;
   }
 
@@ -750,7 +733,7 @@ class AntimatterDimensionState extends DimensionState {
   }
 
   get cappedProductionInNormalChallenges() {
-    const postBI = false;
+    const postBI = true;
     const postBreak = (player.break && !NormalChallenge.isRunning) ||
       InfinityChallenge.isRunning || Enslaved.isRunning;
     if ((postBI && postBreak) || Pelle.isDoomed) return DC.BEMAX;
@@ -762,22 +745,28 @@ class AntimatterDimensionState extends DimensionState {
     if (Laitela.isRunning && tier > Laitela.maxAllowedDimension) return DC.D0;
     let amount = this.totalAmount;
     if (NormalChallenge(12).isRunning) {
-      if (tier === 2) amount = amount.pow(1.6);
-      if (tier === 4) amount = amount.pow(1.4);
-      if (tier === 6) amount = amount.pow(1.2);
+      switch (tier) {
+        case 2:
+          amount = amount.pow(1.6);
+          break;
+        case 4:
+          amount = amount.pow(1.4);
+          break;
+        case 6:
+          amount = amount.pow(1.2);
+          break;
+        default:
+          break;
+      }
     }
-    let production = amount.times(this.multiplier).times(Tickspeed.perSecond);
+
+    let production = amount.times(this.multiplier).times(GameCache.tickspeedPerSecond.value);
     if (NormalChallenge(2).isRunning) {
       production = production.times(player.chall2Pow);
     }
     if (tier === 1) {
-      if (NormalChallenge(3).isRunning) {
-        production = production.times(player.chall3Pow);
-      }
-      if (production.gt(10)) {
-        const log10 = production.max(1).log10();
-        production = Decimal.pow10(Decimal.pow(log10, getAdjustedGlyphEffect("effarigantimatter")));
-      }
+      if (NormalChallenge(3).isRunning) production = production.times(player.chall3Pow);
+      if (production.gt(10)) production = Decimal.pow10(Decimal.pow(production.max(1).log10(), getAdjustedGlyphEffect("effarigantimatter")));
     }
     production = production.min(this.cappedProductionInNormalChallenges);
     return production;
@@ -842,10 +831,7 @@ export const AntimatterDimensions = {
       maxTierProduced--;
       nextTierOffset++;
     }
-    for (let tier = maxTierProduced; tier >= 1; --tier) {
-      if (AntimatterDimension(tier).totalAmount.eq(DC.PREMETAMAX.pow(MetaFabricatorUpgrade(23).effectOrDefault(1)))) continue;
-      AntimatterDimension(tier + nextTierOffset).produceDimensions(AntimatterDimension(tier), diff.div(10));
-    }
+    for (let tier = maxTierProduced; tier >= 1; --tier) AntimatterDimension(tier + nextTierOffset).produceDimensions(AntimatterDimension(tier), diff.div(10));
     if (AntimatterDimension(1).amount.gt(0)) {
       player.requirementChecks.eternity.noAD1 = false;
     }

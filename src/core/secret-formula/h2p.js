@@ -1212,9 +1212,7 @@ but the same cost multipliers.
       name: "Celestials",
       info: () => `
 Once you get all of the Reality Upgrades, the first Celestial is unlocked. This opens up a new tab for Celestials, next
-to the Reality tab. The first subtab under the Celestials tab shows a map called "Celestial Navigation" which updates as
-you progress through the game. Only part of the map will be visible when first unlocked, but new content will gradually
-be revealed as you approach it, generally with a visual indication of your progress towards the next step.
+to the Reality tab. 
 <br>
 <br>
 Each Celestial has unique mechanics and upgrades, and you need to defeat all seven to beat the game.
@@ -1230,7 +1228,6 @@ by game speed multipliers and instead refer specifically to real time instead of
 `,
       isUnlocked: () => Teresa.isUnlocked,
       tags: ["reality", "challenges", "endgame", "lategame"],
-      tab: "celestials/celestial-navigation"
     }, {
       name: "Teresa, Celestial of Reality",
       alias: "Teresa",

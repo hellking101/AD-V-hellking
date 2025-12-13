@@ -105,7 +105,6 @@ export function buyMaxTimeDimension(tier, portionToSpend = 1, isMaxAll = false) 
   const canSpend = Currency.eternityPoints.value.times(portionToSpend);
   const dim = TimeDimension(tier);
   if (canSpend.lt(dim.cost)) return false;
-  if(dim.bought.gte(1e15)) return false; // capped
 
   if (tier > 4) {
     if (!TimeStudy.timeDimension(tier).isBought) return false;
@@ -128,11 +127,11 @@ export function buyMaxTimeDimension(tier, portionToSpend = 1, isMaxAll = false) 
   
   if (allowed) return buySingleTimeDimension(tier);
   const pur = Decimal.sub(calcHighestPurchaseableTD(tier, canSpend), dim.bought).clampMin(0);
-  const cost = dim.nextCost(pur.add(dim.bought).sub(1).min(1e15));
+  const cost = dim.nextCost(pur.add(dim.bought).sub(1));
   if (pur.lte(0)) return false;
   if(Currency.eternityPoints.lt('ee15')) Currency.eternityPoints.subtract(cost);
-  dim.amount = dim.amount.add(pur).min(1e15);
-  dim.bought = dim.bought.add(pur).min(1e15);
+  dim.amount = dim.amount.add(pur);
+  dim.bought = dim.bought.add(pur);
   dim.cost = dim.nextCost(dim.bought);
   return true;
 }
@@ -278,7 +277,7 @@ class TimeDimensionState extends DimensionState {
       );
 
     const dim = TimeDimension(tier);
-    const bought = tier === 8 ? Decimal.clampMax(dim.bought, 1e8) : dim.bought;
+    const bought = tier === 8 ? Decimal.clampMax(dim.bought, 1e8) : Decimal.clampMax(dim.bought, 1e30);
     mult = mult.times(Decimal.pow(dim.powerMultiplier, bought));
 
     mult = mult.pow(getAdjustedGlyphEffect("timepow"));
@@ -307,11 +306,7 @@ class TimeDimensionState extends DimensionState {
 
     if(Glitch.isRunning) mult = mult.pow(Glitch.TDnerf);
 
-    
-    if(mult.gt("ee50")) mult = mult.pow( mult.log10().div(1e50).pow(0.3).recip() );
-    if(mult.gt("ee100")) mult = mult.pow( mult.log10().div(1e100).pow(0.75).recip() );
-    if(mult.gt("ee200")) mult = mult.pow( mult.log10().div(1e200).pow(0.95).recip() );
-    
+
     return mult;
   }
 
@@ -325,7 +320,7 @@ class TimeDimensionState extends DimensionState {
     }
     let production = this.amount.times(this.multiplier);
     if (EternityChallenge(7).isRunning) {
-      production = production.times(Tickspeed.perSecond);
+      production = production.times(GameCache.tickspeedPerSecond.value);
     }
     if (this._tier === 1 && !EternityChallenge(7).isRunning) {
       production = production.pow(getAdjustedGlyphEffect("timeshardpow"));

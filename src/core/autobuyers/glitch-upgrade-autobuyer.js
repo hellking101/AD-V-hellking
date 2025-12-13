@@ -52,7 +52,7 @@ export class NonRepeatableGlitchUpgradeAutobuyerState extends AutobuyerState {
         GlitchRealityUpgrade(i+4).purchase();
       }
       }
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 8; i++) {
         if (Currency.riftForce.gte(GlitchSpeedUpgrade(i).cost) && !GlitchSpeedUpgrade(i).isBought) {
           GlitchSpeedUpgrade(i).purchase();
         }

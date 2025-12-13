@@ -217,7 +217,7 @@ Currency.antimatter = new class extends DecimalCurrency {
     player.records.thisReality.maxAM = player.records.thisReality.maxAM.max(value);
     player.records.thisMeta.maxAM = player.records.thisMeta.maxAM.max(value);
 
-    if (Pelle.isDoomed) {
+    if (Pelle.isDoomed || Pelle.joined) {
       player.celestials.pelle.records.totalAntimatter = player.celestials.pelle.records.totalAntimatter.max(value);
     }
   }
@@ -279,7 +279,7 @@ Currency.infinityPoints = new class extends DecimalCurrency {
     player.records.thisEternity.maxIP = player.records.thisEternity.maxIP.max(value);
     player.records.thisReality.maxIP = player.records.thisReality.maxIP.max(value);
 
-    if (Pelle.isDoomed) {
+    if (Pelle.isDoomed || Pelle.joined) {
       player.celestials.pelle.records.totalInfinityPoints =
         player.celestials.pelle.records.totalInfinityPoints.max(value);
     }
@@ -304,8 +304,6 @@ Currency.infinityPoints = new class extends DecimalCurrency {
 Currency.infinityPower = new class extends DecimalCurrency {
   get value() { return player.infinityPower; }
   set value(value) {
-    if(value.gt("1e1E25")) value = value.pow(value.log10().div(1e25).pow(MetaFabricatorUpgrade(15).isBought ? 0.5 : 0.9).recip());
-
      player.infinityPower = value; }
 }();
 
@@ -332,7 +330,7 @@ Currency.eternityPoints = new class extends DecimalCurrency {
       player.records.bestReality.bestEPSet = Glyphs.copyForRecords(Glyphs.active.filter(g => g !== null));
     }
 
-    if (Pelle.isDoomed) {
+    if (Pelle.isDoomed || Pelle.joined) {
       player.celestials.pelle.records.totalEternityPoints =
         player.celestials.pelle.records.totalEternityPoints.max(value);
     }
@@ -529,7 +527,8 @@ Currency.chaosCores = new class extends DecimalCurrency {
   get value() { return player.celestials.glitch.chaosCores; }
   set value(value) { player.celestials.glitch.chaosCores = value; }
   reset(){
-    this.value = DC.D0;
+    if (MetaFabricatorUpgrade(22).isBought) this.value = DC.E1;
+    else this.value = DC.D0;
   }
 }();
 
@@ -576,6 +575,14 @@ Currency.abyssalMatter = new class extends DecimalCurrency {
 Currency.corruptMatter = new class extends DecimalCurrency {
   get value() { return player.celestials.null.corruptMatter; }
   set value(value) { player.celestials.null.corruptMatter = value; }
+  reset(){
+    this.value = DC.D0;
+  }
+}();
+
+Currency.challengersEssence = new class extends DecimalCurrency {
+  get value() { return player.glitch.challengersEssence; }
+  set value(value) { player.glitch.challengersEssence = value; }
   reset(){
     this.value = DC.D0;
   }

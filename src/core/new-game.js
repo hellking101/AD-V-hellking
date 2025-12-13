@@ -65,25 +65,6 @@ export const NG = {
     const hasSpeedrun = player.speedrun.isUnlocked;
     const presets = JSON.stringify(player.timestudy.presets);
     const companions = JSON.stringify(Glyphs.allGlyphs.filter(g => g.type === "companion"));
-
-    const celglitch = {...player.celestials.glitch};
-    const glitch = JSON.stringify(player.glitch);
-    const ach = JSON.stringify(player.achievementBits);
-
-    const teresa = {...player.celestials.teresa};
-    const effarig = {...player.celestials.effarig};
-    const nameless = {...player.celestials.enslaved};
-    const v = {...player.celestials.v};
-    const ra = {...player.celestials.ra};
-    const laitela = {...player.celestials.laitela};
-
-    const pelle = {...player.celestials.pelle};
-    
-    const CD = Array.fromObject(player.dimensions.chaos);
-
-    const STDs = {...player.IAP};
-    
-    const glitchsave = GlitchRealityUpgrades.all[15].isBought;
     
     Modal.hideAll();
     Quote.clearAll();
@@ -114,55 +95,5 @@ export const NG = {
     ADNotations.Settings.exponentCommas.max = 10 ** player.options.notationDigits.notation;
     player.lastUpdate = Date.now();
 
-    if(glitchsave) {
-      player.celestials.glitch = celglitch;
-      player.glitch = JSON.parse(glitch);
-      player.celestials.glitch.riftForce = new Decimal(0);
-      player.break = true;
-      player.eternities = new Decimal(100);
-      player.realities = new Decimal(10000);
-      player.reality.upgReqs = 1024;
-      player.reality.upgradeBits = 1024;
-      player.achievementBits = JSON.parse(ach);
-      applyRUPG10();
-      if(player.records.fullGameCompletions > 0) player.celestials.enslaved = nameless;
-      if(player.records.fullGameCompletions > 1) {
-        player.celestials.v = v;
-        player.celestials.ra = ra;
-        player.reality.imaginaryUpgReqs = 67108800;
-        player.celestials.ra.charged = new Set([
-        "36Mult","galaxyBoost","resetBoost","18Mult","timeMult","dimMult","passiveGen","resetMult","timeMult2","unspentBonus","45Mult","27Mult"]);
-      }
-      if(player.records.fullGameCompletions > 2) player.celestials.effarig = effarig;
-      if(player.records.fullGameCompletions > 4) player.celestials.teresa = teresa;
-      if(player.records.fullGameCompletions > 5) player.celestials.laitela = laitela;
-
-      if(player.records.fullGameCompletions > 0) {player.reality.perks = new Set([0,201,10,40,57,202,30,12,41,70,71,31,203,14,13,101,100,
-                    55,104,56,60,54,204,15,17,51, 102,42,53,52,107,105,61,72,205,16,80,43,106,62,73,302,81,44,303,82,103,45,83,46,301]);
-        player.blackHole.forEach( i => {i.intervalUpgrades=new Decimal(160); i.intervalUpgrades=new Decimal(160); i.unlocked=true});
-        player.reality.upgReqs = 67108800;
-        Currency.antimatter.reset();
-        Currency.infinityPoints.reset();
-        Currency.eternityPoints.reset();
-        Currency.eternities.reset();
-
-        player.celestials.pelle.quoteBits = pelle.quoteBits;
-        player.celestials.pelle.showBought = pelle.showBought;
-        player.celestials.pelle.collapsed = pelle.collapsed;
-        
-        player.dimensions.chaos = CD;
-      }
-      
-      
-      player.IAP = STDs;
-      
-      GameStorage.save();
-      GameStorage.load();
-    }
-    
-  },
-
-  leavePelle(){
-    Pelle.reset();
   }
 };

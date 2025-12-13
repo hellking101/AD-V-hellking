@@ -15,7 +15,7 @@ export class GalaxyGeneratorUpgradeAutobuyerState extends AutobuyerState{
     }
 
     get isUnlocked(){
-        return Achievement(198).isUnlocked && Pelle.hasGalaxyGenerator;
+        return ChallengerUpgrade(8).isBought && Pelle.hasGalaxyGenerator;
     }
 
     get bulk(){
@@ -48,7 +48,7 @@ export class GalaxyGeneratorSacrificeAutobuyerState extends AutobuyerState{
     }
 
     get isUnlocked(){
-        return Achievement(198).isUnlocked && Pelle.hasGalaxyGenerator;
+        return ChallengerUpgrade(8).isBought && Pelle.hasGalaxyGenerator;
     }
 
     get bulk(){

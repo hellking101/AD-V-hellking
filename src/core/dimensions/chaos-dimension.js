@@ -5,32 +5,32 @@ import { DimensionState } from "./dimension";
 // Multiplier applied to all Chaos Dimensions, regardless of tier. This is cached using a Lazy
 // and invalidated every update.
 export function chaosDimensionCommonMultiplier() {
-  let multiplier = DC.D1;
+  let multiplier = DC.D1.timesEffectsOf(
+    HardChallengerUpgrade(4),
+    HardChallengerUpgrade(5),
+    GlitchSpeedUpgrade(5),
+    MetaFabricatorUpgrade(17),
+    MetaFabricatorUpgrade(5),
+  ).mul(GlyphInfo.glitch.sacrificeInfo.effect()).mul(Plynia.multiplier);
 
   return multiplier;
 }
 
 export function getChaosDimensionFinalMultiplierUncached(tier) {
   const dimension = ChaosDimension(tier);
-  if (tier < 1 || tier > 8) throw new Error(`Invalid Chaos Dimension tier ${tier}`);
+  if (tier < 1 || tier > 12) throw new Error(`Invalid Chaos Dimension tier ${tier}`);
   
-  let multiplier = DC.D1;
+  let multiplier = GameCache.chaosDimensionCommonMultiplier.value;
 
   multiplier = multiplier.mul(Decimal.pow(dimension.perPurchase, dimension.bought));
-  multiplier = multiplier.mul(GlyphInfo.glitch.sacrificeInfo.effect());
-  multiplier = multiplier.mul(MetaFabricatorUpgrade(17).effectOrDefault(1));
+  if (tier == 1) multiplier = multiplier.mul(GlitchSpeedUpgrade(7).effectOrDefault(1));
+
 
   multiplier = applyCDPowers(multiplier, tier);
 
-  if(multiplier.gt("1e1E15")) multiplier = multiplier.pow( multiplier.log10().div(1e15).pow(0.5).recip() );
+  // if(multiplier.gt("1e1E15")) multiplier = multiplier.pow( multiplier.log10().div(1e15).pow(0.5).recip() );
   
   return multiplier;
-}
-
-function applyCDMultipliers(mult, tier) {
-  let multiplier = mult.times(GameCache.chaosDimensionCommonMultiplier.value);
-  
-  return multiplier.clampMin(1);
 }
 
 function applyCDPowers(mult, tier) {
@@ -47,7 +47,7 @@ function onBuyChaosDimension(tier) {
 
 export function maxAllChaos() {
 
-  for (let tier = 1; tier < 9; tier++) {
+  for (let tier = 1; tier < 13; tier++) {
     buyMaxChaosDimension(tier);
   }
 
@@ -78,14 +78,15 @@ export function buyMaxChaosDimension(tier, bulk = Infinity) {
 class ChaosDimensionState extends DimensionState {
   constructor(tier) {
     super(() => player.dimensions.chaos, tier);
-    const BASE_COSTS = [null, new Decimal(10), new Decimal(100), new Decimal(1e4), new Decimal(1e8), new Decimal(1e16),
-      new Decimal(1e21), new Decimal(1e35), new Decimal(1e50), new Decimal("1e1000"),
-      new Decimal("1e2000"),new Decimal("1e5000"), new Decimal("1e15E3")];
+    const BASE_COSTS = [null, new Decimal(10), new Decimal(100), new Decimal(1e7), new Decimal(1e14), new Decimal(1e23),
+      new Decimal(1e33), new Decimal(1e50), new Decimal(1e60), new Decimal("e350"),
+      new Decimal("e1000"),new Decimal("e2250"), new Decimal("e15e3")];
     this._baseCost = BASE_COSTS[tier];
-    const BASE_COST_MULTIPLIERS = [null, new Decimal(1e4), new Decimal(1e7), new Decimal(1e12),
-      new Decimal(1e15), new Decimal(1e18), new Decimal(1e24), new Decimal(1e30), new Decimal(1e34)];
+    const BASE_COST_MULTIPLIERS = [null, new Decimal(1e4), new Decimal(1e9), new Decimal(1e15),
+      new Decimal(1e20), new Decimal(1e30), new Decimal(1e45), new Decimal(1e60), new Decimal(1e80),
+     new Decimal(1e80), new Decimal('e200'), new Decimal('e400'), new Decimal('e1000')];
     this._baseCostMultiplier = BASE_COST_MULTIPLIERS[tier];
-    const PER_PURCHASE = [null, 10, 20, 40, 80, 160, 320, 640, 1280];
+    const PER_PURCHASE = [null, 10, 25, 50, 100, 200, 350, 700, 1500, 1e5, 1e10, 1e18, 1e200];
     this.perPurchase = PER_PURCHASE[tier];
   }
 
@@ -96,8 +97,8 @@ class ChaosDimensionState extends DimensionState {
     return new ExponentialCostScaling({
       baseCost: this._baseCost,
       baseIncrease: this._baseCostMultiplier,
-      costScale: DC.E1,
-      scalingCostThreshold: new Decimal("1e325")
+      costScale: DC.E2,
+      scalingCostThreshold: new Decimal("e5000")
     });
   }
 
@@ -174,7 +175,6 @@ class ChaosDimensionState extends DimensionState {
     return getChaosDimensionFinalMultiplierUncached(this.tier);
   }
 
-
   get productionPerSecond() {
     if(this.amount.eq(0)) return DC.D0;
     
@@ -182,6 +182,9 @@ class ChaosDimensionState extends DimensionState {
 
     return production;
   }
+
+  static get dimensionCount() { return 12; }
+
 }
 
 /**
@@ -242,7 +245,7 @@ export const ChaosDimensions = {
 
   tick(diff) {
 
-    for (let tier = 8; tier > 1; --tier) {
+    for (let tier = 12; tier > 1; --tier) {
       ChaosDimension(tier).produceDimensions(ChaosDimension(tier -1), diff.div(10));
     }
 

@@ -1,12 +1,11 @@
 import { GameDatabase } from "../../secret-formula/game-database";
 import { Quotes } from "../quotes";
-import { GlitchRifts } from "./glitchrift";
 
 export const Glitch = {
   displayName: "Glitch",
   possessiveName: "Glitch's",
   get isUnlocked() {
-    return GlitchRifts.gamma.milestones[5].effectOrDefault(0) == 0 ? false : true;
+    return player.celestials.pelle.joined = true;
   },
 
   augmentEffectActive(id = 0, force = false){
@@ -21,9 +20,9 @@ export const Glitch = {
   augmentEffects(id = 0){
       if(id == 0) return "Teresa Reality";
       if(id == 1) return "Effarig Reality";
-      if(id == 2) return "Nameless one's Reality";
-      if(id == 3) return "Nameless one's dim limit";
-      if(id == 4) return "Nameless one's low tachyon gain";
+      if(id == 2) return "Nameless ones' Reality";
+      if(id == 3) return "Nameless ones' dim limit";
+      if(id == 4) return "Nameless ones' low tachyon gain";
       if(id == 5) return "V's Reality";
       if(id == 6) return "Ra's no dim boost";
       if(id == 7) return "Ra's static tickspeed";
@@ -155,24 +154,25 @@ export const Glitch = {
     
     if(total.gt(200)) total = total.mul(total.div(200).pow(1.25));
     let value = total.div(24).times(GlitchRealityUpgrades.all[0].effectOrDefault(1)).pow( total.gt(24) ? 3.33 : 1);
-    if(value.gt("1e450") && player.records.fullGameCompletions > 0) value = value.mul( Decimal.log10(value.add(1)).pow(25));
+    // if(value.gt("1e450") && player.records.fullGameCompletions > 0) value = value.mul( Decimal.log10(value.add(1)).pow(25));
     
-    const CC = Currency.chaosCores.value.mul(Currency.chaosCores.value.add(2).log(2)).pow(5).max(1);
+    const CC = this.chaosCoresRFBoost;
 
     value = value.mul(CC);
 
-    if(value.gt("1e1E6")) value = value.pow(value.add(1).log10().div(1e6).pow(0.8).recip());
+    // if(value.gt("1e1E6")) value = value.pow(value.add(1).log10().div(1e6).pow(0.8).recip());
 
     return value
   },
 
+  get chaosCoresRFBoost(){
+    return Currency.chaosCores.value.mul(Currency.chaosCores.value.add(2).log(2)).pow(5).max(1);
+  },
+
   get chaosCoresBoost(){
-    if(Currency.chaosCores.eq(0) || V.isRunningExtreme) return new Decimal(1);
-    let eff = Decimal.max( Currency.chaosCores.value.pow(0.1).mul(Currency.chaosCores.value.add(1).log10()).pow(0.25), 1);
-    if(Ra.unlocks.repAD.isUnlocked) eff = eff.pow(0.05);
-    if(eff.gt(1e15)) eff = eff.div(eff.div(1e15).pow(0.9))
-    if(Pelle.isDoomed) eff = eff.pow(0.1);
-    return eff.min(1e50);
+    if(V.isRunningExtreme) return new Decimal(1);
+    let eff = Currency.chaosCores.value.add(1).log2().pow(1.5).div(10).add(1);
+    return eff;
   },
 
   riftToCore(){
@@ -234,6 +234,7 @@ export const Glitch = {
     G.upgrades.rebuyable = [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)];
 
     if(MetaMilestone.glyphKeep.isReached) return;
+    
     player.glitch.preinfinity.upgradebits = 0;
     player.glitch.breakinfinity.upgradebits = 0;
     player.glitch.eternity.upgradebits = 0;
@@ -243,7 +244,7 @@ export const Glitch = {
 };
 
 EventHub.logic.on(GAME_EVENT.GAME_LOAD, () => {
-  if(player.records.fullGameCompletions == 0) Glitch.quotes.start.show();
+  Glitch.quotes.start.show();
 });
 
 EventHub.logic.on(GAME_EVENT.DIMBOOST_AFTER, () => {
@@ -278,7 +279,7 @@ EventHub.logic.on(GAME_EVENT.ACHIEVEMENT_UNLOCKED, () => {
 });
 
 EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
-  if(Tab.celestials.glitch.isOpen) Glitch.quotes.glitchReality.show();
+  if(Tab.glitch.glitch.isOpen) Glitch.quotes.glitchReality.show();
 });
 
 EventHub.logic.on(GAME_EVENT.META_RESET_AFTER, () => {

@@ -176,7 +176,8 @@ class InfinityIPMultUpgrade extends GameMechanicState {
   }
 
   get canBeBought() {
-    return !Pelle.isDoomed && !this.isCapped && Currency.infinityPoints.gte(this.cost) && this.isRequirementSatisfied;
+    if (!ChallengerUpgrade(0).isBought && Pelle.isDoomed) return false;
+    return !this.isCapped && Currency.infinityPoints.gte(this.cost) && this.isRequirementSatisfied;
   }
 
   // This is only ever called with amount = 1 or within buyMax under conditions that ensure the scaling doesn't

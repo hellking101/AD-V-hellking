@@ -200,7 +200,7 @@ export const ID = {
       const allMult = DC.D1.timesEffectsOf(
         EternityChallenge(4).reward,
         EternityChallenge(9).reward,
-      ).times(EternityChallenge(7).isRunning ? Tickspeed.perSecond : DC.D1);
+      ).times(EternityChallenge(7).isRunning ? GameCache.tickspeedPerSecond.value : DC.D1);
       if (dim) {
         if (dim === 1) return allMult.times(EternityChallenge(2).reward.effectOrDefault(1));
         return allMult;
@@ -215,13 +215,13 @@ export const ID = {
   tickspeed: {
     name: () => "Tickspeed (EC7)",
     displayOverride: () => {
-      const tickRate = Tickspeed.perSecond;
+      const tickRate = GameCache.tickspeedPerSecond.value;
       const activeDims = MultiplierTabHelper.activeDimCount("ID");
       const dimString = MultiplierTabHelper.pluralizeDimensions(activeDims);
       return `${format(tickRate, 2, 2)}/sec on ${formatInt(activeDims)} ${dimString}
         ➜ ${formatX(tickRate.pow(activeDims), 2, 2)}`;
     },
-    multValue: () => Tickspeed.perSecond.pow(8),
+    multValue: () => GameCache.tickspeedPerSecond.value.pow(8),
     isActive: () => EternityChallenge(7).isRunning,
     icon: MultiplierTabIcons.TICKSPEED,
   },

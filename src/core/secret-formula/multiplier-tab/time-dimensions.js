@@ -174,7 +174,7 @@ export const TD = {
       let allMult = DC.D1.timesEffectsOf(
         EternityChallenge(1).reward,
         EternityChallenge(10).reward,
-      ).times(EternityChallenge(7).isRunning ? Tickspeed.perSecond : DC.D1);
+      ).times(EternityChallenge(7).isRunning ? GameCache.tickspeedPerSecond.value : DC.D1);
       if (EternityChallenge(9).isRunning) {
         allMult = allMult.times(
           Decimal.pow(Decimal.clampMin(Currency.infinityPower.value.pow(InfinityDimensions.powerConversionRate / 7)
@@ -188,13 +188,13 @@ export const TD = {
   tickspeed: {
     name: () => "Tickspeed (EC7)",
     displayOverride: () => {
-      const tickRate = Tickspeed.perSecond;
+      const tickRate = GameCache.tickspeedPerSecond.value;
       const activeDims = MultiplierTabHelper.activeDimCount("TD");
       const dimString = MultiplierTabHelper.pluralizeDimensions(activeDims);
       return `${format(tickRate, 2, 2)}/sec on ${formatInt(activeDims)} ${dimString}
         ➜ ${formatX(tickRate.pow(activeDims), 2, 2)}`;
     },
-    multValue: () => Tickspeed.perSecond.pow(MultiplierTabHelper.activeDimCount("TD")),
+    multValue: () => GameCache.tickspeedPerSecond.value.pow(MultiplierTabHelper.activeDimCount("TD")),
     isActive: () => EternityChallenge(7).isRunning,
     icon: MultiplierTabIcons.TICKSPEED,
   },

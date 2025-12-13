@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     update() {
-      const gameSpeedupFactor = getGameSpeedupFactor();
+      const gameSpeedupFactor = GameCache.gameSpeed.value;
       this.achievementPower = Achievements.power;
       this.achTPEffect = RealityUpgrade(8).config.effect();
       this.achCountdown = Achievements.timeToNextAutoAchieve.div(gameSpeedupFactor);
@@ -121,8 +121,9 @@ export default {
       return this.renderedRowIndices.includes(row);
     },
     isObscured(row) {
-      if(GlitchSpeedUpgrade(4).isBought || PlayerProgress.metaUnlocked()) return row >= 21;
-      if(this.isDoomed) return row >= 18;
+      if(PlayerProgress.metaUnlocked()) return row >= 21;
+      if(HardChallengerUpgrade(2).isBought) return row >= 19;
+      if(player.pelleResets > 0 || this.isDoomed) return row >= 18;
       if(PlayerProgress.realityUnlocked()) return row >= 17;
       if(PlayerProgress.eternityUnlocked()) return row >= 13;
       if(PlayerProgress.hasBroken()) return row >= 9

@@ -17,7 +17,7 @@ export default {
       return this.unlock.config.description.split("\n").map(x => x.trim());
     },
     symbol: () => GlyphInfo.effarig.regularGlyphSymbol,
-    isDoomed: () => Pelle.isDoomed,
+    isDoomed: () => Pelle.isDoomed && !ChallengerUpgrade(13).isBought,
   },
   methods: {
     update() {

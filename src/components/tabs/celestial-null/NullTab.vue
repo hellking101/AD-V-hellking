@@ -67,7 +67,6 @@ export default {
       this.isFocused = true;
     },
     handleChange(event) {
-      console.log(this.displayValue)
       if (HASH(this.displayValue) == Null.passcode) {
         if(Null.isCorrupt) player.celestials.null.isUnlocked |= (1 << 6);
         player.celestials.null.isUnlocked |= (1 << Parallax.parallaxes.min(5).toNumber());

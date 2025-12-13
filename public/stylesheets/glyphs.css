@@ -1069,9 +1069,9 @@
 }
 
 .l-glyph-inventory__slot {
-  width: 5rem;
-  height: 5rem;
-  margin: 0.5rem;
+  width: 4rem;
+  height: 4rem;
+  margin: 0.3rem;
 }
 
 .c-glyph-inventory__protected-slot {

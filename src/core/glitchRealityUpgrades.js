@@ -197,7 +197,7 @@ class GlitchSpeedUpgradeState extends BitPurchasableMechanicState {
   }
 
   tryUnlock() {
-    if ( this.isAvailableForPurchase  || !this.config.checkRequirement() || player.records.fullGameCompletions == 0) return;
+    if ( this.isAvailableForPurchase  || !this.config.checkRequirement() || player.pelleResets == 0) return;
     player.celestials.glitch.upgrades.speedunlockbits |= (1 << this.id);
     GameUI.notify.error(`You've unlocked ${this.name} from Glitch's Speedy Reality`, 5000);
   }

@@ -39,7 +39,7 @@ export default {
         "o-eternity-upgrade--unavailable": !this.isAffordable
       };
     },
-    isDoomed: () => Pelle.isDoomed,
+    isDoomed: () => Pelle.isDoomed && !ChallengerUpgrade(7).isBought,
   },
   watch: {
     isAutobuyerActive(newValue) {

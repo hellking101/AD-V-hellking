@@ -80,10 +80,6 @@ export const confirmationTypes = [
     option: "armageddon",
     isUnlocked: () => Pelle.isDoomed,
   }, {
-    name: "Respec Shop Purchases",
-    option: "respecIAP",
-    isUnlocked: () => Cloud.isAvailable
-  }, {
     name: "Glitch Challenges",
     option: "glitchCL",
     isUnlocked: () => true

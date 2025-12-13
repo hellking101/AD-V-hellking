@@ -11,6 +11,7 @@ class RaUnlockState extends GameMechanicState {
   }
 
   get disabledByPelle() {
+    if (ChallengerUpgrade(16).isBought) return false;
     return Pelle.isDoomed && this.config.disabledByPelle;
   }
 
@@ -265,7 +266,7 @@ export const Ra = {
   unlocks,
   pets,
   remembrance: {
-    multiplier: 15,
+    multiplier: 25,
     nerf: 0.8,
     requiredLevels: 15,
     get isUnlocked() {
@@ -430,7 +431,7 @@ export const Ra = {
     this.updateAlchemyFlow(realityRealTime);
   },
   get alchemyResourceCap() {
-    let cap = GlitchRealityUpgrades.all[2].effectOrDefault(DC.D0).add(30000).mul(VUnlocks.glyphCap.isUnlocked ? 3 : 1);
+    let cap = GlitchRealityUpgrades.all[2].effectOrDefault(DC.D0).add(30000).mul(VUnlocks.glyphCap.isUnlocked ? 2 : 1);
     if(cap.gt(1e6)) cap = cap.div(cap.div(1e6).pow(0.9));
     return cap
   },

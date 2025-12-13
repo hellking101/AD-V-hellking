@@ -160,7 +160,7 @@ export const GlyphAppearanceHandler = {
   },
   // Note: This can *technically* be inconsistent with the actual number of sets, but only on a cheated save.
   get expectedSetCount() {
-    return ShopPurchaseData.singleCosmeticSet + player.records.fullGameCompletions;
+    return ShopPurchaseData.singleCosmeticSet + player.pelleResets;
   },
 
   // Returns true for "light" BG glyphs and false for "dark" BG glyphs

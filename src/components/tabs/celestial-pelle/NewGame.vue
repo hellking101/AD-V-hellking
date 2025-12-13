@@ -17,9 +17,6 @@ export default {
         visibility: this.visible ? "visible" : "hidden",
       };
     },
-    glitchresettext(){
-      return GlitchRealityUpgrade(16).isBought ? "but keep some Celestial stuff" : "";
-    },
   },
   methods: {
     update() {
@@ -29,11 +26,9 @@ export default {
       this.selectedSetName = GlyphAppearanceHandler.chosenFromModal?.name ?? "None (will choose randomly)";
       this.isMeta = PlayerProgress.metaUnlocked();
     },
-    startNewGame() {
-      NG.startNewGame();
-    },
     escape() {
-      NG.leavePelle();
+      Pelle.reset();
+      Currency.challengersEssence.add(1);
     },
     openSelectionModal() {
       Modal.cosmeticSetChoice.show();
@@ -53,17 +48,6 @@ export default {
     </h2>
     <h3>You can use the button in the top-right to view the game as it is right now.</h3>
     <div class="c-new-game-button-container"
-    v-if="!isMeta"
-    >
-      <button
-        class="c-new-game-button"
-        @click="startNewGame"
-      >
-        Start over? {{ glitchresettext }}
-      </button>
-    </div>
-    <div class="c-new-game-button-container"
-      v-else
     >
       <button
         class="c-new-game-button"
@@ -74,8 +58,8 @@ export default {
     </div>
     <br>
     <h3 v-if="hasMoreCosmetics">
-      For completing the game, you also unlock a new cosmetic set of your choice for Glyphs. These are freely
-      modifiable once you reach Reality again, but are purely visual and offer no gameplay bonuses.
+      For completing a Doomed Reality, you also unlock a new cosmetic set of your choice for Glyphs. These are freely
+      modifiable in the Glyphs tab, but are purely visual and offer no gameplay bonuses.
       <br>
       <button
         class="c-new-game-button"

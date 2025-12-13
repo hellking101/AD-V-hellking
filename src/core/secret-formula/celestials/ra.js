@@ -60,7 +60,7 @@ export const ra = {
       chunkGain: "Replicanti",
       memoryGain: "Replicanti Muliplier",
       requiredUnlock: () => MetaFabricatorUpgrade(25).isBought,
-      rawMemoryChunksPerSecond: () => Currency.replicanti.value.add(1).log10().div(5e14).pow(0.8).mul(4),
+      rawMemoryChunksPerSecond: () => Currency.replicanti.value.add(10).log10().div(1e12).pow(0.8).mul(4),
       memoryProductionMultiplier: () => Ra.unlocks.canteXP.effectOrDefault(new Decimal(1))
     },
     null: {
@@ -70,7 +70,7 @@ export const ra = {
       chunkGain: "Metas",
       memoryGain: "Null",
       requiredUnlock: () => MetaFabricatorUpgrade(25).isBought,
-      rawMemoryChunksPerSecond: () => Currency.metas.value.add(1).log10().div(10).pow(1.5).mul(26),
+      rawMemoryChunksPerSecond: () => Currency.metas.value.add(10).log10().div(10).pow(1.5).mul(30),
       memoryProductionMultiplier: () => Ra.unlocks.nullXP.effectOrDefault(new Decimal(1))
     },
   },
@@ -201,7 +201,7 @@ export const ra = {
       reward: "Stored game time is amplified and you can store more real time, increasing with Nameless levels",
       effects: {
         gameTimeAmplification: () => Decimal.pow(20, Math.clampMax(Ra.pets.enslaved.level, Ra.levelCap)),
-        realTimeCap: () => Ra.pets.enslaved.level * 1e3 * 3.6e3,
+        realTimeCap: () => Math.min(Ra.pets.enslaved.level, 16) * 1e3 * 3.6e3,
       },
       pet: "enslaved",
       level: 2,
@@ -327,7 +327,7 @@ export const ra = {
     },
     memroygain1: {
       id: 28,
-      reward: () => `increase memory gain by 10 times.`,
+      reward: () => `Increase memory gain by 10 times.`,
       effect: 10,
       pet: "glitchyfishys",
       level: 1,
@@ -335,7 +335,7 @@ export const ra = {
     },
     memroygain2: {
       id: 29,
-      reward: () => `increase memory gain by 15 times.`,
+      reward: () => `Increase memory gain by 15 times.`,
       effect: 15,
       pet: "glitchyfishys",
       level: 5,
@@ -343,7 +343,7 @@ export const ra = {
     },
     glitchyfishysXP: {
       id: 30,
-      reward: () => `increase all memory gain by Reality Machines AND Antimatter.`,
+      reward: () => `Increase all memory based on Reality Machines AND Antimatter.`,
       effect: () => Currency.realityMachines.value.pLog10().div(25).pow(0.18).mul(Currency.antimatter.value.pLog10().div(1e5).pow(0.18)),
       pet: "glitchyfishys",
       level: 10,
@@ -351,7 +351,7 @@ export const ra = {
     },
     memroygain3: {
       id: 31,
-      reward: () => `increase memory gain by 5 times.`,
+      reward: () => `Increase memory gain by 5 times.`,
       effect: 5,
       pet: "glitchyfishys",
       level: 15,
@@ -359,7 +359,7 @@ export const ra = {
     },
     memroygain4: {
       id: 32,
-      reward: () => `increase memory gain by 5 times.`,
+      reward: () => `Increase memory gain by 5 times.`,
       effect: 5,
       pet: "glitchyfishys",
       level: 25,
@@ -367,23 +367,23 @@ export const ra = {
     },
     memroygain5: {
       id: 33,
-      reward: () => `increase memory gain by 5 times.`,
+      reward: () => `Increase memory gain by 5 times.`,
       effect: 5,
       pet: "glitchyfishys",
       level: 30,
       displayIcon: `<i class="far fa-dot-circle"></i>`,
     },
-    PassiveAlc: {
+    StrongerAlchemy: {
       id: 34,
-      reward: () => `alchemy happens passively.`,
-      effect: 1,
+      reward: () => `Alchemy efficiency is greatly increased.`,
+      effect: 5,
       pet: "glitchyfishys",
       level: 40,
       displayIcon: `<i class="far fa-dot-circle"></i>`,
     },
     gainoutside: {
       id: 35,
-      reward: () => `gain Memory Chunks outside Ra's reality.`,
+      reward: () => `Gain Memory Chunks outside Ra's reality.`,
       effect: 1,
       pet: "glitchyfishys",
       level: 50,
@@ -399,20 +399,16 @@ export const ra = {
     },
     repMul: {
       id: 37,
-      reward: () => `Gain a power to Replicanti based on Cante's memory level`,
-      effect: () => {
-        let e = Decimal.pow(1.5, Ra.pets.cante.level);
-        if(e.gt(1e7)) e = e.div(e.div(1e7).pow(0.9));
-        return e;
-      },
+      reward: () => `Gain a power to Replicanti speed based on Cante's memory level`,
+      effect: () =>  Decimal.mul(1.1, Ra.pets.cante.level),
       pet: "cante",
       level: 5,
       displayIcon: `Ξ`,
     },
     repEffect: {
       id: 38,
-      reward: () => `Increase the effectiveness of RGs by ${formatPercents(0.5)} per level`,
-      effect: () => Decimal.pow(1.5, Ra.pets.cante.level - 15),
+      reward: () => `Increase the effectiveness of RGs by ${formatPercents(0.05)} per level`,
+      effect: () => Decimal.pow(1.05, Ra.pets.cante.level - 15),
       pet: "cante",
       level: 15,
       displayIcon: `Ξ`,
@@ -436,15 +432,15 @@ export const ra = {
       id: 41,
       reward: () => `Replicanti boosts Meta gain`,
       pet: "cante",
-      effect: () => Currency.replicanti.value.log10().pow(0.1),
+      effect: () => Currency.replicanti.value.add(10).log10().pow(0.001),
       level: 200,
       displayIcon: `Ξ`,
     },
     repAD: {
       id: 49,
-      reward: () => `Replicanti boosts ADs but lowers Chaos Cores Tickspeed effect`,
+      reward: () => `Antimatter Dimensions power based on the Replicanti Multiplier to Infinity Dimensions`,
       pet: "cante",
-      effect: () => Currency.replicanti.value.log10().mul(0.9).mul(1.15 ** Ra.pets.cante.level),
+      effect: () => replicantiMult().add(10).log10().log10().mul(0.01).add(1),
       level: 100,
       displayIcon: `Ξ`,
     },
@@ -458,7 +454,8 @@ export const ra = {
     },
     nullCharge: {
       id: 43,
-      reward: () => `Uncap Dimension Boosts but it's softcaped past ${format(1e12)}`,
+      reward: () => `Distant Galaxy Scaling is delay based on Null's memory level`,
+      effect: () => Decimal.mul(1000, Ra.pets.null.level),
       pet: "null",
       level: 15,
       displayIcon: `<span class="fas fa-droplet"></span>`,
@@ -466,7 +463,7 @@ export const ra = {
     nullInfCap: {
       id: 44,
       reward: () => `Infinity Dimension Hardcap is multiplied based on Null level`,
-      effect: () => Decimal.pow(2, Ra.pets.null.level),
+      effect: () => Decimal.pow(1.5, Ra.pets.null.level),
       pet: "null",
       level: 35,
       displayIcon: `<span class="fas fa-droplet"></span>`,
@@ -475,8 +472,7 @@ export const ra = {
       id: 45,
       reward: () => `Boost Meta Relay gain based on Antimatter and Null level`,
       effect: () => {
-        let pow = (Decimal.pow(1.05, Ra.pets.null.level - 75).mul(0.01));
-        if(pow.gt(0.1)) pow = pow.div(pow.div(0.1).sqrt());
+        let pow = (Decimal.pow(1.03, Ra.pets.null.level - 75).mul(0.01));
         return Currency.antimatter.value.log(1e5).pow(pow);
       },
       pet: "null",
@@ -485,8 +481,8 @@ export const ra = {
     },
     nullMetaBoost: {
       id: 46,
-      reward: () => `Double Meta gain every null level past 125`,
-      effect: () => Decimal.pow(2, Ra.pets.null.level - 125),
+      reward: () => `Gain 25% more Metas every null level past 125`,
+      effect: () => Decimal.pow(1.25, Ra.pets.null.level - 125),
       pet: "null",
       level: 125,
       displayIcon: `<span class="fas fa-droplet"></span>`,
@@ -500,7 +496,7 @@ export const ra = {
     },
     nullDamagedMRGain: {
       id: 48,
-      reward: () => `Gain more MR based on Cante and Null Currences`,
+      reward: () => `AD power based on Cante and Null Currencies`,
       effect: () => Currency.artificialMatter.value.pow(Currency.chaosMatter.value).mul(Currency.abyssalMatter.value.pow(Currency.corruptMatter.value)).add(10).log10().add(10).log10().add(10).log10(),
       pet: "null",
       level: 175,

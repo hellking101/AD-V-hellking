@@ -82,13 +82,11 @@ export function finishProcessMeta() {
   
   resetReality();
   if(!MetaMilestone.glyphKeep.isReached) lockAchievementsOnMeta();
-  if(MetaFabricatorUpgrade(22).isBought){
-    resetChaosDimensionsAmount();
-  }
-  else{
-    ChaosDimensions.reset();
+  if(!MetaFabricatorUpgrade(22).isBought){
     Currency.chaosCores.reset();
+    player.celestials.glitch.plynia = DC.D0;
   }
+  ChaosDimensions.reset();
   Currency.perkPoints.reset();
 
   NormalChallenges.clearCompletions();
@@ -102,6 +100,15 @@ export function finishProcessMeta() {
   Ra.reset();
   Laitela.reset();
   Glitch.reset();
+  Pelle.reset();
+  player.celestials.pelle.doomed=false;
+
+  if (!MetaFabricatorUpgrade(15).isBought) {
+    player.celestials.pelle.joined = false;
+    player.glitch.hardChallengerUpgradebits = 0;
+    player.glitch.challengerUpgradebits = 0;
+    Currency.challengersEssence.reset();
+  }
 
 
   recalculateAllGlyphs();

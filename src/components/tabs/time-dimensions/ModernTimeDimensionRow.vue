@@ -34,6 +34,7 @@ export default {
       requirementReached: false,
       realityUnlocked: false,
       showTTCost: false,
+      isoverloaded: false,
       ttCost: 0,
       ttGen: new Decimal(),
       currTT: new Decimal(),
@@ -54,7 +55,7 @@ export default {
     },
     tooltipContents() {
       if (this.showTTCost) return `${this.formattedEPCost}<br>${this.timeEstimate}`;
-      if (this.isoverloaded) return `you can not purchase any more than ${format(1e15)} Time Dimensions`;
+      // if (this.isoverloaded) return `You can not purchase any more than ${format(1e15)} Time Dimensions`;
       if (this.isCapped) return `Nameless prevents the purchase of more than ${format(1)} Time Dimension`;
       return `Purchased ${quantifyInt("time", this.bought)}`;
     },
@@ -92,7 +93,7 @@ export default {
       const allow = (Enslaved.isRunning && !Glitch.isRunning) || Glitch.augmentEffectActive(3);
       
       this.isCapped = allow && dimension.bought.gt(0);
-      this.isoverloaded = dimension.bought.gte(1e15);
+      // this.isoverloaded = dimension.bought.gte(1e15);
       this.isUnlocked = dimension.isUnlocked;
       this.multiplier.copyFrom(dimension.multiplier);
       this.amount.copyFrom(dimension.amount);
@@ -111,7 +112,7 @@ export default {
       this.showTTCost = !this.isUnlocked && !this.shiftDown;
       if (this.tier > 4) this.ttCost = TimeStudy.timeDimension(this.tier).cost;
       this.currTT.copyFrom(Currency.timeTheorems.value);
-      this.ttGen.copyFrom(getTTPerSecond().times(getGameSpeedupFactor()));
+      this.ttGen.copyFrom(getTTPerSecond().times(GameCache.gameSpeed.value));
     },
     buyTimeDimension() {
       if (!this.isUnlocked) {

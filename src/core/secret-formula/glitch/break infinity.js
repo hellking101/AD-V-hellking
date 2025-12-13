@@ -33,7 +33,7 @@ export const breakInfinityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Get 1e50 times more Infinity Points",
     effect: () => 1e50,
-    isUseless: () => Pelle.isDoomed
+    isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
   },
   {
     name: "Cosmic Infinity",
@@ -57,7 +57,7 @@ export const breakInfinityUG = [
     description: "Replicanti speed is increased by it's own amount",
     effect: () => player.replicanti.amount.log10().sqrt().add(1),
     formatEffect: value => formatX(value, 2, 2),
-    isUseless: () => Pelle.isDoomed
+    isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
   },
   {
     name: "Cloned Replication",

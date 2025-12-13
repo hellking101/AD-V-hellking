@@ -71,13 +71,13 @@ export const dilationUpgrades = {
     initialCost: 1e7,
     increment: 20,
     description: () => {
-      if (Pelle.isDoomed) return `Multiply the amount of Tachyon Particles gained by ${formatInt(1)}`;
+      if (Pelle.isDoomed && !ChallengerUpgrade(9).isBought) return `Multiply the amount of Tachyon Particles gained by ${formatInt(1)}`;
       if (Enslaved.isRunning) return `Multiply the amount of Tachyon Particles gained
       by ${Math.pow(3, Enslaved.tachyonNerf).toFixed(2)}`;
       return "Triple the amount of Tachyon Particles gained";
     },
     effect: bought => {
-      if (Pelle.isDoomed) return DC.D1.pow(bought);
+      if (Pelle.isDoomed && !ChallengerUpgrade(9).isBought) return DC.D1.pow(bought);
       return DC.D3.pow(bought);
     },
     formatEffect: value => formatX(value, 2),
@@ -154,7 +154,7 @@ export const dilationUpgrades = {
     effect: bought => Decimal.pow(5, bought),
     formatEffect: value => formatX(value, 2),
     formatCost: value => format(value, 2),
-    purchaseCap: DC.BEMAX
+    purchaseCap: DC.E4
   }),
   galaxyMultiplier: rebuyable({
     id: 12,
@@ -165,7 +165,7 @@ export const dilationUpgrades = {
     effect: bought => bought.add(1),
     formatEffect: value => `${formatX(value, 2)} ➜ ${formatX(value.add(1), 2)}`,
     formatCost: value => format(value, 2),
-    purchaseCap: DC.BEMAX
+    purchaseCap: DC.E2
   }),
   tickspeedPower: rebuyable({
     id: 13,
@@ -176,7 +176,7 @@ export const dilationUpgrades = {
     effect: bought => bought.mul(0.03).add(1),
     formatEffect: value => `${formatPow(value, 2, 2)} ➜ ${formatPow(value.add(0.03), 2, 2)}`,
     formatCost: value => format(value, 2),
-    purchaseCap: DC.BEMAX
+    purchaseCap: DC.E2
   }),
   galaxyThresholdPelle: {
     id: 14,

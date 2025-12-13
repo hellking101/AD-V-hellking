@@ -256,7 +256,7 @@ export class TimeStudyTree {
       ? Decimal.clampMin(config.STCost.sub(stDiscount), 0)
       : new Decimal(0);
     // Took these out of the checkCosts check as these aren't available early game
-    const maxST = Pelle.isDoomed ? new Decimal(0) : V.spaceTheorems;
+    const maxST = V.spaceTheorems;
     const hasST = this.spentTheorems[1].add(stNeeded).lte(maxST);
     if (checkCosts) {
       const maxTT = Currency.timeTheorems.value.add(GameCache.currentStudyTree.value.spentTheorems[0]);

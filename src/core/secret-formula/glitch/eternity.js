@@ -21,7 +21,7 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Free Tickspeed threshold decreased to 1.3",
     effect: () => 1.3,
-    isUseless: () => Pelle.isDoomed
+    isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
   },
   {
   name: "Rifted",
@@ -65,7 +65,7 @@ export const eternityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "1500 free Tickspeed upgrades",
     effect: () => 1500,
-    isUseless: () => Pelle.isDoomed
+    isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
   },
 
 ];

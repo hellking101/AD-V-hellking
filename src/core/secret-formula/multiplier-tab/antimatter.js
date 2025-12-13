@@ -13,7 +13,7 @@ export const AM = {
     name: "Glyph Effect - Effarig Antimatter Production",
     powValue: () => {
       const ad1 = AntimatterDimension(1);
-      const baseProd = ad1.totalAmount.times(ad1.multiplier).times(Tickspeed.perSecond);
+      const baseProd = ad1.totalAmount.times(ad1.multiplier).times(GameCache.tickspeedPerSecond.value);
       return Decimal.pow(baseProd.log10(), getAdjustedGlyphEffect("effarigantimatter").sub(1));
     },
     isActive: () => getAdjustedGlyphEffect("effarigantimatter").gt(1) && AntimatterDimension(1).isProducing,

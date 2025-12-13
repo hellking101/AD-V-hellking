@@ -41,7 +41,7 @@ export const Enslaved = {
   timeCap: DC.BEMAX,
   glyphLevelMin: 5000,
   currentBlackHoleStoreAmountPerMs: DC.D0,
-  get tachyonNerf(){ return ((player.records.fullGameCompletions > 0) ? 0.32 : 0.3);},
+  get tachyonNerf(){ return 0.3},
   toggleStoreBlackHole() {
     if (!this.canModifyGameTimeStorage) return;
     player.celestials.enslaved.isStoring = !player.celestials.enslaved.isStoring;
@@ -194,7 +194,7 @@ export const Enslaved = {
     return Decimal.pow(10, Decimal.pow(Decimal.log10(stored.div(1e3)), 0.55)).times(1e3);
   },
   feelEternity() {
-    let cap = new Decimal((player.records.fullGameCompletions > 0) ? "1e308" : "1e66");
+    let cap = new Decimal("1e66");
     if (this.feltEternity) {
       Modal.message.show(`You have already exposed this crack in the Reality. Time in this Eternity is being multiplied
         by your Eternity count, up to a maximum of ${formatX(cap)}.`,
@@ -288,10 +288,7 @@ export const Tesseracts = {
   },
 
   get extra() {
-    let ex = this.bought.times(DC.DM1.add(SingularityMilestone.tesseractMultFromSingularities.effectOrDefault(1))).add(MetaFabricatorUpgrade(11).effectOrDefault(DC.D0));
-    if(ex.gt(20)) ex = Decimal.min(ex.sub(ex.sub(20).div(1.05)), MetaFabricatorUpgrade(15).canBeApplied ? DC.BEMAX : 35);
-    if(ex.gt(150)) ex =  ex.div(ex.div(150).pow(0.85));
-    return ex;
+    return this.bought.times(DC.DM1.add(SingularityMilestone.tesseractMultFromSingularities.effectOrDefault(1))).add(MetaFabricatorUpgrade(11).effectOrDefault(DC.D0));
   },
   // -1 + x = x - 1, so do this to reduce making more decimals than necessary
 
@@ -311,7 +308,7 @@ export const Tesseracts = {
     // eslint-disable-next-line no-param-reassign
     index = index.add(DC.D1);
     if (index.lte(3)) return Decimal.pow10(index.times(2e7));
-    if(index.gt(12)) index = index.add(137);
+    if (index.gte(25)) return Decimal.pow10(index.factorial().times(Decimal.pow(3, index)));
     return Decimal.pow10((index.sub(3)).factorial().times(Decimal.pow(2, index.sub(3))).times(6e7));
   },
 
@@ -320,6 +317,7 @@ export const Tesseracts = {
   },
 
   get canBuyTesseract() {
+    if (Pelle.isDoomed) return false;
     return Enslaved.isCompleted && Currency.infinityPoints.gte(Tesseracts.nextCost);
   },
 

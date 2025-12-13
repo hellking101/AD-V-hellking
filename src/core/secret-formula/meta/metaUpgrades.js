@@ -19,7 +19,7 @@ const rebuyableMul = props => {
   return props;
 };
 
-const rebuyablePow = props => {
+const rebuyableAdd = props => {
   props.cost = () => getHybridCostScaling(
     player.meta.upgrades.rebuyable[props.id],
     DC.E50,
@@ -31,9 +31,9 @@ const rebuyablePow = props => {
     new Decimal(props.initialCost * props.costMult)
   );
   const { effect } = props;
-  props.effect = () => Decimal.mul(effect, player.meta.upgrades.rebuyable[props.id]).add(1).max(1);
+  props.effect = () => Decimal.pow(effect, player.meta.upgrades.rebuyable[props.id]).add(1).max(1);
   props.description = () => props.textTemplate.replace("{value}", format(effect, 2, 2));
-  props.formatEffect = value => formatPow(value, 2, 1);
+  props.formatEffect = value => formatX(value, 2, 1);
   props.formatCost = value => format(value, 2, 1);
   return props;
 };
@@ -47,21 +47,21 @@ export const metaFabricatorUpgrades = [
     textTemplate: "All Reality Aplifiers are {value} times higher per purchase",
     effect: 1.5
   }),
-  rebuyablePow({
+  rebuyableMul({
     name: "Dimensional Overclock",
     id: 2,
     initialCost: 1,
     costMult: 9,
-    textTemplate: "ADs, IDs and TDs gain a +{value} power",
-    effect: 0.3
+    textTemplate: "ADs, IDs and TDs gain a x{value} power",
+    effect: 1.25
   }),
-  rebuyablePow({
+  rebuyableMul({
     name: "Singularity Shifter",
     id: 3,
     initialCost: 1,
     costMult: 30,
-    textTemplate: "You gain a +{value} power to gamespeed",
-    effect: 0.75
+    textTemplate: "You gain a {value} power to gamespeed",
+    effect: 1.5
   }),
   rebuyableMul({
     name: "Maxium Overdue",
@@ -71,48 +71,38 @@ export const metaFabricatorUpgrades = [
     textTemplate: "The Singularity cap is {value} times higher",
     effect: 2
   }),
-  rebuyableMul({
+  rebuyableAdd({
     name: "Outer Force",
     id: 5,
     initialCost: 1,
     costMult: 20,
-    textTemplate: "The Extreme-V Nerf is lowered by {value} times",
-    effect: 1.3
+    textTemplate: "Chaos Dimension gain a x{value} power",
+    effect: 1e25
   }),
   {
     name: "Acomplate",
     id: 6,
     cost: 1,
     description: "Rift Force is generated outside of Glitch's Reality",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Pasinacomplo",
     id: 7,
     cost: 2,
     description: "Always passively generate IP, EP and RM, Infinities and Eternities",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Sanctum",
     id: 8,
     cost: 2,
     description: "Teresa does not reset except for best AM which updates outside of thier Reality",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Memory Overflow",
     id: 9,
     cost: 2,
-    description: "Increase Ra memory caps by 100 (cost scales more) and get autobuyers for them",
+    description: "Increase Ra memory caps by 100 (cost scales more) and unlock autobuyers for them",
     effect: () => 100,
-    formatEffect: value => "",
     noLabel: true
   },
   {
@@ -121,7 +111,6 @@ export const metaFabricatorUpgrades = [
     cost: 3,
     description: "Start Metas with Lai'tela's Reality fully disablized",
     effect: () => 1,
-    formatEffect: value => "",
     noLabel: true
   },
   {
@@ -129,7 +118,7 @@ export const metaFabricatorUpgrades = [
     id: 11,
     cost: 3,
     description: "Nameless do not reset and gain bonus Tesseracts based on Metas. You also get a autobuyer for Tesseracts",
-    effect: () => Currency.metas.value.div(5).pow(2.2),
+    effect: () => Currency.metas.value.div(25).pow(0.8),
     formatEffect: value => "+" + format(value,2,2)
   },
   {
@@ -137,44 +126,32 @@ export const metaFabricatorUpgrades = [
     id: 12,
     cost: 3,
     description: "Glitch Upgrades do not have there requirements reset",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Rise And Fall",
     id: 13,
     cost: 4,
     description: "Metas boost Meta Relay gain",
-    effect: () => Currency.metas.value.pow(1.44).div(15).add(1).min(1e10), // just in case of someone getting alot (we don't need that much yet)
+    effect: () => Currency.metas.value.pow(1.44).div(15).add(1),
     formatEffect: value => formatX(value, 2, 2)
   },
   {
     name: "Insert Meme Here",
     id: 14,
     cost: 4,
-    description: "V Achievements do not reset (unless you reset Extreme)",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
+    description: "V Achievements do not reset and remove extreme nerf",
   },
   {
-    name: "Softcapn't",
+    name: "The Challenger",
     id: 15,
     cost: 6,
-    description: "Change alot of softcaps",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
+    description: "All Challenger upgrades are keeped on meta",
   },
   {
     name: "Automagicly",
     id: 16,
     cost: 8,
     description: "Unlock autobuyers for single purchase Reality and Imaginary upgrades",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Alchemicaly",
@@ -189,25 +166,19 @@ export const metaFabricatorUpgrades = [
     id: 18,
     cost: 12,
     description: "Keep all perks and Dilation autbuyer buy max",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Glitchy",
     id: 19,
     cost: 25,
     description: "Unlock Glitch upgrade autobuyers",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Spacous Generator",
     id: 20,
     cost: 80,
-    description: "Generate Space Theorems based on Metas (caps at 25000)",
-    effect: () => Currency.metas.value.pow(1.2).div(60),
+    description: "Generate Space Theorems based on Metas (caps at 1000)",
+    effect: () => Currency.metas.value.pow(0.75).div(60),
     formatEffect: value => format(value, 2, 2) + "/s"
   },
   {
@@ -222,10 +193,7 @@ export const metaFabricatorUpgrades = [
     name: "Nu uh",
     id: 22,
     cost: 5e6,
-    description: "Chaos Dimensions only reset their amount",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
+    description: "Unlock Chaos Dimensions autobuyers and Plynias dont reset",
   },
   {
     name: "Be gone Hardcap",
@@ -240,17 +208,11 @@ export const metaFabricatorUpgrades = [
     id: 24,
     cost: 1e12,
     description: "Unlock autobuyers for Singularity cap, Keep Charged Infinity upgrades and Ra memory levels",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
   {
     name: "Forgeting someone?",
     id: 25,
     cost: 1e18,
     description: "Unlock 2 Ra memories for Cante and Null",
-    effect: () => 1,
-    formatEffect: value => "",
-    noLabel: true
   },
 ];

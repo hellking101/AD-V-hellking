@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       isDoomed: false,
+      joined: false,
       canEnterPelle: false,
       completedRows: 0,
       cappedResources: 0,
@@ -44,6 +45,7 @@ export default {
   methods: {
     update() {
       this.isDoomed = Pelle.isDoomed;
+      this.joined = Pelle.joined;
       if (!this.isDoomed) {
         this.completedRows = Achievements.prePelleRows.countWhere(r => r.every(a => a.isUnlocked));
         this.cappedResources = AlchemyResources.all.countWhere(r => r.over25K);
@@ -51,7 +53,7 @@ export default {
           this.cappedResources === this.totalAlchemyResources;
       }
       this.hasStrike = PelleStrikes.all.some(s => s.hasStrike);
-      this.hasGalaxyGenerator = PelleRifts.recursion.milestones[2].canBeApplied || GalaxyGenerator.spentGalaxies.gt(0);
+      this.hasGalaxyGenerator = (PelleRifts.recursion.milestones[2].canBeApplied || GalaxyGenerator.spentGalaxies.gt(0)) && this.isDoomed;
     },
     toggleBought() {
       Pelle.cel.showBought = !Pelle.cel.showBought;
@@ -61,11 +63,11 @@ export default {
       Modal.pelleEffects.show();
     },
     enterDoomModal() {
-      if(!GlitchRealityUpgrade(16).isBought){
-        Modal.message.show(`I recommend you complete my Reality first<br> But if you want... Doom your Reality and lose your progress`);
-      }
       Modal.armageddon.show();
-    }
+    },
+    enterDoom() {
+      Pelle.initializeRun();
+    },
   }
 };
 </script>
@@ -74,7 +76,7 @@ export default {
   <div class="l-pelle-celestial-tab">
       <CelestialQuoteHistory celestial="pelle" />
       <div
-      v-if="isDoomed"
+      v-if="joined || isDoomed"
       class="l-pelle-all-content-container"
     >
       <div class="button-container">
@@ -82,9 +84,18 @@ export default {
           class="o-pelle-button"
           @click="showModal"
         >
-          Show effects in Doomed Reality
+          Show effects in a Doomed Reality
         </button>
       </div>
+
+      <button
+        v-if="joined && !isDoomed"
+        class="pelle-doom-button-small"
+        @click="enterDoom"
+      >
+        Doom Your Reality
+      </button>
+
       <br>
       <GalaxyGeneratorPanel v-if="hasGalaxyGenerator" />
       <PelleBarPanel v-if="hasStrike" />
@@ -176,6 +187,20 @@ export default {
   border: var(--var-border-width, 0.2rem) solid var(--color-pelle--base);
   border-radius: var(--var-border-radius, 0.5rem);
   padding: 1rem;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.pelle-doom-button-small {
+  width: 25rem;
+  height: 5rem;
+  align-self: center;
+  font-family: Typewriter;
+  font-size: 2rem;
+  color: var(--color-pelle--base);
+  background: black;
+  border: var(--var-border-width, 0.2rem) solid var(--color-pelle--base);
+  border-radius: var(--var-border-radius, 0.5rem);
   transition-duration: 0.4s;
   cursor: pointer;
 }

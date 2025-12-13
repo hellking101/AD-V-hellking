@@ -5889,7 +5889,7 @@ kbd {
 
 .c-rm-store {
   width: 13rem;
-  height: 50rem;
+  height: 70rem;
   position: relative;
   border: 0.1rem solid black;
   border-radius: var(--var-border-radius, 0.4rem);
@@ -8556,6 +8556,7 @@ kbd {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 5rem;
 }
 
 .l-reality-button-column {

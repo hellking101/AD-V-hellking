@@ -7106,7 +7106,7 @@ export const news = [
   },
   {
     id: "ai942",
-    text: "T he most important thing to realize is that you don't have to play the game to get the achievement. You can actually get it by just reading the achievement descriptions."
+    text: "The most important thing to realize is that you don't have to play the game to get the achievement. You can actually get it by just reading the achievement descriptions."
   },
   {
     id: "ai943",
@@ -7592,7 +7592,7 @@ export const news = [
   {
     id: "vis62",
     get text() { return `9th Dimensions? no were geting ${format(10)} Replicators${Null.isUnlocked ? ` and ${format(16)} Cycles.` : '.'}`},
-    get unlocked() {return Cante.idUnlocked}
+    get unlocked() {return Cante.isUnlocked}
   },
   {
     id: "vis63",
@@ -7600,11 +7600,11 @@ export const news = [
   },
   {
     id: "vis64",
-    text: `I've come to make an announcement: Glitchyfishys is a awful AD moder. He crashed my Game. That's right. He took his Dimension and he crashed on my Game, and he said his Dimension was THIS BIG, and I said that's disgusting. So I'm making a callout post on my AntimatterDimensions.com. Glitchyfishys, you got a small Dimension. It's the size of this walnut except WAY smaller. And guess what? Here's what my Dimension looks like. That's right, baby. Dimension Boosts, no buy ten multiplier, no Galaxes, look at that, it looks like Tickspeed. He Crashed my Game, so guess what, I'm gonna Crash the Server. That's right, this is what you get! My SUPER LASER DIMENSION! Except I'm not gonna Crash the earth. I'm gonna go higher. I'm Crashing the MOOOON! How do you like that, OBAMA? I CRASHED THE MOON, YOU IDIOT! You have twenty-three hours before the Dimension DROPLETS hit the earth, now get out of my sight before I Crash you too!`,
+    text: `I've come to make an announcement: Glitchyfishys is a awful AD moder. He crashed my Game. That's right. He took his Dimension and he crashed on my Game, and he said his Dimension was THIS BIG, and I said that's disgusting. So I'm making a callout post on my AntimatterDimensions.com. Glitchyfishys, you got a small Dimension. It's the size of this walnut except WAY smaller. And guess what? Here's what my Dimension looks like. That's right, baby. Dimension Boosts, no buy ten multiplier, no Galaxes, look at that, it looks like Tickspeed. He Crashed my Game, so guess what, I'm gonna Crash the server. That's right, this is what you get! My SUPER LASER DIMENSION! Except I'm not gonna Crash the server. I'm gonna go higher. I'm Crashing the DISCORD! How do you like that, OBAMA? I CRASHED THE DISCORD, YOU IDIOT! You have twenty-three hours before the Dimension DROPLETS hit the earth, now get out of my sight before I Crash you too!`,
   },
   {
     id: "vis65",
-    text: `This mod is so bad that is's good.`,
+    text: `This mod is so bad that it's good.`,
   },
   {
     id: "vis66",
@@ -7824,10 +7824,170 @@ export const news = [
   },
   {
     id: "vis119",
-    text: `This is the best mod out there. Have a look at the other modders have played this.`,
+    text: `This is the best mod out there. Have a look at the other modders who've have played this.`,
   },
   {
     id: "vis120",
     text: `Silence, I can't think.`,
+  },
+  {
+    id: "vis121",
+    text: `vain antiaineen mestari voi lukea tämän.`,
+  },
+  {
+    id: "vis122",
+    text: `Pelle get out of the news room.`,
+  },
+  {
+    id: "vis123",
+    text: `What's a touhou?`,
+  },
+  {
+    id: "vis124",
+    text: `You know there's vanilla right?`,
+  },
+  {
+    id: "vis125",
+    text: `You know this is a mod right?`,
+  },
+  {
+    id: "vis126",
+    text: `sudo rm -rf /`,
+  },
+  {
+    id: "vis127",
+    text: `Arch btw`,
+  },
+  {
+    id: "vis128",
+    text: `Why does anyone use Linux? Don't they know it's terminal`,
+  },
+  {
+    id: "vis129",
+    text: `Stop reading this and play the game`,
+  },
+  {
+    id: "vis130",
+    text: `I do not say blah blah blah`,
+  },
+  {
+    id: "vis131",
+    text: `Silence a Linux user is creating a file`,
+  },
+  {
+    id: "vis132",
+    text: `Who made Nyarch Linux?`,
+  },
+  {
+    id: "vis133",
+    text: `Ding, Ding Dong`,
+  },
+  {
+    id: "vis134",
+    text: `Hevipelle did not make Linux it was another finnish guy`,
+  },
+  {
+    id: "vis135",
+    text: `Eww you used Arch install`,
+  },
+  {
+    id: "vis136",
+    text: `Why can a PNG run as an EXE by default?`,
+  },
+  {
+    id: "vis137",
+    text: `You know those aren't genders right?`,
+  },
+  {
+    id: "vis138",
+    text: `Guess your feeling the... P-Pressure! AHAHAHAHAHAHAHAHA`,
+  },
+  {
+    id: "vis139",
+    text: `Love it when i plan to do something and someone else does it before me`,
+  },
+  {
+    id: "vis140",
+    text: `Oh no bro`,
+  },
+  {
+    id: "vis141",
+    text: `Supersonic Seven, Hexa, Mrkrutaman, Rangazz, Royalflush297, Aquamarine309, QwQ308, Donaldino7712, Incremental Gamer, WYXkk, Cot, Katze08`,
+  },
+  {
+    id: "vis142",
+    text: `Based news`,
+  },
+  {
+    id: "vis143",
+    text: `STOP POSTING THE ESCALATOR!!!`,
+  },
+  {
+    id: "vis144",
+    text: `Why does every app need AI that doesn't even work?`,
+  },
+  {
+    id: "vis145",
+    text: `So... You just died`,
+  },
+  {
+    id: "vis146",
+    text: `Welcome to the undergound`,
+  },
+  {
+    id: "vis147",
+    text: `How was the fall?`,
+  },
+  {
+    id: "vis148",
+    text: `I've made a Roblox horror game <a herf=https://www.roblox.com/games/129191314746960 target="_blank">Here</a> if you want to play it`,
+  },
+  {
+    id: "vis149",
+    text: `Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room filled with rats. and rats make me crazy.`,
+  },
+  {
+    id: "vis150",
+    text: `This mod adds content... I didn't say it was good content`,
+  },
+  {
+    id: "vis151",
+    text: `AI user: ceates a game in seconds. Me: Look what they need to mimic a fraction of my power`,
+  },
+  {
+    id: "vis152",
+    text: `I don't use AI to make stuff. STOP ASKING!`,
+  },
+  {
+    id: "vis153",
+    text: `/gamemode creative`,
+  },
+  {
+    id: "vis154",
+    text: `I also make terraria mods`,
+  },
+  {
+    id: "vis155",
+    text: `All this brain rot is annoying me`,
+  },
+  {
+    id: "vis156",
+    text: `My imagination is INFINITE`,
+  },
+  {
+    id: "vis157",
+    text: `Intentional game design`,
+  },
+  {
+    id: "vis158",
+    text: `I have to add the "No AI" tag because of people`,
+  },
+  {
+    id: "vis159",
+    text: `I only play good games`,
+  },
+  {
+    id: "vis160",
+    text: `More optimized then vanilla`,
   },
 ];

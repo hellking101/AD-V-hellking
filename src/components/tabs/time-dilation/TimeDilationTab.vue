@@ -123,7 +123,7 @@ export default {
     },
     bulk(){
       DilationUpgrades.rebuyable[0].purchase(1e300);
-      if(!Pelle.isDoomed) DilationUpgrades.rebuyable[2].purchase(1e300);
+      if(!Pelle.isDoomed || ChallengerUpgrade(9).isBought) DilationUpgrades.rebuyable[2].purchase(1e300);
       if(PelleRifts.paradox.milestones[0].canBeApplied){
         DilationUpgrade.dtGainPelle.purchase(1e300);
         DilationUpgrade.galaxyMultiplier.purchase(1e300);

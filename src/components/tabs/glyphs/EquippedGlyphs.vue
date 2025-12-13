@@ -81,7 +81,7 @@ export default {
       this.undoSlotsAvailable = this.respecIntoProtected
         ? Glyphs.totalSlots - GameCache.glyphInventorySpace.value - Glyphs.inventoryList.length > 0
         : GameCache.glyphInventorySpace.value > 0;
-      this.undoVisible = TeresaUnlocks.undo.canBeApplied;
+      this.undoVisible = TeresaUnlocks.undo.canBeApplied && !Pelle.isDoomed;
       this.undoAvailable = this.undoVisible && this.undoSlotsAvailable && player.reality.glyphs.undo.length > 0;
       this.cosmeticGlow = player.reality.glyphs.cosmetics.glowNotification;
     },
@@ -175,6 +175,7 @@ export default {
           :glyph="glyph"
           :circular="true"
           :is-active-glyph="true"
+          :size="'5rem'"
           class="c-equipped-glyph"
           @clicked="clickGlyph(glyph, idx)"
           @shiftClicked="clickGlyph(glyph, idx, true)"

@@ -1,5 +1,3 @@
-import { Pelle } from "../globals";
-
 import { GlyphCombiner } from "@/core/secret-formula";
 
 class GlyphEffectState {

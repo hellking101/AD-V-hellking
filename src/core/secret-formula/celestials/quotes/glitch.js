@@ -112,9 +112,11 @@ export const glitchQuotes = {
     id: 11,
     lines: [
       "You have done well \"Destroyer\".",
-      { text: "However $1 is next.", 1: Pelle},
-      "Pelle... he's not from here, Let me look around for awhile.",
-      "Hmm... Pelle?"
+      "However we have a lot of work to do.",
+      { text: "Reminder that $1 is not finished.", 1: Pelle},
+      "He'll come back and you need to be ready.",
+      "He is the Celestial of Antimatter. So you'll need to find a replacement to stand a chance.",
+      "Prehaps a Pseudo-Antimatter?",
     ],
   },
   glitchBuySpeed4: {
@@ -139,11 +141,21 @@ export const glitchQuotes = {
     id: 13,
     lines: [
       "Well done, we are almost there.",
-      "Soon you will met Zegary, the Celestials of Machanics.",
+      "Soon you will met Zegary, the Celestials of Mechanics.",
       "Before then we need more help to get into the Meta Realm.",
-      "So far Teresa, Effarig and V have help me. Next would be Vela and Ra.",
-      "Lai'tela might not help and Pelle... wait Pelle is from the Meta Realm?, is it HeviPelle?, did something happen?.",
+      "Next would be Vela and Ra. Lai'tela won't help.",
       "Don't worry about that right now, focus on fixing the Meta Fabricator it will be our best chance to stop _____.",
+    ],
+  },
+  battlePelle: {
+    id: 14,
+    lines: [
+      "Hi again.",
+      { text: "I am requiring you to challenge $1.", 1: Pelle},
+      { text: "Before that. Complete my challenges.", displayed: () => GlitchRifts.gamma.milestones[5].effectOrDefault(0) != 0},
+      "Win against him in your Doomed Reality and stabilize it.",
+      "I'll be able to conjoin both and enhance your Reality.",
+      { text: "$1 is not easy tricked.", 1: Pelle},
     ],
   },
 };

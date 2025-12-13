@@ -16,6 +16,7 @@ export default {
       achievementVisible: false,
       showAutoAdjustWeights: false,
       isAutoAdjustWeightsOn: false,
+      STVisible: false,
       factors: getGlyphLevelInputs(),
       shardsGained: 0,
       weights: Object.assign({}, player.celestials.effarig.glyphWeights),
@@ -67,6 +68,7 @@ export default {
       if (this.perkShopVisible) rows.push("perk shop");
       if (this.shardVisible) rows.push("shards");
       if (this.singularityVisible) rows.push("singularities");
+      if (this.STVisible) rows.push("space theorem");
       if (this.penaltyVisible) rows.push("instability");
       if (this.rowVisible) rows.push("upgrade rows");
       if (this.achievementVisible) rows.push("achievements");
@@ -121,6 +123,7 @@ export default {
       this.perkShopVisible = glyphFactors.perkShop !== 1;
       this.rowVisible = glyphFactors.rowFactor > 0;
       this.achievementVisible = glyphFactors.achievementFactor.gt(0);
+      this.STVisible = VUnlocks.glyphCap.isUnlocked;
       if (glyphFactors.scalePenalty !== 1) {
         this.penaltyVisible = true;
         this.lastInstability = Date.now();
@@ -405,6 +408,26 @@ function roundPreservingSum(data) {
         class="l-glyph-levels-and-weights__factor-val"
       >
         {{ formatFactor(factors.singularityEffect) }}
+      </div>
+    </template>
+    <template v-if="STVisible">
+      <div
+        :style="rowStyle('space theorem')"
+        class="l-glyph-levels-and-weights__factor"
+      >
+        Space Theorems
+      </div>
+      <div
+        :style="rowStyle('space theorem')"
+        class="l-glyph-levels-and-weights__operator"
+      >
+        ^
+      </div>
+      <div
+        :style="rowStyle('space theorem')"
+        class="l-glyph-levels-and-weights__factor-val"
+      >
+        {{ formatFactor(factors.ST) }}
       </div>
     </template>
     <template v-if="penaltyVisible">

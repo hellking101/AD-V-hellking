@@ -78,8 +78,8 @@ export default {
   },
   methods: {
     update() {
-      this.isUseless = Pelle.isDoomed;
-      this.chargeUnlocked = Ra.unlocks.chargedInfinityUpgrades.canBeApplied && !Pelle.isDoomed;
+      this.isUseless = Pelle.isDoomed && !ChallengerUpgrade(16).isBought;
+      this.chargeUnlocked = Ra.unlocks.chargedInfinityUpgrades.canBeApplied;
       this.totalCharges = Ra.totalCharges;
       this.chargesUsed = Ra.totalCharges - Ra.chargesLeft;
       this.disCharge = player.celestials.ra.disCharge;

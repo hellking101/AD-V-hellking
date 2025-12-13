@@ -6,7 +6,8 @@ export const eternityUpgrades = {
     cost: 5,
     description: () => `Infinity Dimension multiplier based on unspent Eternity Points (x+${formatInt(1)})`,
     effect: () => Currency.eternityPoints.value.plus(1),
-    formatEffect: value => formatX(value, 2, 1)
+    formatEffect: value => formatX(value, 2, 1),
+    cap: new Decimal('ee12')
   },
   idMultEternities: {
     id: 2,

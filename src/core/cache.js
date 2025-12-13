@@ -103,6 +103,10 @@ export const GameCache = {
   // code originally lived.
   antimatterDimensionCommonMultiplier: new Lazy(() => antimatterDimensionCommonMultiplier()),
 
+  tickspeedPerSecond: new Lazy(() => Tickspeed.perSecond),
+
+  commonDMDDarkMult: new Lazy(() => DarkMatterDimensionState.commonDarkMult),
+
   // 0 will cause a crash if invoked; this way the tier can be used as an index
   antimatterDimensionFinalMultipliers: Array.range(1, 9)
     .map(tier => new Lazy(() => getDimensionFinalMultiplierUncached(tier))),
@@ -124,6 +128,8 @@ export const GameCache = {
   challengeTimeSum: new Lazy(() => player.challenge.normal.bestTimes.reduce(Decimal.sumReducer)),
 
   infinityChallengeTimeSum: new Lazy(() => player.challenge.infinity.bestTimes.reduce(Decimal.sumReducer)),
+
+  gameSpeed: new Lazy(() => getGameSpeedupFactor()),
 
   chaosDimensionCommonMultiplier: new Lazy(() => chaosDimensionCommonMultiplier()),
 

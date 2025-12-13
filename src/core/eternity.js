@@ -197,7 +197,7 @@ export function initializeChallengeCompletions(isReality) {
   if (!isReality && EternityMilestone.keepAutobuyers.isReached || Pelle.isDoomed) {
     NormalChallenges.completeAll();
   }
-  if (Achievement(133).isUnlocked && !Pelle.isDoomed) InfinityChallenges.completeAll();
+  if (Achievement(133).isEffectActive) InfinityChallenges.completeAll();
   player.challenge.normal.current = 0;
   player.challenge.infinity.current = 0;
 }
@@ -267,6 +267,7 @@ export class EternityMilestoneState {
 
   get isReached() {
     if (Pelle.isDoomed && this.config.givenByPelle) {
+      if (ChallengerUpgrade(5).isBought) return Currency.eternities.gte(this.config.eternities);
       return this.config.givenByPelle();
     }
     return Currency.eternities.gte(this.config.eternities);
@@ -297,6 +298,7 @@ class EPMultiplierState extends GameMechanicState {
   }
 
   get isAffordable() {
+    if (ChallengerUpgrade(7).isBought) return Currency.eternityPoints.gte(this.cost);
     return !Pelle.isDoomed && Currency.eternityPoints.gte(this.cost);
   }
 
@@ -381,13 +383,14 @@ class EPMultiplierState extends GameMechanicState {
     bulk = bulk.sub(this.boughtAmount).max(0);
 
     if (bulk.eq(0)) return false;
-    Currency.eternityPoints.subtract(price);
+    const V = Currency.eternityPoints.lt('ee15');
+    if (V) Currency.eternityPoints.subtract(price);
     this.boughtAmount = this.boughtAmount.add(bulk);
     let i = 0;
     while (Currency.eternityPoints.gt(this.costAfterCount(this.boughtAmount)) &&
     i < 50 && this.boughtAmount.layer < 1) {
       this.boughtAmount = this.boughtAmount.add(1);
-      Currency.eternityPoints.subtract(this.costAfterCount(this.boughtAmount.sub(1)));
+      if (V) Currency.eternityPoints.subtract(this.costAfterCount(this.boughtAmount.sub(1)));
       i += 1;
     }
     return true;

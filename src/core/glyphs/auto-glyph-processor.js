@@ -321,6 +321,8 @@ export function getGlyphLevelInputs() {
     .mul(staticFactors.perkShop).add(shardFactor);
   const singularityEffect = SingularityMilestone.glyphLevelFromSingularities.effectOrDefault(1);
   baseLevel = baseLevel.mul(singularityEffect);
+  const ST = VUnlocks.glyphCap.effectOrDefault(1)
+  baseLevel = baseLevel.pow(ST);
 
   let scaledLevel = baseLevel;
   // The softcap starts at begin and rate determines how quickly level scales after the cap, turning a linear pre-cap
@@ -335,15 +337,11 @@ export function getGlyphLevelInputs() {
     const excess = (level.sub(begin)).div(rate);
     return begin.plus(rate.div(2).times(Decimal.sqrt(excess.times(4).add(1)).sub(1)));
   };
-  scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.instability, new Decimal (MetaFabricatorUpgrade(15).isBought ? 1.5e5 : 500));
-  scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.hyperInstability, new Decimal(MetaFabricatorUpgrade(15).isBought ? 1e8 : 400));
+
+  scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.instability, new Decimal (500));
+  scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.hyperInstability, new Decimal(400));
   scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.glitchInstability, new Decimal(1e4));
   scaledLevel = instabilitySoftcap(scaledLevel, staticFactors.chaosInstability, new Decimal(250));
-  scaledLevel = instabilitySoftcap(scaledLevel, new Decimal(6e7), new Decimal(50));
-  scaledLevel = instabilitySoftcap(scaledLevel, new Decimal(7e7), new Decimal(50));
-  scaledLevel = instabilitySoftcap(scaledLevel, new Decimal(8e7), new Decimal(50));
-  scaledLevel = instabilitySoftcap(scaledLevel, new Decimal(9e7), new Decimal(50));
-  scaledLevel = instabilitySoftcap(scaledLevel, new Decimal(1e8), new Decimal(5));
 
   const scalePenalty = scaledLevel.gt(0) ? baseLevel.div(scaledLevel) : DC.D1;
   const incAfterInstability = staticFactors.achievements.add(staticFactors.realityUpgrades);
@@ -359,6 +357,7 @@ export function getGlyphLevelInputs() {
     rowFactor: staticFactors.realityUpgrades,
     achievementFactor: staticFactors.achievements,
     shardFactor,
+    ST,
     singularityEffect,
     rawLevel: baseLevel,
     actualLevel: Decimal.max(1, scaledLevel),
@@ -385,6 +384,6 @@ export function staticGlyphWeights() {
     glitchInstability,
     chaosInstability,
     realityUpgrades,
-    achievements
+    achievements,
   };
 }

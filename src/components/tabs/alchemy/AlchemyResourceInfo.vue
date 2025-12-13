@@ -70,7 +70,7 @@ export default {
       const color = this.flow.gt(0) ? "9CCC65" : "CC6666";
       return `<span style="color:#${color}">${resourceText}</span>`;
     },
-    isDoomed: () => Pelle.isDoomed,
+    isDoomed: () => Pelle.isDoomed && !ChallengerUpgrade(11).isBought,
   },
   methods: {
     update() {

@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     update() {
-      this.isDoomed = Pelle.isDoomed;
+      this.isDoomed = Pelle.isDoomed && !ChallengerUpgrade(17).isBought;
       this.darkMatter.copyFrom(Currency.darkMatter);
       this.isDMCapped = this.darkMatter.gte("1e1000000000");
       this.maxDarkMatter.copyFrom(Currency.darkMatter.max);

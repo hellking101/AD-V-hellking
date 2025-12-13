@@ -24,7 +24,7 @@ export default {
     };
   },
   computed: {
-    isDoomed: () => Pelle.isDoomed,
+    isDoomed: () => Pelle.isDoomed && !ChallengerUpgrade(17).isBought,
     singularityFormText() {
       const formText = this.singularitiesGained.eq(1) ? "all Dark Energy into a Singularity"
         : `all Dark Energy into ${quantify("Singularity", this.singularitiesGained, 2)}`;

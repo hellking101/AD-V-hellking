@@ -11,29 +11,24 @@ import zalgo from "./zalgo";
 
 
 const disabledMechanicUnlocks = {
-  achievements: () => ({}),
-  IPMults: () => ({}),
-  EPMults: () => ({}),
-  galaxies: () => ({}),
-  InfinitiedMults: () => ({}),
-  infinitiedGen: () => ({}),
-  eternityGain: () => ({}),
-  eternityMults: () => ({}),
-  studies: () => ({}),
-  EPgen: () => ({}),
-  autoec: () => ({}),
-  replicantiIntervalMult: () => ({}),
-  tpMults: () => ({}),
-  glyphs: () => !PelleRifts.vacuum.milestones[0].canBeApplied,
-  V: () => ({}),
-  singularity: () => ({}),
-  continuum: () => ({}),
-  alchemy: () => ({}),
-  achievementMult: () => ({}),
-  blackhole: () => ({}),
-  effarig: () => ({}),
-  imaginaryUpgrades: () => ({}),
-  glyphsac: () => ({}),
+  achievements: () => !ChallengerUpgrade(1).isBought,
+  IPMults: () => !ChallengerUpgrade(7).isBought,
+  EPMults: () => !ChallengerUpgrade(7).isBought,
+  InfinitiedMults: () => !ChallengerUpgrade(6).isBought,
+  infinitiedGen: () => !ChallengerUpgrade(0).isBought,
+  eternityMults: () => !ChallengerUpgrade(6).isBought,
+  autoec: () => false,
+  replicantiIntervalMult: () => !ChallengerUpgrade(2).isBought,
+  tpMults: () => !ChallengerUpgrade(9).isBought,
+  glyphs: () => !(PelleRifts.vacuum.milestones[0].canBeApplied || ChallengerUpgrade(19).isBought),
+  V: () => !ChallengerUpgrade(15).isBought,
+  singularity: () => !ChallengerUpgrade(17).isBought,
+  continuum: () => !ChallengerUpgrade(17).isBought,
+  alchemy: () =>  !ChallengerUpgrade(11).isBought,
+  achievementMult: () => !ChallengerUpgrade(1).isBought,
+  blackhole: () => !ChallengerUpgrade(14).isBought,
+  effarig: () => !ChallengerUpgrade(13).isBought,
+  glyphsac: () => !ChallengerUpgrade(12).isBought,
   antimatterDimAutobuyer1: () => PelleUpgrade.antimatterDimAutobuyers1,
   antimatterDimAutobuyer2: () => PelleUpgrade.antimatterDimAutobuyers1,
   antimatterDimAutobuyer3: () => PelleUpgrade.antimatterDimAutobuyers1,
@@ -45,12 +40,11 @@ const disabledMechanicUnlocks = {
   tickspeedAutobuyer: () => PelleUpgrade.tickspeedAutobuyer,
   dimBoostAutobuyer: () => PelleUpgrade.dimBoostAutobuyer,
   galaxyAutobuyer: () => PelleUpgrade.galaxyAutobuyer,
-  timeTheoremAutobuyer: () => ({}),
-  rupg10: () => ({}),
-  dtMults: () => ({}),
-  chargedInfinityUpgrades: () => ({}),
-  alteration: () => ({}),
-  timeTheorems: () => ({})
+  timeTheoremAutobuyer: () => !ChallengerUpgrade(8).isBought,
+  rupg10: () => !ChallengerUpgrade(3).isBought,
+  dtMults: () => !ChallengerUpgrade(9).isBought,
+  chargedInfinityUpgrades: () => !ChallengerUpgrade(16).isBought,
+  alteration: () => !ChallengerUpgrade(16).isBought,
 };
 
 export const Pelle = {
@@ -65,26 +59,37 @@ export const Pelle = {
       return;
     }
 
+    if (player.pelleResets > 0) Pelle.quotes.pellesChallenger.show();
+
     player.celestials.glitch.run = false;
     
-    Glyphs.harshAutoClean();
-    if (!Glyphs.unequipAll()) {
-      Modal.hideAll();
-      Modal.message.show(`Dooming your Reality will unequip your Glyphs. Some of your
-        Glyphs could not be unequipped due to lack of inventory space.`, 1);
-      return;
+    if (!Pelle.joined)  {
+      Glyphs.harshAutoClean();
+      if (!Glyphs.unequipAll()) {
+        Modal.hideAll();
+        Modal.message.show(`Dooming your Reality will unequip your Glyphs. Some of your
+          Glyphs could not be unequipped due to lack of inventory space.`, 1);
+        return;
+      }
+      Glyphs.harshAutoClean();
+      if (Glyphs.freeInventorySpace < 5) {
+        Modal.hideAll();
+        Modal.message.show(`You must have enough empty unprotected Glyph slots for
+          ${formatInt(5)} additional Glyphs in order to Doom your Reality.`, 1);
+        return;
+      }
+      for (const type of GlyphInfo.basicGlyphTypes) Glyphs.addToInventory(GlyphGenerator.doomedGlyph(type));
+    } else {
+      if (!Glyphs.unequipAll()) {
+        Modal.hideAll();
+        Modal.message.show(`Dooming your Reality will unequip your Glyphs. Some of your
+          Glyphs could not be unequipped due to lack of inventory space.`, 1);
+        return;
+      }
     }
-    Glyphs.harshAutoClean();
-    if (Glyphs.freeInventorySpace < 5) {
-      Modal.hideAll();
-      Modal.message.show(`You must have enough empty unprotected Glyph slots for
-        ${formatInt(5)} additional Glyphs in order to Doom your Reality.`, 1);
-      return;
-    }
-    for (const type of GlyphInfo.basicGlyphTypes) Glyphs.addToInventory(GlyphGenerator.doomedGlyph(type));
+    
     Glyphs.refreshActive();
     player.options.confirmations.glyphReplace = false;
-    player.reality.automator.state.forceRestart = false;
     if (BlackHoles.arePaused) BlackHoles.togglePause();
     player.celestials.pelle.doomed = true;
     Pelle.armageddon(false);
@@ -103,8 +108,6 @@ export const Pelle = {
 
     player.buyUntil10 = true;
     player.records.realTimeDoomed = DC.D0;
-    for (const res of AlchemyResources.all) res.amount = DC.D0;
-    AutomatorBackend.stop();
 
     // Force-unhide all tabs except for the shop tab, for which we retain the hide state instead
     const shopTab = ~1 & (1 << GameDatabase.tabs.find(t => t.key === "shop").id);
@@ -119,6 +122,10 @@ export const Pelle = {
     }
     Pelle.quotes.initial.show();
     GameStorage.save(true);
+  },
+
+  get joined() {
+    return player.celestials.pelle.joined;
   },
 
   get displayName() {
@@ -150,10 +157,28 @@ export const Pelle = {
   },
 
   get canArmageddon() {
-    return this.remnantsGain.gte(1);
+    return this.remnantsGain.gte(1) || player.celestials.pelle.records.totalAntimatter.gt(DC.PelleMax);
   },
 
   armageddon(gainStuff) {
+    if (player.celestials.pelle.records.totalAntimatter.gt(DC.PelleMax)) {
+      Pelle.reset();
+      finishProcessReality({ reset: true, armageddon: true });
+      player.celestials.pelle.doomed = false;
+      player.dilation.active = false;
+      applyRUPG10();
+      let gain = DC.D5.timesEffectsOf(
+        HardChallengerUpgrade(0),
+        HardChallengerUpgrade(3),
+        GlitchSpeedUpgrade(6),
+        HardChallengerUpgrade(7),
+      )
+      Currency.challengersEssence.add(gain);
+      player.pelleResets++;
+      Achievement(188).unlock();
+      Glyphs.refreshActive();
+      return;
+    }
     if (!this.canArmageddon && gainStuff) return;
     EventHub.dispatch(GAME_EVENT.ARMAGEDDON_BEFORE, gainStuff);
     if (gainStuff) {
@@ -164,14 +189,16 @@ export const Pelle = {
     player.celestials.enslaved.isStoringReal = false;
     player.celestials.enslaved.autoStoreReal = false;
     if (PelleStrikes.dilation.hasStrike) player.dilation.active = true;
-    realityUGs.all[13].isBought ? PelleStrikes.all[5].trigger() : false
+    realityUGs.all[13].isBought ? PelleStrikes.all[5].trigger() : false;
     EventHub.dispatch(GAME_EVENT.ARMAGEDDON_AFTER, gainStuff);
   },
 
   gameLoop(diff) {
-    if (this.isDoomed) {
+    if (this.isDoomed || this.joined) {
       Currency.realityShards.add(this.realityShardGainPerSecond.times(diff).div(1000));
+      if (ChallengerUpgrade(19).isBought) PelleRifts.all.forEach(r => r.rift.active = true);
       PelleRifts.all.forEach(r => r.fill(diff));
+      if (ChallengerUpgrade(20).isBought) this.cel.remnants = this.cel.remnants.add(this.remnantsGain);
     }
   },
 
@@ -184,23 +211,28 @@ export const Pelle = {
   },
 
   get disabledAchievements() {
+    if (ChallengerUpgrade(1).isBought) return [];
     return [164, 156, 143, 142, 141, 137, 134, 133, 132, 131, 126, 125, 118, 117, 116, 113, 111, 104, 103, 95, 93, 92,
       91, 87, 85, 78, 76, 74, 65, 55, 54, 37];
   },
 
   get uselessInfinityUpgrades() {
+    if (ChallengerUpgrade(0).isBought) return [];
     return ["passiveGen", "ipMult", "infinitiedGeneration"];
   },
 
   get uselessTimeStudies() {
+    if (ChallengerUpgrade(2).isBought) return [];
     return [32, 33, 41, 51, 61, 62, 121, 122, 123, 141, 142, 143, 192, 213];
   },
 
   get disabledRUPGs() {
+    if (ChallengerUpgrade(3).isBought) return [];
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 22, 23, 24];
   },
 
   get uselessPerks() {
+    if (ChallengerUpgrade(4).isBought) return [];
     return [10, 12, 13, 14, 15, 16, 17, 30, 40, 41, 42, 43, 44, 45, 46, 51, 52,
       53, 60, 61, 62, 80, 81, 82, 83, 100, 103, 104, 105, 106, 201, 202, 203, 204];
   },
@@ -208,24 +240,30 @@ export const Pelle = {
   get specialGlyphEffect() {
     const isUnlocked = this.isDoomed && PelleRifts.chaos.milestones[1].canBeApplied;
     const description = this.getSpecialGlyphEffectDescription(this.activeGlyphType);
-    const isActive = type => isUnlocked && this.activeGlyphType === type;
+    const eff = this.activeGlyphType == "effarig";
+    const isActive = type => isUnlocked && (this.activeGlyphType === type || eff && ['power', 'time', 'replication', 'infinity', 'dilation'].includes(type));
     return {
       isUnlocked,
       description,
       infinity: (isActive("infinity") && player.challenge.eternity.current <= 8)
-        ? Currency.infinityPoints.value.plus(1).pow(0.2)
+        ? Currency.infinityPoints.value.plus(1).pow(eff ? 0.1 : 0.2)
         : DC.D1,
       time: isActive("time")
-        ? Currency.eternityPoints.value.plus(1).pow(0.3)
+        ? Currency.eternityPoints.value.plus(1).pow(eff ? 0.1 : 0.3)
         : DC.D1,
       replication: isActive("replication")
-        ? 10 ** 55 ** (PelleRifts.vacuum.percentage)
+        ? 10 ** 55 ** Math.min(1, PelleRifts.vacuum.percentage * (eff ? 0.75 : 1))
         : 1,
       dilation: isActive("dilation")
-        ? Decimal.pow(player.dilation.totalTachyonGalaxies, 1.5).max(1)
+        ? Decimal.pow(player.dilation.totalTachyonGalaxies, eff ? 1.2 : 1.5).max(1)
         : DC.D1,
       power: isActive("power")
-        ? 1.02
+        ? (eff ? 1.01 : 1.02)
+        : 1,
+      effarig: isActive("effarig"),
+      reality: isActive("reality"),
+      cursed: isActive("cursed")
+        ? 0.5
         : 1,
       companion: isActive("companion")
         ? 1.34
@@ -233,6 +271,7 @@ export const Pelle = {
       isScaling: () => ["infinity", "time", "replication", "dilation"].includes(this.activeGlyphType),
     };
   },
+
   getSpecialGlyphEffectDescription(type) {
     switch (type) {
       case "infinity":
@@ -243,13 +282,22 @@ export const Pelle = {
         return `Eternity Point gain ${formatX(Currency.eternityPoints.value.plus(1).pow(0.3), 2)}
           (based on current EP)`;
       case "replication":
-        return `Replication speed ${formatX(10 ** 55 ** (PelleRifts.vacuum.percentage), 2)} \
+        return `Replication speed ${formatX(10 ** 55 ** Math.min(1, PelleRifts.vacuum.percentage), 2)} \
         (based on ${wordShift.wordCycle(PelleRifts.vacuum.name)})`;
       case "dilation":
         return `Dilated Time gain ${formatX(Decimal.pow(player.dilation.totalTachyonGalaxies, 1.5).max(1), 2)}
           (based on Tachyon Galaxies)`;
       case "power":
         return `Galaxies are ${formatPercents(0.02)} stronger`;
+      case "effarig":
+        if (ChallengerUpgrade(21).isBought) return `Grants the Pelle specific effects of all basic Glyph types with redused effect`
+        return `You cannot equip this Glyph while Doomed!`;
+      case "reality":
+        if (ChallengerUpgrade(21).isBought) return `You can equip an additional four Glyph`
+        return `You cannot equip this Glyph while Doomed!`;
+      case "cursed":
+        if (ChallengerUpgrade(21).isBought) return `Galaxies are ${formatPercents(0.5)} weaker`
+        return `You cannot equip this Glyph while Doomed!`;
       case "companion":
         return `You feel ${formatPercents(0.34)} better`;
       // Undefined means that there is no glyph equipped, needs to be here since this function is used in
@@ -326,6 +374,7 @@ export const Pelle = {
   },
 
   get hasGalaxyGenerator() {
+    if (HardChallengerUpgrade(1).isBought && Pelle.isDoomed) return true;
     return player.celestials.pelle.galaxyGenerator.unlocked;
   },
 
@@ -374,78 +423,75 @@ export const Pelle = {
     GameEnd.additionalEnd = 0;
     player.isGameEnd = false;
     player.records.thisMeta.maxAM = DC.D0;
-    player.celestials.pelle = {
-      doomed: false,
-      upgrades: new Set(),
-      remnants: DC.D0,
-      realityShards: DC.D0,
-      records: {
-        totalAntimatter: DC.D0,
-        totalInfinityPoints: DC.D0,
-        totalEternityPoints: DC.D0,
-      },
-      rebuyables: {
-        antimatterDimensionMult: DC.D0,
-        timeSpeedMult: DC.D0,
-        glyphLevels: DC.D0,
-        infConversion: DC.D0,
-        galaxyPower: DC.D0,
-        galaxyGeneratorAdditive: DC.D0,
-        galaxyGeneratorMultiplicative: DC.D0,
-        galaxyGeneratorAntimatterMult: DC.D0,
-        galaxyGeneratorIPMult: DC.D0,
-        galaxyGeneratorEPMult: DC.D0,
-      },
-      rifts: {
-        vacuum: {
+
+    if (!ChallengerUpgrade(19).isBought) player.celestials.pelle.progressBits = 0;
+
+    player.celestials.pelle.upgrades = new Set();
+    player.celestials.pelle.remnants = DC.D0;
+    player.celestials.pelle.realityShards = DC.D0;
+    player.celestials.pelle.records = {
+      totalAntimatter: DC.D0,
+      totalInfinityPoints: DC.D0,
+      totalEternityPoints: DC.D0,
+    }
+
+    player.celestials.pelle.rebuyables = {
+      antimatterDimensionMult: DC.D0,
+      timeSpeedMult: DC.D0,
+      glyphLevels: DC.D0,
+      infConversion: DC.D0,
+      galaxyPower: DC.D0,
+      galaxyGeneratorAdditive: DC.D0,
+      galaxyGeneratorMultiplicative: DC.D0,
+      galaxyGeneratorAntimatterMult: DC.D0,
+      galaxyGeneratorIPMult: DC.D0,
+      galaxyGeneratorEPMult: DC.D0,
+    }
+
+    player.celestials.pelle.rifts = {
+      vacuum: {
           fill: DC.D0,
           active: false,
           reducedTo: 1
-        },
-        decay: {
+      },
+      decay: {
           fill: DC.D0,
           active: false,
           percentageSpent: 0,
           reducedTo: 1
-        },
-        chaos: {
-          fill: DC.D0,
-          active: false,
-          reducedTo: 1
-        },
-        recursion: {
-          fill: DC.D0,
-          active: false,
-          reducedTo: 1
-        },
-        paradox: {
-          fill: DC.D0,
-          active: false,
-          reducedTo: 1
-        },
-        glitch: {
-          fill: DC.D0,
-          active: false,
-          reducedTo: 1
-        }
       },
-      progressBits: 0,
-      galaxyGenerator: {
-        unlocked: false,
-        spentGalaxies: DC.D0,
-        generatedGalaxies: DC.D0,
-        phase: 0,
-        sacrificeActive: false
+      chaos: {
+          fill: DC.D0,
+          active: false,
+          reducedTo: 1
       },
-      quoteBits: 0,
-      collapsed: {
-        upgrades: false,
-        rifts: false,
-        galaxies: false
+      recursion: {
+          fill: DC.D0,
+          active: false,
+          reducedTo: 1
       },
-      showBought: false,
-    };
+      paradox: {
+          fill: DC.D0,
+          active: false,
+          reducedTo: 1
+      },
+      glitch: {
+          fill: DC.D0,
+          active: false,
+          reducedTo: 1
+      }
+    }
+
+    player.celestials.pelle.galaxyGenerator = {
+      unlocked: false,
+      spentGalaxies: DC.D0,
+      generatedGalaxies: DC.D0,
+      phase: 0,
+      sacrificeActive: false
+    }
+    
   },
+
 };
 
 EventHub.logic.on(GAME_EVENT.ARMAGEDDON_AFTER, () => {
@@ -453,6 +499,7 @@ EventHub.logic.on(GAME_EVENT.ARMAGEDDON_AFTER, () => {
     Pelle.quotes.arm.show();
   }
 });
+
 EventHub.logic.on(GAME_EVENT.PELLE_STRIKE_UNLOCKED, () => {
   if (PelleStrikes.infinity.hasStrike) {
     Pelle.quotes.strike1.show();

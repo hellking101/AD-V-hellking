@@ -417,20 +417,12 @@ export const tabs = [
     hidable: true,
     subtabs: [
       {
-        key: "celestial-navigation",
-        name: "Celestial Navigation",
-        symbol: "<i class='fas fa-map-marked-alt'></i>",
-        component: "CelestialNavigationTab",
-        id: 0,
-        hidable: true,
-      },
-      {
         key: "teresa",
         name: "Teresa",
         symbol: "Ϟ",
         component: "TeresaTab",
         condition: () => Teresa.isUnlocked,
-        id: 1,
+        id: 0,
         hidable: true,
       },
       {
@@ -439,7 +431,7 @@ export const tabs = [
         symbol: "Ϙ",
         component: "EffarigTab",
         condition: () => TeresaUnlocks.effarig.isUnlocked,
-        id: 2,
+        id: 1,
         hidable: true,
       },
       {
@@ -448,7 +440,7 @@ export const tabs = [
         symbol: "<div class='o-tab-btn--cel3'>\uf0c1</div>",
         component: "EnslavedTab",
         condition: () => EffarigUnlock.eternity.isUnlocked,
-        id: 3,
+        id: 2,
         hidable: true,
       },
       {
@@ -457,7 +449,7 @@ export const tabs = [
         symbol: "⌬",
         component: "VTab",
         condition: () => Achievement(151).isUnlocked,
-        id: 4,
+        id: 3,
         hidable: true,
       },
       {
@@ -466,7 +458,7 @@ export const tabs = [
         symbol: "<i class='fas fa-sun'></i>",
         component: "RaTab",
         condition: () => VUnlocks.raUnlock.isUnlocked,
-        id: 5,
+        id: 4,
         hidable: true,
       },
       {
@@ -475,7 +467,7 @@ export const tabs = [
         symbol: "ᛝ",
         component: "LaitelaTab",
         condition: () => Laitela.isUnlocked,
-        id: 6,
+        id: 5,
         hidable: true,
       },
       {
@@ -484,16 +476,7 @@ export const tabs = [
         symbol: "♅",
         component: "PelleTab",
         condition: () => Pelle.isUnlocked,
-        id: 7,
-        hidable: true,
-      },
-      {
-        key: "glitch",
-        name: "glitch",
-        symbol: "ὼ",
-        component: "GlitchTab",
-        condition: () => (GlitchRifts.gamma.milestones[5].effectOrDefault(0)),
-        id: 8,
+        id: 6,
         hidable: true,
       }
     ]
@@ -527,46 +510,37 @@ export const tabs = [
     subtabs: [
       {
         key: "entropy",
-        name: "entropy",
+        name: "Entropy",
         symbol: "§",
         component: "entropy",
         id: 0,
         hidable: true
       },
       {
-        key: "preinfinity",
-        name: "Antimatter",
-        symbol: "Ω",
-        component: "preinfinity",
+        key: "glitchchallenges",
+        name: "Glitch's Challenges",
+        symbol: "⨝",
+        component: "GlitchChallengesTab",
         id: 1,
         hidable: true
       },
       {
-        key: "break",
-        name: "infinity",
-        symbol: "∝",
-        component: "glitchbreak",
-        condition: () => PlayerProgress.infinityUnlocked(),
+        key: "remake",
+        name: "Challenger",
+        symbol: "⪥",
+        component: "RemakeTab",
+        condition: () =>  GlitchRifts.gamma.milestones[5].effectOrDefault(0) || Pelle.isUnlocked,
         id: 2,
-        hidable: true
+        hidable: true,
       },
       {
-        key: "eternity",
-        name: "eternity",
-        symbol: "Δ",
-        component: "glitcheternity",
-        condition: () => PlayerProgress.eternityUnlocked() || Currency.infinityPoints.gte(1e250),
+        key: "glitch",
+        name: "Glitch",
+        symbol: "ὼ",
+        component: "GlitchTab",
+        condition: () => GlitchRifts.gamma.milestones[5].effectOrDefault(0),
         id: 3,
-        hidable: true
-      },
-      {
-        key: "reality",
-        name: "reality",
-        symbol: "Ϟ",
-        component: "glitchreality",
-        condition: () => PlayerProgress.realityUnlocked() || TimeStudy.reality.isBought,
-        id: 4,
-        hidable: true
+        hidable: true,
       }
     ],
   },

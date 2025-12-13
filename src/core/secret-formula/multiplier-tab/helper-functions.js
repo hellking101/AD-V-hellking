@@ -86,7 +86,7 @@ export const MultiplierTabHelper = {
       Achievement(66),
       Achievement(83)
     );
-    let baseFrac = base.log10().div(Tickspeed.perSecond.log10());
+    let baseFrac = base.log10().div(GameCache.tickspeedPerSecond.value.log10());
 
     // We want to make sure to zero out components in some edge cases
     if (base.eq(1)) baseFrac = DC.D0;

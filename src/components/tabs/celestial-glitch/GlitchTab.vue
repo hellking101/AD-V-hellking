@@ -29,7 +29,7 @@ export default {
         ? "fas fa-expand-arrows-alt"
         : "fas fa-compress-arrows-alt";
     },
-    isDoomed: () => glitch.isDoomed,
+    isDoomed: () => Pelle.isDoomed,
     upgradesPower: () => GlitchRealityUpgrades.all,
     upgradesSpeed: () => GlitchSpeedUpgrades.all,
   },
@@ -43,12 +43,13 @@ export default {
       riftForce: "RIP",
       collapsedPower: false,
       collapsedSpeed: false,
-      completions: 0,
+      unlockedSpeed: false,
+      RFGain: new Decimal()
     };
   },
   methods: {
     update() {
-      this.completions = player.records.fullGameCompletions;
+      this.unlockedSpeed = HardChallengerUpgrade(2).isBought;
       this.collapsedPower = player.celestials.glitch.collapsed.forpower;
       this.collapsedSpeed = player.celestials.glitch.collapsed.forspeed;
       this.isRunning = Glitch.isRunning;
@@ -56,7 +57,7 @@ export default {
       this.bits = Glitch.augmentEffectBits;
       this.augments = makeEnumeration(Glitch.activeAugments);
       this.riftForce = format(Currency.riftForce.value,2);
-      this.RFGain = Glitch.riftForceGain;
+      this.RFGain.copyFrom(Glitch.riftForceGain);
     },
     sName(){
       if(player.options.themeModern == "S15") return "Teresa-Glitch's";
@@ -112,7 +113,7 @@ export default {
 
     <div class="c-glitch-compact-top">
       <div>
-        <p>you have <span class="o-riftForce">{{ riftForce}}</span> RiftForce +<span class="o-riftForce">{{format(RFGain)}}</span>/s </p>
+        <p>you have <span class="o-riftForce">{{ riftForce}}</span> RiftForce +<span class="o-riftForce">{{format(RFGain, 2, 2)}}</span>/s </p>
         
         <CelestialQuoteHistory celestial="glitch"/>
         <GlitchRunButton />
@@ -178,7 +179,7 @@ export default {
     </div>
 
     <div
-    v-if="completions > 0"
+    v-if="unlockedSpeed"
     class="l-glitch-panel-container">
       <div class="c-glitch-panel-title">
         <i
@@ -199,7 +200,7 @@ export default {
         </div>
     
         <div
-        v-for="row in 1"
+        v-for="row in 2"
         :key="row"
         class="l-reality-upgrade-grid__row">
           

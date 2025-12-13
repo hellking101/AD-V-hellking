@@ -327,3 +327,96 @@ export const realityUGs = {
     return (player.glitch.reality.upgradebits >> 1) + 1 === 1 << (GameDatabase.glitch.realityUG.length - 1);
   }
 };
+
+
+class ChallengerUpgradeState extends BitPurchasableMechanicState {
+  constructor(config) {
+    super(config);
+    this.registerEvents(config.checkEvent, () => this.tryUnlock());
+  }
+
+  get name() {
+    return this.config.name;
+  }
+
+  get description() {
+    return this.config.description ? this.config.description() : "";
+  }
+
+  get currency() {
+    return Currency.challengersEssence;
+  }
+
+  get bitIndex() {
+    return this.id;
+  }
+
+  get bits() {
+    return player.glitch.challengerUpgradebits;
+  }
+
+  set bits(value) {
+    player.glitch.challengerUpgradebits = value;
+  }
+
+}
+
+ChallengerUpgradeState.index = mapGameData(
+  GameDatabase.glitch.ChallengerUpgrades,
+  config => new ChallengerUpgradeState(config)
+);
+
+export const ChallengerUpgrade = id => ChallengerUpgradeState.index[id];
+
+export const ChallengerUpgrades = {
+  all: ChallengerUpgradeState.index.compact(),
+  get allBought() {
+    return (player.glitch.challengerUpgradebits + 1)  === 1 << GameDatabase.glitch.ChallengerUpgrades.length;
+  }
+};
+
+class HardChallengerUpgradeState extends BitPurchasableMechanicState {
+  constructor(config) {
+    super(config);
+    this.registerEvents(config.checkEvent, () => this.tryUnlock());
+  }
+
+  get name() {
+    return this.config.name;
+  }
+
+  get description() {
+    return this.config.description ? this.config.description() : "";
+  }
+
+  get currency() {
+    return Currency.challengersEssence;
+  }
+
+  get bitIndex() {
+    return this.id;
+  }
+
+  get bits() {
+    return player.glitch.hardChallengerUpgradebits;
+  }
+
+  set bits(value) {
+    player.glitch.hardChallengerUpgradebits = value;
+  }
+
+}
+
+HardChallengerUpgradeState.index = mapGameData(
+  GameDatabase.glitch.HardChallengerUpgrades,
+  config => new HardChallengerUpgradeState(config)
+);
+
+export const HardChallengerUpgrade = id => HardChallengerUpgradeState.index[id];
+
+export const HardChallengerUpgrades = {
+  all: HardChallengerUpgradeState.index.compact(),
+  get allBought() {
+    return (player.glitch.hardChallengerUpgradebits + 1)  === 1 << GameDatabase.glitch.HardChallengerUpgrades.length;
+  }
+};

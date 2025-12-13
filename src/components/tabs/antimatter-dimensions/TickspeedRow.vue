@@ -57,7 +57,7 @@ export default {
       this.mult.copyFrom(Tickspeed.multiplier);
       this.cost.copyFrom(Tickspeed.cost);
       this.isAffordable = Tickspeed.isAvailableForPurchase && Tickspeed.isAffordable;
-      this.tickspeed.copyFrom(Tickspeed.perSecond);
+      this.tickspeed.copyFrom(GameCache.tickspeedPerSecond.value);
       this.gameSpeedMult = getGameSpeedupForDisplay();
       this.galaxyCount.copyFrom(player.galaxies);
       this.isContinuumActive = Laitela.continuumActive;

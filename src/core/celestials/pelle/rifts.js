@@ -165,14 +165,14 @@ class RiftState extends GameMechanicState {
         const spent = this.fillCurrency.value.sub(afterTickAmount);
         // We limit this to 1 instead of 0 specifically for the case of replicanti; certain interactions with offline
         // time can cause it to drain to 0, where it gets stuck unless you reset it with some prestige
-        this.fillCurrency.value = this.fillCurrency.value.minus(spent).max(1);
+        if (!ChallengerUpgrade(19).isBought) this.fillCurrency.value = this.fillCurrency.value.minus(spent).max(1);
         this.totalFill = this.totalFill.plus(spent).min(this.maxValue);
       }
     } else {
       // eslint-disable-next-line max-len
       const afterTickAmount = this.fillCurrency.value * (Decimal.pow(1 - Pelle.riftDrainPercent, diff.div(100))).toNumber();
       const spent = this.fillCurrency.value - afterTickAmount;
-      this.fillCurrency.value = Math.max(this.fillCurrency.value - spent, 0);
+      if (!ChallengerUpgrade(19).isBought) this.fillCurrency.value = Math.max(this.fillCurrency.value - spent, 0);
       this.totalFill = Decimal.clampMax(this.totalFill.add(spent), this.maxValue);
     }
     if (PelleRifts.vacuum.milestones[0].canBeApplied) Glyphs.refreshActive();

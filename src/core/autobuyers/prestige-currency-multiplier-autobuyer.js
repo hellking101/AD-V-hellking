@@ -10,6 +10,7 @@ export class IPMultAutobuyerState extends AutobuyerState {
   }
 
   get isUnlocked() {
+    if (ChallengerUpgrade(7).isBought) return EternityMilestone.autobuyerIPMult.isReached;
     return EternityMilestone.autobuyerIPMult.isReached && !Pelle.isDoomed;
   }
 
@@ -32,6 +33,7 @@ export class EPMultAutobuyerState extends AutobuyerState {
   }
 
   get isUnlocked() {
+    if (ChallengerUpgrade(7).isBought) return RealityUpgrade(13).isBought;
     return RealityUpgrade(13).isBought && !Pelle.isDoomed;
   }
 

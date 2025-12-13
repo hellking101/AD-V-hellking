@@ -1,11 +1,10 @@
 export const metaMilestones = {
     metaProgress: {
         event: GAME_EVENT.META_RESET_AFTER,
-        reward: () => `Glitch Challenges can be completed at any time, you also gain a ${
-            format(Decimal.mul(1.15, MetaMilestone.metaBoost.isReached ? MetaMilestone.metaBoost.effectOrDefault(1) : 1), 2, 2)
-            } power to IP,EP,RM, Ra memory gain and Replicanti interval,
-             you also gain additional Meta Relays equal to your meta count`,
-        effect: () => Decimal.mul(1.15, MetaMilestone.metaBoost.isReached ? MetaMilestone.metaBoost.effectOrDefault(1) : 1),
+        reward: () => `Glitch Challenges can be completed at any time, you also gain a ${format(1.15, 2, 2)}
+            power to IP,EP,RM, Ra memory gain and Replicanti interval,
+            you also gain additional Meta Relays equal to your meta count`,
+        effect: () => 1.15,
         condition: () => Currency.metas.gte(1),
         req: "1 Meta"
     },

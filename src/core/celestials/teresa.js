@@ -16,7 +16,7 @@ export const Teresa = {
   pourRM(diff) {
     if (this.pouredAmount >= Teresa.pouredAmountCap) return;
     this.timePoured += diff;
-    const rm = Currency.realityMachines.value.max(1e100);
+    const rm = Currency.realityMachines.value.min(1e100);
     const rmPoured = Math.min((this.pouredAmount + 1e6) * 0.1 * Math.pow(this.timePoured, 2), rm.toNumber());
     this.pouredAmount += Math.min(rmPoured, Teresa.pouredAmountCap - this.pouredAmount);
     Currency.realityMachines.subtract(rmPoured);
@@ -34,7 +34,7 @@ export const Teresa = {
   rewardMultiplier(antimatter) {
     let effect = Decimal.max(Decimal.pow(antimatter.plus(1).log10().div(1.5e8), 12), 1);
     if (effect.gte(1e100)) effect = effect.mul(effect.div(1e100).pow(2));
-    return GlitchRealityUpgrade(12).isBought ? effect.pow(1.5) : effect;
+    return GlitchRealityUpgrade(12).isBought ? effect.pow(1.05) : effect;
   },
   get pouredAmount() {
     return player.celestials.teresa.pouredAmount;
@@ -139,6 +139,7 @@ class TeresaUnlockState extends BitUpgradeState {
   }
 
   get pelleDisabled() {
+    if (ChallengerUpgrade(12).isBought) return false;
     return Pelle.isDoomed && this.config.isDisabledInDoomed;
   }
 

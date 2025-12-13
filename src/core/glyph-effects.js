@@ -115,6 +115,7 @@ class GlyphEffectConfig {
   }
 
   get isDisabledByDoomed() {
+    if (ChallengerUpgrade(21).isBought) return false;
     return Pelle.isDoomed && !this._enabledInDoomed;
   }
 

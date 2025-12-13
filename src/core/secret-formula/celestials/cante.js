@@ -1,23 +1,22 @@
-import { Currency } from "../../currency";
 import wordShift from "@/core/word-shift";
 
 export const cante = {
   repUnlocks:[
     {
-        unlock: () => `Have ${format(1e20)} Metas`,
-        condition: () => Currency.metas.gt(1e20),
+        unlock: () => `Have ${format(1e7)} Metas`,
+        condition: () => Currency.metas.gt(1e7),
     },
     {
         unlock: () => `Have ${format(1e10)} Artificial Matter`,
         condition: () => Currency.artificialMatter.gt(1e10),
     },
     {
-        unlock: () => `Have ${format(1e55)} Meta Relays`,
-        condition: () => Currency.metaRelays.gte(1e55),
+        unlock: () => `Unlock Null`,
+        condition: () => Null.isUnlocked,
     },
     {
-        unlock: () => `Have ${format(1e100)} Artificial Matter and ${format(1e75)} Meta Relays`,
-        condition: () => Currency.artificialMatter.gt(1e100) && Currency.metaRelays.gte(1e75),
+        unlock: () => `Have ${format(1e100)} Artificial Matter`,
+        condition: () => Currency.artificialMatter.gt(1e100),
     },
     {
         unlock: () => `Unlocked Via upgrade`,
@@ -32,12 +31,12 @@ export const cante = {
         condition: () => Currency.chaosMatter.gte(1000),
     },
     {
-        unlock: () => `Have ${format('e3500')} Meta Relays`,
-        condition: () => Currency.metaRelays.gte('e3500'),
+        unlock: () => `Have ${format(1000)} Chaotic Matter`,
+        condition: () => Currency.chaosMatter.gte(1e7),
     },
     {
-        unlock: () => `Have ${format('e8000')} MR, ${format('ee12')} ArtM and ${format(1e15)} CM`,
-        condition: () => Currency.artificialMatter.gt('ee12') && Currency.metaRelays.gte('e8000') && Currency.chaosMatter.gte(1e15),
+        unlock: () => `Have ${format('ee12')} ArtM and ${format(1e15)} CM`,
+        condition: () => Currency.artificialMatter.gt('ee12') && Currency.chaosMatter.gte(1e15),
     },
     {
         unlock: () => `Have ${format('ee9')} Artificial Matter and Null unlocked`,

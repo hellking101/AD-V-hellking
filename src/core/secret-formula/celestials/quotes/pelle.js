@@ -43,6 +43,7 @@ const usurper =      ["Usurper",       "Deity",         "Monarch"];
 const pride =        ["Pride",         "Deity",         "Monarch"];
 const forgotten =    ["Forgotten",     "Deity",         "Monarch"];
 const paramount =    ["Paramount",     "Deity",         "Monarch"];
+
 const resolve =      ["resolve",       "fix",            "repair"];
 const never =        ["never",   "gonna",   "give",  "you",  "up"];
 /* eslint-enable no-multi-spaces */
@@ -474,6 +475,21 @@ export const pelleQuotes = {
       "UP",
       {text: "Why did Pelle say that?", displayed: () => CanteUpgrades.all[19].isUnlocked, name: "Glitch", background: celBackground('glitch'), glitched: true},
       {text: "That wasn't part of the script.", displayed: () => CanteUpgrades.all[19].isUnlocked, name: "Glitch", background: celBackground('glitch'), glitched: true},
+    ],
+  },
+  pellesChallenger: {
+    id: 13,
+    lines: [
+      "What? Your back?",
+      "What is your plan?",
+      "Even with my vast knowlege.",
+      "I'm baffled, only left with confusion.",
+      "You were supposed be here.",
+      "But not in this state.",
+      "You are much more powerful than anticipated.",
+      "Take back your power...",
+      "It's yours after all... isn't it?",
+      { text: "I'm still the $1 of Antimatter after all. You are powerless against me", 1:lesser},
     ],
   },
 };

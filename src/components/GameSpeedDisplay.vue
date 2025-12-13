@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     update() {
-      this.baseSpeed = getGameSpeedupFactor();
+      this.baseSpeed = GameCache.gameSpeed.value;
       this.pulsedSpeed = getGameSpeedupForDisplay();
       this.hasSeenAlteredSpeed = PlayerProgress.seenAlteredSpeed();
       this.isStopped = Enslaved.isStoringRealTime;

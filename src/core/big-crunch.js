@@ -135,11 +135,11 @@ export function bigCrunchResetValues(enteringAntimatterChallenge) {
   secondSoftReset(enteringAntimatterChallenge);
 
   let remainingGalaxies = DC.D0;
-  if (Achievement(95).isUnlocked && !Pelle.isDoomed) {
+  if (Achievement(95).isEffectActive) {
     Replicanti.amount = currentReplicanti;
     remainingGalaxies = remainingGalaxies.add(Decimal.min(currentReplicantiGalaxies, 1));
   }
-  if (TimeStudy(33).isBought && !Pelle.isDoomed) {
+  if (TimeStudy(33).isEffectActive) {
     remainingGalaxies = remainingGalaxies.add(Decimal.floor(currentReplicantiGalaxies.div(2)));
   }
 

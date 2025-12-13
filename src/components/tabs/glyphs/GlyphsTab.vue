@@ -81,9 +81,8 @@ export default {
       this.sacrificeDisplayed = player.reality.showGlyphSacrifice;
       if (!Enslaved.isRunning) return;
       const haveBoost = Glyphs.activeWithoutCompanion.find(e => e.level.lt(Enslaved.glyphLevelMin)) !== undefined;
-      if (haveBoost) {
-        this.enslavedHint = "done... what little... I can... with Glyphs...";
-      }
+      if (haveBoost) this.enslavedHint = "done... what little... I can... with Glyphs...";
+      
     },
     toggleAutoRestartCelestial() {
       player.options.retryCelestial = !player.options.retryCelestial;

@@ -242,7 +242,7 @@ export default {
     size: {
       type: String,
       required: false,
-      default: "5rem",
+      default: "4rem",
     },
     glowBlur: {
       type: String,

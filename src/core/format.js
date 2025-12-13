@@ -218,7 +218,8 @@ const pluralDatabase = new Map([
   ["Artificial Matter", "Artificial Matter"],
   ["Chaotic Matter", "Chaotic Matter"],
   ["Abyssal Matter", "Abyssal Matter"],
-  ["Corrupt Matter", "Corrupt Matter"]
+  ["Corrupt Matter", "Corrupt Matter"],
+  ["Challengers Essence", "Challengers Essence"],
 ]);
 
 /**

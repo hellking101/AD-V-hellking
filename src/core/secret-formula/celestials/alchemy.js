@@ -468,7 +468,7 @@ export const alchemyResources = {
     name: "Sifter",
     symbol: "∬",
     isBaseResource: false,
-    effect: amount => amount.pow(0.9).floor(),
+    effect: amount => amount.mul(0.95).floor(),
     tier: 5,
     unlockedAt: 30,
     description: "boost all Basic Alchemy Resources amounts to a minimum amount",

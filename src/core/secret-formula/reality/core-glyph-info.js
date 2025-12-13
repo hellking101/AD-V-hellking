@@ -51,15 +51,15 @@ const complexIncludes = (x, filterItem) => x.map(n => n().includes(filterItem)).
 
 export const GlyphInfo = {
   glyphTypes: [
-    "cursed",
-    "reality",
-    "glitch",
-    "effarig",
     "power",
     "infinity",
     "replication",
     "time",
     "dilation",
+    "cursed",
+    "reality",
+    "glitch",
+    "effarig",
     "companion",
   ],
 
@@ -106,8 +106,8 @@ export const GlyphInfo = {
       name: "Overwhelming",
       darkColor: "#c70295",
       lightColor: "#c70295",
-      darkHighContrast: "#ea70ff",
-      lightHighContrast: "#ea70ff"
+      darkHighContrast: "#f2aaff",
+      lightHighContrast: "#f2aaff"
     }, {
       minStrength: 3.5,
       name: "Celestial",
@@ -178,7 +178,7 @@ export const GlyphInfo = {
     cancerGlyphSymbol: "☠",
     hasSacrifice: false,
     hasAlchemyResource: false,
-    pelleUniqueEffect: false,
+    pelleUniqueEffect: true,
     isGenerated: false,
     canCustomize: () => V.isHard,
     adjNounImportance: 6,
@@ -208,7 +208,7 @@ export const GlyphInfo = {
       cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
     },
     hasAlchemyResource: true,
-    pelleUniqueEffect: false,
+    pelleUniqueEffect: true,
     isGenerated: false,
     canCustomize: () => player.reality.glyphs.createdRealityGlyph,
     adjNounImportance: 4,
@@ -232,14 +232,14 @@ export const GlyphInfo = {
         if (Pelle.isDisabled("glyphsac")) return DC.D0;
       const sac = player.reality.glyphs.sac.effarig.add(added ?? 0);
       // This doesn't use the GlyphSacrificeHandler cap because it hits its cap (+100%) earlier
-      const capped = Decimal.clampMax(sac, Achievement(192).isUnlocked ? "1e1E10" : 1e70);
+      const capped = Decimal.clampMax(sac, Achievement(192).isUnlocked ? DC.EE10 : 1e70);
       return capped.div(1e20).add(1).log10().mul(2);
       },
       description: amount => `+${formatPercents(amount.div(100), 2)} additional Glyph rarity`,
       cap: () => Achievement(192).isUnlocked ? undefined : 1e70
     },
     hasAlchemyResource: true,
-    pelleUniqueEffect: false,
+    pelleUniqueEffect: true,
     isGenerated: true,
     generationRequirement: () => EffarigUnlock.reality.isUnlocked,
     canCustomize: () => EffarigUnlock.reality.isUnlocked,
@@ -420,7 +420,7 @@ export const GlyphInfo = {
     hasSacrifice: true,
     sacrificeInfo: {
       effect: added => {
-        if (Pelle.isDisabled("glyphsac")) return DC.D0;
+        if (Pelle.isDisabled("glyphsac")) return DC.D1;
       const sac = player.reality.glyphs.sac.dilation.add(added ?? 0);
       const capped = Decimal.clampMax(sac, GlyphSacrificeHandler.maxSacrificeForEffects);
       const exponent = Decimal.pow(new Decimal(Decimal.log10(capped.add(1))).mul(0.32).div(
@@ -443,7 +443,7 @@ export const GlyphInfo = {
     id: "glitch",
     effects: () => GlyphEffects.all.filter(e => complexIncludes(e.glyphTypes, "glitch")),
     effectIDs: ["glitchChaosPow", "glitchADCelPow"],
-    adjective: "Real",
+    adjective: "Glitched",
     noun: "Glitched",
     isBasic: false,
     regularGlyphSymbol: "ὣ",
@@ -452,10 +452,10 @@ export const GlyphInfo = {
     sacrificeInfo: {
       id: "glitch",
       effect: added => {
-        const sac = player.reality.glyphs.sac.glitch.add(added ?? 0);
-      return sac.pow(0.85).div(15).add(1);
+      const sac = player.reality.glyphs.sac.glitch.add(added ?? 0);
+      return sac.add(1).pow(0.9);
       },
-      description: amount => `Multiply Chaos Dimensions by ${formatX(amount, 2, 3)}`,
+      description: amount => `Chaos Dimensions multiplier ${formatX(amount, 2, 3)}`,
       cap: () => GlyphSacrificeHandler.maxSacrificeForEffects
     },
     hasAlchemyResource: true,

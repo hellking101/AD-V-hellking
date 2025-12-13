@@ -74,7 +74,7 @@ export default {
       const upgrade = this.upgrade;
       this.isBought = upgrade.isBought || upgrade.isCapped;
       this.chargePossible = Ra.unlocks.chargedInfinityUpgrades.canBeApplied &&
-        upgrade.hasChargeEffect && !Pelle.isDoomed;
+        upgrade.hasChargeEffect && (!Pelle.isDoomed || ChallengerUpgrade(16).isBought);
       this.canBeBought = upgrade.canBeBought;
       this.canBeCharged = upgrade.canCharge;
       this.isCharged = upgrade.isCharged;

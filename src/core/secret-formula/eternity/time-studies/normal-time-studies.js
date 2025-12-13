@@ -452,7 +452,7 @@ export const normalTimeStudies = [
   {
     id: 191,
     cost: new Decimal (400),
-    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied && !Pelle.isDoomed)],
+    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied)],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     description: () => `After Eternity you permanently keep ${formatPercents(0.05)}
     of your Infinities as Banked Infinities`,
@@ -461,7 +461,7 @@ export const normalTimeStudies = [
   {
     id: 192,
     cost: new Decimal(730),
-    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied && !Pelle.isDoomed), () => !Enslaved.isRunning],
+    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied), () => !Enslaved.isRunning],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     description: () => (Enslaved.isRunning
       ? "There is not enough space in this Reality"
@@ -470,7 +470,7 @@ export const normalTimeStudies = [
   {
     id: 193,
     cost: new Decimal(300),
-    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied && !Pelle.isDoomed)],
+    requirement: [181, () => EternityChallenge(10).completions > 0 || (EffarigUnlock.EC10Requirement.canBeApplied)],
     reqType: TS_REQUIREMENT_TYPE.ALL,
     description: "Antimatter Dimension multiplier based on Eternities",
     effect: () => (DC.E13000.pow(Currency.eternities.value.div(1e6).clampMax(1))),
@@ -534,6 +534,7 @@ export const normalTimeStudies = [
     requiresST: [222],
     description: "Time Dimension multiplier based on Dimension Boosts",
     effect: () => DC.D1_0025.pow(DimBoost.totalBoosts),
+    cap: DC.EE35,
     formatEffect: value => formatX(value, 2, 1)
   },
   {
@@ -568,7 +569,8 @@ export const normalTimeStudies = [
       return `Distant Galaxy cost scaling starts ${quantifyInt("Galaxy", effect)} later
         (${formatInt(1)} per ${formatInt(2000)} Dim Boosts)`;
     },
-    effect: () => Decimal.floor(DimBoost.totalBoosts.div(2000))
+    effect: () => Decimal.floor(DimBoost.totalBoosts.div(2000)),
+    cap: 100000,
   },
   {
     id: 225,
@@ -669,6 +671,7 @@ export const normalTimeStudies = [
     description: "Time Study 231 improves the effect of Time Study 221",
     effect: () => TimeStudy(221).effectValue.pow(TimeStudy(231).effectValue.minus(1)).clampMin(1),
     formatEffect: value => formatX(value, 2, 1),
+    cap: DC.EE35,
     unlocked: () => Ra.unlocks.unlockHardV.effectOrDefault(0) >= 1
   },
   {
@@ -714,7 +717,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.ALL,
     requiresST: [() => true],
     description: "Antimatter Dimension Power based on STs",
-    effect: () => V.isRunningExtreme ? V.spaceTheorems.pow(0.8).div(20).max(1) : V.spaceTheorems.pow(0.8).div(3).max(1),
+    effect: () => V.spaceTheorems.pow(0.66).div(10).max(1),
     formatEffect: value => formatPow(value, 2, 1),
     unlocked: () => VUnlocks.newStudies.isUnlocked
   },
@@ -726,7 +729,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.ALL,
     requiresST: [() => true],
     description: () => `Tickspeed Power based on TSs`,
-    effect: () => V.isRunningExtreme ? V.spaceTheorems.pow(0.92).div(18).max(1) : V.spaceTheorems.pow(0.85).div(3).max(1),
+    effect: () => V.spaceTheorems.pow(0.5).div(10).max(1),
     formatEffect: value => formatPow(value, 2, 1),
     unlocked: () =>  VUnlocks.newStudies.isUnlocked
   },
@@ -738,7 +741,7 @@ export const normalTimeStudies = [
     reqType: TS_REQUIREMENT_TYPE.ALL,
     requiresST: [() => true],
     description: () => `8th ID purchase cap is higher based on STs`,
-    effect: () => V.spaceTheorems.pow(0.2).max(1),
+    effect: () => V.spaceTheorems.pow(0.125).max(1),
     formatEffect: value => formatPow(value, 2, 1),
     unlocked: () => VUnlocks.newStudies.isUnlocked
   },

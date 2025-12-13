@@ -111,7 +111,7 @@ export default {
 .c-cycle-num {
   top: -15px;
   left: 10px;
-  width: 80px;
+  width: 85px;
   z-index: 2;
   position: absolute;
   color: var(--color-text);

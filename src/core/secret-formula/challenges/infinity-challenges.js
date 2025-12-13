@@ -85,7 +85,7 @@ export const infinityChallenges = [
     formatEffect: value => `/${format(value, 1, 2)}`,
     reward: {
       description: "Infinity Dimension multiplier based on tickspeed",
-      effect: () => Tickspeed.perSecond.pow(0.0005),
+      effect: () => GameCache.tickspeedPerSecond.value.pow(0.0005),
       formatEffect: value => formatX(value, 2, 2)
     },
     unlockAM: DC.E22500,
@@ -127,6 +127,7 @@ export const infinityChallenges = [
       description:
         "You get a multiplier to AD 2-7 based on 1st and 8th AD multipliers.",
       effect: () => AntimatterDimension(1).multiplier.times(AntimatterDimension(8).multiplier).pow(0.02),
+      cap: DC.EE35,
       formatEffect: value => formatX(value, 2, 2)
     },
     unlockAM: DC.E28000,

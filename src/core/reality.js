@@ -667,6 +667,8 @@ export function finishProcessReality(realityProps) {
     player.records.bestReality.bestEPSet = Glyphs.copyForRecords(Glyphs.active.filter(g => g !== null));
   }
 
+  if (Pelle.joined && !Pelle.isDoomed) Pelle.reset();
+
   const realityRealTime = player.records.thisReality.realTime;
   const isReset = realityProps.reset;
   if (!isReset) giveRealityRewards(realityProps);

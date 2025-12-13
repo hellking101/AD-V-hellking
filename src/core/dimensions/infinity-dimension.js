@@ -140,7 +140,7 @@ class InfinityDimensionState extends DimensionState {
       return production;
     }
     if (EternityChallenge(7).isRunning) {
-      production = production.times(Tickspeed.perSecond);
+      production = production.times(GameCache.tickspeedPerSecond.value);
     }
     return production.times(this.multiplier);
   }
@@ -154,8 +154,8 @@ class InfinityDimensionState extends DimensionState {
         tier === 4 ? TimeStudy(72) : null,
         tier === 1 ? EternityChallenge(2).reward : null
       );
-    const bought = tier === 8 ? Decimal.clampMax(this.baseAmount.div(10), Decimal.pow(1e12, TimeStudy(403).effectOrDefault(1))) : this.baseAmount.div(10);
-    mult = mult.times(Decimal.pow(this.powerMultiplier, Decimal.floor( tier === 8 ? bought.min(1e12) : bought)));
+    const bought = this.baseAmount.div(10);
+    mult = mult.times(Decimal.pow(this.powerMultiplier, Decimal.floor( tier === 8 ? bought.min(Decimal.pow(1e15, TimeStudy(403).effectOrDefault(1))) : bought)));
 
 
     if (tier === 1) {
@@ -172,7 +172,7 @@ class InfinityDimensionState extends DimensionState {
     mult = mult.pow(PerkShopUpgrade.infinityPow.effectOrDefault(1));
     mult = mult.pow(MetaFabricatorUpgrades.all[1].effectOrDefault(1));
 
-    if (player.dilation.active || PelleStrikes.dilation.hasStrike) {
+    if (player.dilation.active) {
       mult = dilatedValueOf(mult);
     }
 
@@ -191,11 +191,9 @@ class InfinityDimensionState extends DimensionState {
 
     if(Glitch.isRunning) mult = mult.pow(Glitch.IDnerf);
 
-    if (PelleStrikes.powerGalaxies.hasStrike) {
+    if (!Pelle.joined && PelleStrikes.powerGalaxies.hasStrike) {
       mult = mult.pow(0.5);
     }
-
-    if(mult.gte("1e1E21")) mult = mult.div(mult.div("1e1E21").pow( MetaFabricatorUpgrade(15).isBought ? 0.95 : 0.99));
 
     return mult;
   }
@@ -435,6 +433,6 @@ export const InfinityDimensions = {
   get powerConversionRate() {
     return getAdjustedGlyphEffect("infinityrate").add(7)
       .add(PelleUpgrade.infConversion.effectOrDefault(DC.D0)).add(GlitchRifts.beta.milestones[0].effectOrDefault(DC.D0)
-      .add(GlitchRifts.beta.milestones[1].effectOrDefault(DC.D0))).mul(PelleRifts.paradox.milestones[2].effectOrDefault(1));
+      .add(GlitchRifts.beta.milestones[1].effectOrDefault(DC.D0))).mul(PelleRifts.paradox.milestones[2].effectOrDefault(DC.D1).max(1));
   }
 };

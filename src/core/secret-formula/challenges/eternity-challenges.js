@@ -13,7 +13,7 @@ export const eternityChallenges = [
     reward: {
       description: "Time Dimension multiplier based on time spent this Eternity",
       effect: completions =>
-        Decimal.pow(Decimal.max(player.records.thisEternity.time.div(10), 0.9), 0.3 + (completions * 0.05)),
+        Decimal.pow(Decimal.max(player.records.thisEternity.time.div(10), 0.9), 0.3 + (completions * 0.05)).add(1),
       formatEffect: value => formatX(value, 2, 1)
     },
     // These will get notation-formatted and scrambled between for the final goal
@@ -109,6 +109,7 @@ export const eternityChallenges = [
     reward: {
       description: "1st Time Dimension produces 8th Infinity Dimensions",
       effect: completions => TimeDimension(1).productionPerSecond.pow(completions * 0.2).minus(1).clampMin(0),
+      cap: new Decimal('ee12'),
       formatEffect: value => `${format(value, 2, 1)} per second`
     }
   },

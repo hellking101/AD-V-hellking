@@ -1560,6 +1560,16 @@ export const devMigrations = {
       player.celestials.v.runGlyphs.push([]);
       
     },
+    player => { // pelle compleation changes
+      player.pelleResets = player.records.fullGameCompletions;
+      player.records.fullGameCompletions = 0;
+    },
+    player => { // pelle autobuyers
+      player.auto.dilationUpgrades.all =  Array.range(0, 6).map(() => ({
+        isActive: true,
+        lastTick: 0,
+      }))
+    },
   ],
 
   patch(player) {

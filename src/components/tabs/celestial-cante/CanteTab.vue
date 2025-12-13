@@ -98,14 +98,10 @@ export default {
         You Have <span style="font-size: 2.5rem; color: var(--color-cante--base)">{{ format(artMatter, 2, 2) }}</span> Artificial Matter
         <span v-if="data.hasPurge">
           And <span style="font-size: 2.5rem; color: #ff5555">{{ format(chaosMatter, 2, 2) }}</span> Chaotic Matter
+          Chaos Matter amplifies the per purchase multiplier, base multiplier and ArtM effect.
         </span><br>
-        Which multiplies Meta Relay gain up to {{ format(chaosEffect, 2, 2) }} Artificial Matter.
-        <span v-if="data.hasPurge">
-          Which amplifies the per purchase multiplier, base multiplier and ArtM effect.
-        </span><br>
-        <br>
-        shift clicking buys max
-        softcaps
+        Shift clicking buys max <br>
+        Hover for softcaps
         <span v-tooltip="softCaps()"><i class="fas fa-question-circle"></i></span><br>
 
       </div><br>

@@ -19,6 +19,10 @@ export class PlayerProgress {
     return new Decimal(this._player?.meta?.metas).gt(0);
   }
 
+  get hasPelleCompletion() {
+    return new Decimal(this._player?.pelleResets).gt(0);
+  }
+
   get hasFullCompletion() {
     return this._player.records?.fullGameCompletions > 0;
   }

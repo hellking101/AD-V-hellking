@@ -20,7 +20,8 @@ export const infinityUpgrades = {
       effect: () =>
         Decimal.log10(Decimal.log10(Time.thisMetaTime.totalMilliseconds))
           .times(Decimal.pow(Ra.pets.teresa.level, 0.5)).div(150).add(1),
-      formatEffect: value => formatPow(value, 4, 4)
+      formatEffect: value => formatPow(value, 4, 4),
+      cap: 2
     }
   },
   dim18mult: {
@@ -33,7 +34,8 @@ export const infinityUpgrades = {
     charged: {
       description: "1st and 8th Antimatter Dimensions gain a power effect based on Infinities and Teresa level",
       effect: () => chargedDimInfinityMult(),
-      formatEffect: value => formatPow(value, 4, 4)
+      formatEffect: value => formatPow(value, 4, 4),
+      cap: 1.2
     }
   },
   dim27mult: {
@@ -46,7 +48,8 @@ export const infinityUpgrades = {
     charged: {
       description: "2nd and 7th Antimatter Dimensions gain a power effect based on Infinities and Teresa level",
       effect: () => chargedDimInfinityMult(),
-      formatEffect: value => formatPow(value, 4, 4)
+      formatEffect: value => formatPow(value, 4, 4),
+      cap: 1.2
     }
   },
   dim36mult: {
@@ -59,7 +62,8 @@ export const infinityUpgrades = {
     charged: {
       description: "3rd and 6th Antimatter Dimensions gain a power effect based on Infinities and Teresa level",
       effect: () => chargedDimInfinityMult(),
-      formatEffect: value => formatPow(value, 4, 4)
+      formatEffect: value => formatPow(value, 4, 4),
+      cap: 1.2
     }
   },
   dim45mult: {
@@ -72,7 +76,8 @@ export const infinityUpgrades = {
     charged: {
       description: "4th and 5th Antimatter Dimensions gain a power effect based on Infinities and Teresa level",
       effect: () => chargedDimInfinityMult(),
-      formatEffect: value => formatPow(value, 4, 4)
+      formatEffect: value => formatPow(value, 4, 4),
+      cap: 1.2
     }
   },
   resetBoost: {
@@ -125,7 +130,8 @@ export const infinityUpgrades = {
       effect: () => 
         Decimal.log10(Decimal.log10(Time.thisInfinity.totalMilliseconds.add(100)))
           .times(Math.sqrt(Ra.pets.teresa.level)).div(150).add(1),
-      formatEffect: value => formatPow(value, 4, 4)
+          formatEffect: value => formatPow(value, 4, 4),
+          cap: 2
     }
   },
   unspentIPMult: {
@@ -135,10 +141,12 @@ export const infinityUpgrades = {
     description: "Multiplier to 1st Antimatter Dimension based on unspent Infinity Points",
     effect: () => Currency.infinityPoints.value.dividedBy(2).pow(1.5).plus(1),
     formatEffect: value => formatX(value, 2, 2),
+    cap: DC.EE16,
     charged: {
       description: "Multiplier to 1st Antimatter Dimension based on unspent Infinity Points, powered by Teresa level",
       effect: () => Currency.infinityPoints.value.dividedBy(2).pow(Math.sqrt(Ra.pets.teresa.level) * 1.5).plus(1),
-      formatEffect: value => formatX(value, 2, 2)
+      formatEffect: value => formatX(value, 2, 2),
+      cap: DC.EE16
     }
   },
   dimboostMult: {
@@ -160,9 +168,9 @@ export const infinityUpgrades = {
     checkRequirement: () => InfinityUpgrade.dimboostMult.isBought,
     description: () => `Passively generate Infinity Points ${formatInt(10)} times slower than your fastest Infinity`,
     // Cutting corners: this is not actual effect, but it is totalIPMult that is displyed on upgrade
-    effect: () => (Teresa.isRunning || V.isRunning || Pelle.isDoomed ? DC.D0 : GameCache.totalIPMult.value),
+    effect: () => (Teresa.isRunning || V.isRunning || V.isRunningExtreme || Pelle.isDoomed ? DC.D0 : GameCache.totalIPMult.value),
     formatEffect: value => {
-      if (Teresa.isRunning || V.isRunning) return "Disabled in this reality";
+      if (Teresa.isRunning || V.isRunning || V.isRunningExtreme) return "Disabled in this reality";
       if (Pelle.isDoomed) return "Disabled";
       if (player.records.bestInfinity.time.gte(DC.BEMAX.log10())) return "Too slow to generate";
       return `${format(value, 2)} every ${Time.bestInfinity.times(DC.E1).toStringShort()}`;

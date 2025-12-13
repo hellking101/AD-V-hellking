@@ -40,6 +40,7 @@ export default {
     },
     isDoomed: () => Pelle.isDoomed,
     isUseless() {
+      if (ChallengerUpgrade(5).isBought) return false;
       return this.isDoomed && this.config.pelleUseless;
     }
   },

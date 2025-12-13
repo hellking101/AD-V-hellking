@@ -77,6 +77,7 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
   }
 
   get pelleDisabled() {
+    if (ChallengerUpgrade(18).isBought) return false;
     return Pelle.isDoomed && this.config.isDisabledInDoomed;
   }
 
@@ -109,6 +110,7 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
     }
     if (this.id === 25) {
       TabNotification.pelleUnlock.tryTrigger();
+      Glitch.quotes.battlePelle.show();
     }
   }
 }
@@ -127,6 +129,7 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
   }
 
   get pelleDisabled() {
+    if (ChallengerUpgrade(18).isBought) return false;
     return Pelle.isDoomed;
   }
 

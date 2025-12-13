@@ -114,7 +114,7 @@ class NormalChallengeState extends GameMechanicState {
 
   get goal() {
     if (Enslaved.isRunning && Enslaved.BROKEN_CHALLENGES.includes(this.id)) {
-      return player.records.fullGameCompletions > 0 ?  DC.BEMAX : DC.E1E15;
+      return player.pelleResets > 0 ?  DC.BEMAX : DC.E1E15;
     }
     return DC.NUMMAX;
   }

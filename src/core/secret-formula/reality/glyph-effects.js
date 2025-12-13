@@ -664,7 +664,7 @@ export const glyphEffects = {
     shortDesc: "C Dim ^{value}",
     genericDesc: "C Dim ^x",
     effect: (level, strength) => {
-      let eff = new Decimal(level).div(70000).pow(0.6).mul(0.4).add(1.015);
+      let eff = new Decimal(level).div(1e6).pow(0.25).mul(0.15).add(1.015);
       if(eff.gt(1.5)) eff = eff.div(eff.div(1.5).pow(0.4));
       return eff;
     },
@@ -677,10 +677,10 @@ export const glyphEffects = {
     intID: 39,
     isGenerated: false,
     glyphTypes: [() =>"glitch"],
-    singleDesc: "ADs ^{value} in Celestial Realitys",
+    singleDesc: "ADs ^{value} in Celestial Realities",
     shortDesc: "AD in Cel ^{value}",
     genericDesc: "AD in Cel ^x",
-    effect: (level, strength) => new Decimal(level).div(1e5).pow(0.8).pow(new Decimal(level).div(25).pow(0.05)).max(0).add(1.2),
+    effect: (level, strength) => new Decimal(level).div(1e6).pow(0.5).pow(new Decimal(level).div(30).pow(0.05)).max(0).add(1.2),
     formatEffect: x => format(x, 2, 2),
     combine: GlyphCombiner.multiplyDecimal,
     enabledInDoomed: true,

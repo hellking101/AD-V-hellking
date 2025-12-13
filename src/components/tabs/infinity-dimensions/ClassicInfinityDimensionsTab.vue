@@ -29,7 +29,7 @@ export default {
       extraTesseracts: new Decimal(0),
       creditsClosed: false,
       showLockedDimCostNote: true,
-      ID8cap: 1e12,
+      ID8cap: new Decimal(),
     };
   },
   computed: {
@@ -65,7 +65,7 @@ export default {
       this.boughtTesseracts.copyFrom(Tesseracts.bought);
       this.extraTesseracts.copyFrom(Tesseracts.extra);
       this.creditsClosed = GameEnd.creditsEverClosed;
-      this.ID8cap = Decimal.pow(1e12, TimeStudy(403).effectOrDefault(1));
+      this.ID8cap = Decimal.pow(1e15, TimeStudy(403).effectOrDefault(1));
     },
     maxAll() {
       InfinityDimensions.buyMax();

@@ -75,20 +75,21 @@ export const Glyphs = {
   },
   get activeSlotCount() {
     if (Pelle.isDoomed) {
+      if (Pelle.specialGlyphEffect.reality) return 5;
       if (PelleRifts.vacuum.milestones[0].canBeApplied) return 1;
       return 0;
     }
     return 3 + (Effects.sum(RealityUpgrade(9), RealityUpgrade(24))).toNumber();
   },
   get protectedSlots() {
-    return 10 * player.reality.glyphs.protectedRows;
+    return 14 * player.reality.glyphs.protectedRows;
   },
   get totalSlots() {
-    return 150;
+    return 140;
   },
   changeProtectedRows(rowChange) {
     // Always ensure at least one unprotected row for new glyphs, to prevent some potentially odd-looking behavior
-    const newRows = Math.clamp(player.reality.glyphs.protectedRows + rowChange, 0, this.totalSlots / 10 - 1);
+    const newRows = Math.clamp(player.reality.glyphs.protectedRows + rowChange, 0, this.totalSlots / 14 - 1);
     const rowsToAdd = newRows - player.reality.glyphs.protectedRows;
 
     if (rowsToAdd > 0) {
@@ -100,14 +101,14 @@ export const Glyphs = {
         // Try to shift down all the unprotected rows from top to bottom, repeating until either no shifting is
         // possible or we've freed up the row
         let hasMoved = false;
-        for (let orig = this.protectedSlots / 10 + rowsMoved; !hasMoved && orig < this.totalSlots / 10; orig++) {
+        for (let orig = this.protectedSlots / 14 + rowsMoved; !hasMoved && orig < this.totalSlots / 14; orig++) {
           hasMoved = hasMoved || this.moveGlyphRow(orig, orig + 1);
         }
         // No movement happened this scan; there's nothing else we can do here
         if (!hasMoved) break;
         // Check if the topmost unprotected row is free. This isn't necessarily guaranteed because it could come from
         // merging lower rows, which means the empty row isn't in the right spot
-        if (!this.glyphIndexArray.some(idx => Math.floor(idx / 10) === this.protectedSlots / 10)) {
+        if (!this.glyphIndexArray.some(idx => Math.floor(idx / 14) === this.protectedSlots / 14)) {
           rowsMoved++;
         }
       }
@@ -117,14 +118,14 @@ export const Glyphs = {
       let rowsMoved = 0;
       while (rowsMoved < -rowsToAdd) {
         let hasMoved = false;
-        for (let orig = this.protectedSlots / 10 - rowsMoved - 1; !hasMoved && orig > 0; orig--) {
+        for (let orig = this.protectedSlots / 14 - rowsMoved - 1; !hasMoved && orig > 0; orig--) {
           hasMoved = hasMoved || this.moveGlyphRow(orig, orig - 1);
         }
         if (!hasMoved) break;
-        if (!this.glyphIndexArray.some(idx => Math.floor(idx / 10) === this.protectedSlots / 10 - 1)) {
+        if (!this.glyphIndexArray.some(idx => Math.floor(idx / 14) === this.protectedSlots / 14 - 1)) {
           rowsMoved++;
           // In addition to all the protected glyph movement, we also move the entire unprotected inventory up one row
-          for (let orig = this.protectedSlots / 10 - rowsMoved; orig < this.totalSlots / 10; orig++) {
+          for (let orig = this.protectedSlots / 14 - rowsMoved; orig < this.totalSlots / 14; orig++) {
             this.moveGlyphRow(orig, orig - 1);
           }
         }
@@ -139,26 +140,26 @@ export const Glyphs = {
   // isn't possible. Returns a boolean indicating success/failure on glyph moving. Row is 0-indexed
   moveGlyphRow(orig, dest) {
     if (!player.reality.moveGlyphsOnProtection) return false;
-    if (orig >= this.totalSlots / 10 || dest >= this.totalSlots / 10) return false;
-    if (this.glyphIndexArray.some(idx => Math.floor(idx / 10) === dest)) {
+    if (orig >= this.totalSlots / 14 || dest >= this.totalSlots / 14) return false;
+    if (this.glyphIndexArray.some(idx => Math.floor(idx / 14) === dest)) {
       // Destination row has some glyphs, attempt to merge the rows
-      const hasOverlap = [...Array(10).keys()]
-        .some(col => this.inventory[10 * orig + col] !== null && this.inventory[10 * dest + col] !== null);
+      const hasOverlap = [...Array(14).keys()]
+        .some(col => this.inventory[14 * orig + col] !== null && this.inventory[14 * dest + col] !== null);
       if (hasOverlap) return false;
-      for (let col = 0; col < 10; col++) {
-        const glyph = this.inventory[10 * orig + col];
+      for (let col = 0; col < 14; col++) {
+        const glyph = this.inventory[14 * orig + col];
         if (glyph !== null) {
-          this.moveToSlot(glyph, 10 * dest + col);
+          this.moveToSlot(glyph, 14 * dest + col);
         }
       }
       this.validate();
       return true;
     }
     // Destination row is empty, just move the glyphs
-    for (let col = 0; col < 10; col++) {
-      const glyph = this.inventory[10 * orig + col];
+    for (let col = 0; col < 14; col++) {
+      const glyph = this.inventory[14 * orig + col];
       if (glyph !== null) {
-        this.moveToSlot(glyph, 10 * dest + col);
+        this.moveToSlot(glyph, 14 * dest + col);
       }
     }
     this.validate();
@@ -274,7 +275,7 @@ export const Glyphs = {
   },
   equip(glyph, targetSlot) {
     const forbiddenByPelle = Pelle.isDisabled("glyphs") || ["effarig", "reality", "cursed"].includes(glyph.type);
-    if (Pelle.isDoomed && forbiddenByPelle) return;
+    if (Pelle.isDisabled("glyphs") && Pelle.isDoomed && forbiddenByPelle) return;
     if (GameEnd.creditsEverClosed) return;
 
     if (glyph.type !== "companion") {
@@ -395,6 +396,7 @@ export const Glyphs = {
     // The cache at this point may not be correct yet (if we're importing a save),
     // so we use the uncached value.
     this.levelBoost = getAdjustedGlyphEffectUncached("realityglyphlevel");
+    Glyphs.refreshActive();
   },
   moveToSlot(glyph, targetSlot) {
     if (this.inventory[targetSlot] === null) this.moveToEmpty(glyph, targetSlot);
@@ -498,7 +500,7 @@ export const Glyphs = {
     let totalDesiredPadding = 0;
     for (const t of Object.values(byType)) {
       t.glyphs.sort(sortFunction);
-      t.padding = Math.ceil(t.glyphs.length / 10) * 10 - t.glyphs.length;
+      t.padding = Math.ceil(t.glyphs.length / 14) * 14 - t.glyphs.length;
       totalDesiredPadding += t.padding;
     }
     // If we want more padding than we actually have available, trim it down until it fits
@@ -546,8 +548,8 @@ export const Glyphs = {
   isObjectivelyUseless(glyph, threshold, inventoryIn) {
     if (player.reality.applyFilterToPurge && AutoGlyphProcessor.wouldKeep(glyph)) return false;
     function hasSomeBetterEffects(glyphA, glyphB, comparedEffects) {
-      if (glyphA.level.gte(glyphB.level)){
-        if (glyphA.strength.gte(glyphB.strength)) return true;
+      if (glyphA.level.gt(glyphB.level)){
+        if (glyphA.strength.gt(glyphB.strength)) return true;
       }
       for (const effect of comparedEffects) {
         const c = effect.compareValues(

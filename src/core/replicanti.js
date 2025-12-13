@@ -7,6 +7,7 @@ export const ReplicantiGrowth = {
     return Math.log10(Number.MAX_VALUE);
   },
   get scaleFactor() {
+    if (Pelle.joined) return AlchemyResource.cardinality.effectValue;
     if (PelleStrikes.eternity.hasStrike && Replicanti.amount.gte(DC.E2000)) return 10;
     if (Pelle.isDoomed) return 2;
     return AlchemyResource.cardinality.effectValue;
@@ -105,7 +106,7 @@ export function getReplicantiInterval(overCapOverride, intervalIn) {
 
   if (overCap) {
     let increases = (amount.max(1).log10().sub(replicantiCap().max(1).log10())).div(ReplicantiGrowth.scaleLog10);
-    if (PelleStrikes.eternity.hasStrike && amount.gte(DC.E2000)) {
+    if (!Pelle.joined && PelleStrikes.eternity.hasStrike && amount.gte(DC.E2000)) {
       // The above code assumes in this case there's 10x scaling for every 1e308 increase;
       // in fact, before e2000 it's only 2x.
       increases = increases.sub(Decimal.log10(5).times(DC.E2000.sub(replicantiCap()).max(1).log10())
@@ -140,7 +141,6 @@ export function totalReplicantiSpeedMult(overCap) {
   totalMult = totalMult.times(ShopPurchase.replicantiPurchases.currentMult);
   totalMult = totalMult.times(breakInfinityUGs.all[5].effectOrDefault(1));
   totalMult = totalMult.times(GlitchRifts.delta.milestones[0].effectOrDefault(1));
-  totalMult = totalMult.pow(Ra.unlocks.repMul.effectOrDefault(1));
   if (Pelle.isDisabled("replicantiIntervalMult")) return totalMult;
 
   const preCelestialEffects = Effects.product(
@@ -165,6 +165,7 @@ export function totalReplicantiSpeedMult(overCap) {
   }
   totalMult = totalMult.timesEffectsOf(AlchemyResource.replication, Ra.unlocks.continuousTTBoost.effects.replicanti);
 
+  totalMult = totalMult.pow(Ra.unlocks.repMul.effectOrDefault(DC.D1));
   totalMult = totalMult.pow(MetaMilestone.metaProgress.effectOrDefault(DC.D1));
   
   return totalMult;
@@ -663,7 +664,7 @@ export const Replicanti = {
       if (Achievement(126).isUnlocked) {
         const maxGain = Replicanti.galaxies.max.sub(player.replicanti.galaxies);
         const logReplicanti = Replicanti.amount.max(1).log10();
-        return Decimal.min(maxGain, replicantiMult().gt('ee5') ? 1e300 : Decimal.floor(logReplicanti.div(LOG10_MAX_VALUE)));
+        return Decimal.min(maxGain, Decimal.floor(logReplicanti.div(LOG10_MAX_VALUE)));
       }
       return DC.D1;
     },

@@ -95,7 +95,7 @@ export class TimeStudyTreeLayout {
     );
     
     if (Perk.bypassEC1Lock.isBought && Perk.bypassEC2Lock.isBought && Perk.bypassEC3Lock.isBought) {
-      if(EffarigUnlock.EC10Requirement.canBeApplied && !Pelle.isDoomed){
+      if(EffarigUnlock.EC10Requirement.canBeApplied){
       this.rows.push(
         normalRow(                         EC(1), TS(171),  EC(2)                        ),
         normalRow(                        EC(10), TS(181),  EC(3)                        )
@@ -110,7 +110,7 @@ export class TimeStudyTreeLayout {
       
     } else {
       
-      if (EffarigUnlock.EC10Requirement.canBeApplied && !Pelle.isDoomed){
+      if (EffarigUnlock.EC10Requirement.canBeApplied){
         this.rows.push(
         normalRow(                               TS(171)                                ),
         normalRow(                         EC(1), EC(2), EC(3)                          ),
@@ -135,7 +135,7 @@ export class TimeStudyTreeLayout {
       wideRow  (TS(221), TS(222), TS(223), TS(224), TS(225), TS(226), TS(227), TS(228))
     );
 
-    if (type === STUDY_TREE_LAYOUT_TYPE.ALTERNATIVE_TRIAD_STUDIES && !Pelle.isDoomed) {
+    if (type === STUDY_TREE_LAYOUT_TYPE.ALTERNATIVE_TRIAD_STUDIES) {
       this.rows.push(
         normalRow(                 TS(301), TS(302), TS(303), TS(304)                 )
       );

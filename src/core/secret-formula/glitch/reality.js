@@ -10,7 +10,7 @@ export const realityUG = [
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
     description: "Gain x1e25 more EP",
     effect: () => 1e25,
-    isUseless: () => Pelle.isDoomed
+    isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
   },
   {
   name: "Dialated",
@@ -52,7 +52,7 @@ export const realityUG = [
     progLock: () => player.celestials.teresa.bestRunAM.gte('1e308'),
     checkRequirement: () => player.eternityPoints.gte('1e5000') && Teresa.isRunning,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "EC4 and EC8 have no path requierment (unlock other paths at the same row)",
+    description: "EC4 and EC8 have no path requierment",
     effect: 1,
   },
   {

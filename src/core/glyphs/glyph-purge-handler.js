@@ -48,7 +48,7 @@ export const GlyphSacrificeHandler = {
   glyphSacrificeGain(glyph) {
     if (!this.canSacrifice || Pelle.isDoomed) return DC.D0;
     if (glyph.type === "reality") return new Decimal(glyph.level).mul(Achievement(171).effectOrDefault(1)).div(100);
-    if (glyph.type === "glitch") return new Decimal(glyph.level).mul(Achievement(171).effectOrDefault(1)).div(10000);
+    if (glyph.type === "glitch") return new Decimal(glyph.level).mul(Achievement(171).effectOrDefault(1)).mul(GlitchSpeedUpgrade(8).effectOrDefault(1)).div(10000);
     const pre10kFactor = Decimal.pow(Decimal.clampMax(glyph.level, 10000).add(10), 2.5);
     const post10kFactor = Decimal.clampMin(Decimal.sub(glyph.level, 1e4), 0).div(100).add(1);
     const power = Ra.unlocks.maxGlyphRarityAndShardSacrificeBoost.effectOrDefault(1);

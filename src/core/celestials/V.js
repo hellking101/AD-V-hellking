@@ -120,6 +120,7 @@ class VUnlockState extends BitUpgradeState {
   set bits(value) { player.celestials.v.unlockBits = value; }
 
   get pelleDisabled() {
+    if (ChallengerUpgrade(15).isBought) return false;
     return Pelle.isDoomed && this !== VUnlocks.vAchievementUnlock;
   }
 
@@ -234,6 +235,7 @@ export const V = {
     this.spaceTheorems = DC.D0;
   },
   get availableST() {
+    if (Pelle.isDoomed && !ChallengerUpgrade(16).isBought) return DC.D0;
     return V.spaceTheorems.sub(player.celestials.v.STSpent);
   },
   get isRunning() {
@@ -253,10 +255,12 @@ export const V = {
     return this.spaceTheorems.gte(110);
   },
   get rageDimPower() {
-    return MetaFabricatorUpgrades.all[4].effectOrDefault(DC.D1).mul(1e-3).pow(VRunUnlock(10).completions);
+    if (MetaFabricatorUpgrade(14).isBought) return DC.D1;
+    return MetaFabricatorUpgrades.all[4].effectOrDefault(DC.D1).mul(1e-2).pow(VRunUnlock(10).completions);
   },
   get rageTickPower() {
-    return MetaFabricatorUpgrades.all[4].effectOrDefault(DC.D1).mul(1e-3).pow(VRunUnlock(10).completions);
+    if (MetaFabricatorUpgrade(14).isBought) return DC.D1;
+    return MetaFabricatorUpgrades.all[4].effectOrDefault(DC.D1).mul(1e-2).pow(VRunUnlock(10).completions);
   },
   nextNormalReductionCost() {
     return 1000;
@@ -265,7 +269,7 @@ export const V = {
     return 1000 * Math.pow(1.15, currReductionSteps);
   },
   nextExtremeReductionCost(currReductionSteps) {
-    return 1e8 * Math.pow(12, currReductionSteps);
+    return 1e8 * Math.pow(25, currReductionSteps);
   },
   quotes: Quotes.v,
   symbol: "⌬"

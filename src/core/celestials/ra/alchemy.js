@@ -171,16 +171,17 @@ class AlchemyReaction {
   get actualYield() {
     if (MetaFabricatorUpgrade(17).isBought) return new Decimal(0);
     // Assume a full reaction to see what the maximum possible product is
-    const maxFromReaction = this.baseProduction.mul(this.reactionYield).mul(this.reactionEfficiency);
+    const Yield = this.reactionYield; // better performance
+    const maxFromReaction = this.baseProduction.mul(Yield).mul(this.reactionEfficiency);
     const prodBefore = this._product.amount;
     const prodAfter = prodBefore.add(maxFromReaction);
-    let cappedYield = this.reactionYield;
+    let cappedYield = Yield;
     for (const reagent of this._reagents) {
       const reagentBefore = reagent.resource.amount;
-      const reagentAfter = reagent.resource.amount.sub(this.reactionYield.mul(reagent.cost));
+      const reagentAfter = reagentBefore.sub(Yield.mul(reagent.cost));
       const diffBefore = reagentBefore.sub(prodBefore);
       const diffAfter = reagentAfter.sub(prodAfter);
-      cappedYield = Decimal.min(cappedYield, this.reactionYield.mul(diffBefore).div(diffBefore.sub(diffAfter)));
+      cappedYield = Decimal.min(cappedYield, Yield.mul(diffBefore).div(diffBefore.sub(diffAfter)));
     }
     return Decimal.clampMin(cappedYield, 0);
   }
@@ -191,8 +192,9 @@ class AlchemyReaction {
   get priority() {
     if (MetaFabricatorUpgrade(17).isBought) return new Decimal(0);
     let maxReagent = Glyphs.levelCap;
+    const Yield = this.actualYield; // better performance
     for (const reagent of this._reagents) {
-      const afterReaction = reagent.resource.amount.sub(reagent.cost.mul(this.actualYield));
+      const afterReaction = reagent.resource.amount.sub(reagent.cost.mul(Yield));
       maxReagent = Decimal.min(maxReagent, afterReaction);
     }
     return maxReagent;
@@ -217,7 +219,7 @@ class AlchemyReaction {
   }
 
   get reactionEfficiency() {
-    return this.isReality ? 1 : AlchemyResource.synergism.effectValue;
+    return Decimal.mul(this.isReality ? 1 : AlchemyResource.synergism.effectValue, Ra.unlocks.StrongerAlchemy.effectOrDefault(1));
   }
 
   get reactionProduction() {

@@ -9,7 +9,7 @@ export const gamespeed = {
     displayOverride: () => {
       if (Enslaved.isStoringRealTime) return `Set to ${format(0)} (storing real time)`;
       if (EternityChallenge(12).isRunning) return `${formatX(1)}/${formatInt(1000)} (fixed)`;
-      const curr = getGameSpeedupFactor();
+      const curr = GameCache.gameSpeed.value;
 
       const bh = MultiplierTabHelper.blackHoleSpeeds();
       const currBH = bh.current;
@@ -56,8 +56,8 @@ export const gamespeed = {
   pulsing: {
     name: "Auto-Discharging Stored Time",
     multValue: () => (Enslaved.isAutoReleasing
-      ? Decimal.max(Enslaved.autoReleaseSpeed.div(getGameSpeedupFactor()), 1)
-      : getGameSpeedupFactor()),
+      ? Decimal.max(Enslaved.autoReleaseSpeed.div(GameCache.gameSpeed.value), 1)
+      : GameCache.gameSpeed.value),
     isActive: () => Enslaved.canRelease() && Enslaved.isAutoReleasing && !EternityChallenge(12).isRunning,
     icon: MultiplierTabIcons.BH_PULSE,
   },

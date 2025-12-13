@@ -162,15 +162,15 @@ export const pelleRifts = {
         resource: "recursion",
         requirement: 0.10,
         description: "Dimensional Boosts are more powerful based on EC completions",
-        effect: () => Math.max(100 * EternityChallenges.completions ** 2, 1) *
-          Math.max(1e4 ** (EternityChallenges.completions - 40), 1),
+        effect: () => Math.max(100 * Math.min(EternityChallenges.completions, 60) ** 2, 1) *
+          Math.max(1e4 ** Math.min(EternityChallenges.completions - 40, 20), 1),
         formatEffect: x => `Dimension Boost power ${formatX(x, 2, 2)}`
       },
       {
         resource: "recursion",
         requirement: 0.15,
         description: "Infinity Dimensions are stronger based on EC completions",
-        effect: () => Decimal.pow("1e1500", (Math.max(EternityChallenges.completions - 25, 0) / 20) ** 1.7),
+        effect: () => Decimal.pow("1e1500", (Math.clamp(EternityChallenges.completions - 25, 0, 35) / 20) ** 1.7),
         formatEffect: x => `Infinity Dimensions ${formatX(x)}`
       },
       {
@@ -231,9 +231,9 @@ export const pelleRifts = {
     drainResource: "Galaxies",
     baseEffect: x => `AD  ${formatPow(x, 2, 2)}`,
     strike: () => PelleStrikes.glitch,
-    percentage: totalFill => totalFill.div(1000000),
-    percentageToFill: percentage => percentage * 1000000,
-    effect: totalFill => new Decimal(totalFill).sqrt().mul(0.015).add(1),
+    percentage: totalFill => totalFill.div(100000),
+    percentageToFill: percentage => percentage * 100000,
+    effect: totalFill => new Decimal(totalFill).pow(0.33).mul(0.01).add(1),
     currency: () => ({
       get value() {
         return player.galaxies;
@@ -259,7 +259,7 @@ export const pelleRifts = {
       {
         resource: "glitch",
         requirement: 1,
-        description: "Lower dilation penalty by galaxys generated",
+        description: "Lower dilation penalty by galaxies generated",
         effect: () => player.celestials.pelle.galaxyGenerator.generatedGalaxies.log10().log10().div(4),
         formatEffect: x => `dilation effect: ${formatX(x.add(0.75), 2, 2)}`
       },

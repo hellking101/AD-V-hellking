@@ -14,6 +14,7 @@ export default {
       realityShardGain: new Decimal(0),
       nextRealityShardGain: new Decimal(0),
       canArmageddon: false,
+      reset: false,
     };
   },
   computed: {
@@ -35,7 +36,9 @@ export default {
       this.remnantsGain.copyFrom(Pelle.remnantsGain);
       this.realityShardGain.copyFrom(Pelle.realityShardGainPerSecond);
       this.nextRealityShardGain.copyFrom(Pelle.nextRealityShardGain);
-      this.canArmageddon = Pelle.canArmageddon;
+      this.reset = player.celestials.pelle.records.totalAntimatter.gt('ee100');
+      this.canArmageddon = Pelle.canArmageddon || this.reset;
+
     },
     manualArmageddon() {
       if (!this.canArmageddon) return;
@@ -52,7 +55,9 @@ export default {
     :class="buttonClassObject"
     @click="manualArmageddon"
   >
-    <span v-if="isHeader">You cannot escape a Doomed Reality!<br></span>
+    <span v-if="reset"> Escape your Doomed Reality<br></span>
+    <span v-else-if="isHeader">Your far too weak to escape a Doomed Reality!<br></span>
+
     <span class="c-remnant-gain-display">
       Armageddon for
       <span class="c-remnant-gain">{{ remnants }}</span>

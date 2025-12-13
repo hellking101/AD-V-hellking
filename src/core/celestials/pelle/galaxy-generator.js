@@ -34,6 +34,7 @@ export const GalaxyGenerator = {
       GalaxyGeneratorUpgrades.antimatterMult,
       GalaxyGeneratorUpgrades.IPMult,
       GalaxyGeneratorUpgrades.EPMult,
+      HardChallengerUpgrade(1),
     );
   },
 
@@ -58,7 +59,6 @@ export const GalaxyGenerator = {
   },
 
   startSacrifice() {
-    player.celestials.pelle.collapsed.rifts = false;
     player.celestials.pelle.galaxyGenerator.sacrificeActive = true;
   },
 
@@ -75,7 +75,7 @@ export const GalaxyGenerator = {
         const phase = player.celestials.pelle.galaxyGenerator.phase;
         if (phase === 1) {
           Pelle.quotes.galaxyGeneratorPhase1.show();
-        } else if (phase === 4) {
+        } else if (phase === 5) {
           Pelle.quotes.galaxyGeneratorPhase4.show();
         }
 

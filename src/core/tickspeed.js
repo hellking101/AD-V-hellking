@@ -63,6 +63,7 @@ export function getTickSpeedMultiplier() {
   galaxies = galaxies.sub(2);
   galaxies = galaxies.times(effects);
   galaxies = galaxies.times(getAdjustedGlyphEffect("cursedgalaxies"));
+  galaxies = galaxies.times(Pelle.specialGlyphEffect.cursed);
   galaxies = galaxies.times(getAdjustedGlyphEffect("realitygalaxies"));
   galaxies = galaxies.times(ImaginaryUpgrade(9).effectOrDefault(DC.D0).add(1));
   if (Pelle.isDoomed) galaxies = galaxies.div(2);
@@ -195,18 +196,9 @@ export const Tickspeed = {
     tickspeed = tickspeed.pow(TimeStudy(402).effectOrDefault(1));
 
     tickspeed = tickspeed.pow(V.rageTickPower);
-    if (V.isRunningExtreme) {
-      tickspeed = tickspeed.pow(0.00025);
-    }
-
-    if(tickspeed.gt("ee20")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e20).pow(0.95).recip() );
+    if (V.isRunningExtreme) tickspeed = tickspeed.pow(0.00025);
     
-    if(tickspeed.gt("ee50")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e50).pow(0.95).recip() );
-    if(tickspeed.gt("ee100")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e100).pow(0.999).recip() );
-    if(tickspeed.gt("ee150")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e100).pow(0.9999).recip() );
-    if(tickspeed.gt("ee200")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e200).pow(0.9999).recip() );
-
-    
+    // if(tickspeed.gt("ee50")) tickspeed = tickspeed.pow( tickspeed.log10().div(1e50).pow(0.95).recip() );   
 
     return tickspeed;
   },
@@ -240,6 +232,7 @@ export const Tickspeed = {
       if (dimension.cost.e === this.cost.e) dimension.costBumps = dimension.costBumps.add(1);
     }
   }
+
 };
 
 

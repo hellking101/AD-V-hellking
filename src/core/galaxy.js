@@ -22,7 +22,7 @@ class GalaxyRequirement {
 
 export class Galaxy {
   static get remoteStart() {
-    return Decimal.max(800, RealityUpgrade(21).effectOrDefault(0));
+    return Decimal.max(800, RealityUpgrade(21).effectOrDefault(0)).add(Ra.unlocks.nullCharge.effectOrDefault(0));
   }
 
   static get requirement() {
@@ -42,12 +42,13 @@ export class Galaxy {
     if (InfinityChallenge(5).isCompleted) base = base.sub(1);
     // eslint-disable-next-line max-len
     // Plz no ask how exponential math work i dont know i just code, see https://discord.com/channels/351476683016241162/439241762603663370/1210707188964659230m
-    const minV = Galaxy.costScalingStart.min(Galaxy.remoteStart); // Take the smallest of the two values
+    const RS = Galaxy.remoteStart;
+    const minV = dis.min(RS); // Take the smallest of the two values
     if (currency.lt(Galaxy.requirementAt(minV).amount /* Pre exponential/quadratic? */)) {
       return Decimal.max(currency.sub(base).div(scale).floor().add(1), minVal);
     }
 
-    if (currency.lt(Galaxy.requirementAt(Galaxy.remoteStart).amount)) {
+    if (currency.lt(Galaxy.requirementAt(RS).amount)) {
       // Quadratic equation https://discord.com/channels/351476683016241162/1131505261903880244/1261706311901511691
       const a = DC.D1;
       const b = scale.add(1).sub(dis.mul(2));
@@ -56,9 +57,9 @@ export class Galaxy {
       return Decimal.max(quad, minVal);
     }
 
-    if (Galaxy.requirementAt(Decimal.max(1e6, Galaxy.remoteStart)).amount.lt(currency)) {
-      return Decimal.log(currency.div(Galaxy.requirementAt(Decimal.max(1e6, Galaxy.remoteStart))), 1.008)
-        .add(Decimal.max(1e6, Galaxy.remoteStart)).floor().max(minVal);
+    if (Galaxy.requirementAt(Decimal.max(1e6, RS)).amount.lt(currency)) {
+      return Decimal.log(currency.div(Galaxy.requirementAt(Decimal.max(1e6, RS))), 1.008)
+        .add(Decimal.max(1e6, RS)).floor().max(minVal);
     }
     // Ignore BBBS' warning, even though its theoretically quite dangerous
     // We can do this because at most, 1e6 galaxies of dimension would be put into this
@@ -78,8 +79,7 @@ export class Galaxy {
     const type = Galaxy.typeAt(galaxies);
 
     if (type === GALAXY_TYPE.DISTANT || type === GALAXY_TYPE.REMOTE) {
-      const galaxyCostScalingStart = this.costScalingStart;
-      const galaxiesAfterDistant = Decimal.clampMin(equivGal.sub(galaxyCostScalingStart).add(1), 0);
+      const galaxiesAfterDistant = Decimal.clampMin(equivGal.sub(this.costScalingStart).add(1), 0);
       amount = amount.add(Decimal.pow(galaxiesAfterDistant, 2).add(galaxiesAfterDistant));
     }
 

@@ -219,7 +219,9 @@ export const DC = deepFreeze({
   E4E7:                 new Decimal("1e40000000"),
   E6E7:                 new Decimal("1e60000000"),
   E1E8:                 new Decimal("1e100000000"),
-  E1E10:                new Decimal("ee10"),
+  EE10:                 new Decimal("ee10"),
+  EE16:                 new Decimal("ee16"),
+  EE35:                 new Decimal("ee35"),
   E1_5E12:              new Decimal("1e1500000000000"),
   E1E15:                new Decimal("1e1000000000000000"),
 
@@ -228,6 +230,7 @@ export const DC = deepFreeze({
   NUMMAX:               new Decimal(Number.MAX_VALUE),
   BIMAX:                new Decimal("e9e15"),
   PREMETAMAX:           new Decimal("ee50"),
+  PelleMax:           new Decimal("ee100"),
   BEMAX:                new Decimal("10^^9000000000000000")
 });
 

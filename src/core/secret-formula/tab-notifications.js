@@ -140,10 +140,6 @@ export const tabNotifications = {
     tabsToHighLight: [
       {
         parent: "celestials",
-        tab: "celestial-navigation"
-      },
-      {
-        parent: "celestials",
         tab: "teresa"
       }
     ],

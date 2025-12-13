@@ -227,7 +227,7 @@ export default {
         : `${name}: x${formatSmall(val, 2, 2)}`;
     },
     applyDilationExp(value, exp) {
-      return value.log10().pow(exp).pow10();
+      return Decimal.log10(value).log10().pow(exp).pow10();
     },
     dilationString() {
       const resource = this.resource;
@@ -243,7 +243,7 @@ export default {
         const dilProd = new Decimal(this.entries
           .filter(entry => entry.isVisible && entry.isDilated)
           .map(entry => entry.mult)
-          .map(val => this.applyDilationExp(val, 1 / this.dilationExponent))
+          .map(val => this.applyDilationExp(val, Decimal.recip(this.dilationExponent)))
           .reduce((x, y) => x.times(y), DC.D1));
         beforeMult = dilProd.neq(1) ? dilProd : this.applyDilationExp(baseMult, this.dilationExponent.recip());
         afterMult = resource.mult;

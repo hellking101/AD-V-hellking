@@ -64,7 +64,7 @@ export default {
       return AlchemyReactions.all.compact().filter(r => r.product.isUnlocked);
     },
     isDoomed() {
-      return Pelle.isDoomed;
+      return Pelle.isDoomed && !ChallengerUpgrade(11).isBought;
     },
     pelleSymbol() {
       return Pelle.symbol;

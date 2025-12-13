@@ -109,7 +109,7 @@ export default {
         borderRight: "0.5rem solid var(--color-teresa--base)"
       };
     },
-    isDoomed: () => Pelle.isDoomed,
+    isDoomed: () => Pelle.isDoomed && !ChallengerUpgrade(12).isBought,
   },
   methods: {
     update() {

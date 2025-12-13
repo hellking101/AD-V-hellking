@@ -150,7 +150,7 @@ export const imaginaryUpgrades = [
     formatCost: x => format(x, 1),
     requirement: () => `Reach a tickspeed of ${format("1e75000000000")} / sec within Eternity Challenge 5`,
     hasFailed: () => false,
-    checkRequirement: () => EternityChallenge(5).isRunning && Tickspeed.perSecond.add(1).log(10).gte(7.5e10),
+    checkRequirement: () => EternityChallenge(5).isRunning && GameCache.tickspeedPerSecond.value.add(1).log(10).gte(7.5e10),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: () => `Raise all Dimension per purchase multipliers to ${formatPow(1.5, 0, 1)}`,
     effect: 1.5,

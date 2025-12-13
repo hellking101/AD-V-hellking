@@ -28,7 +28,7 @@ export default {
   methods: {
     update() {
       this.mult.copyFrom(Tickspeed.multiplier);
-      this.tickspeed.copyFrom(Tickspeed.perSecond);
+      this.tickspeed.copyFrom(GameCache.tickspeedPerSecond.value);
       this.galaxyCount.copyFrom(player.galaxies);
       this.purchasedTickspeed.copyFrom(player.totalTickBought);
       this.freeTickspeed.copyFrom(FreeTickspeed.amount);

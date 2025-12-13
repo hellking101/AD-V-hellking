@@ -38,7 +38,7 @@ export default {
       // Relevant values are stored as milliseconds, so multiply the rate by 1000 to get to seconds
       const storeRate = (Enslaved.isStoringGameTime
         ? Enslaved.currentBlackHoleStoreAmountPerMs
-        : getGameSpeedupFactor()).mul(1e3);
+        : GameCache.gameSpeed.value).mul(1e3);
       const alreadyWaited = this.currentStored.div(storeRate);
       const decaylessTime = this.nextHintCost.div(storeRate);
 

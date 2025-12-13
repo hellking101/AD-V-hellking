@@ -162,6 +162,13 @@ window.player = {
       })),
       isActive: true,
     },
+    chaosDims: {
+      all: Array.range(0, 12).map(() => ({
+        isActive: true,
+        lastTick: 0,
+      })),
+      isActive: true,
+    },
     canteRep: {
       all: Array.range(0, 10).map(() => ({
         isActive: true,
@@ -190,7 +197,7 @@ window.player = {
       isActive: true,
     },
     dilationUpgrades: {
-      all: Array.range(0, 3).map(() => ({
+      all: Array.range(0, 6).map(() => ({
         isActive: true,
         lastTick: 0,
       })),
@@ -297,6 +304,12 @@ window.player = {
     },
     galgenUpgrades: {
       all: Array.range(0, 5).map(() => ({
+        isActive: false,
+      })),
+      isActive: true,
+    },
+    pelleUpgrades: {
+      all: Array.range(0, 6).map(() => ({
         isActive: false,
       })),
       isActive: true,
@@ -575,7 +588,7 @@ window.player = {
         glitch: DC.D0
       },
       undo: [],
-      sets: new Array(7).fill({
+      sets: new Array(8).fill({
         name: "",
         glyphs: [],
       }),
@@ -858,6 +871,7 @@ window.player = {
     },
     pelle: {
       doomed: false,
+      joined: false,
       upgrades: new Set(),
       remnants: DC.D0,
       realityShards: DC.D0,
@@ -933,6 +947,7 @@ window.player = {
       tier: 0,
       riftForce: DC.D0,
       chaosCores: DC.D0,
+      plynia: DC.D0,
       augment: {
         effectbits: 0,
       },
@@ -985,7 +1000,7 @@ window.player = {
     },
     null: {
       run: false,
-      unlockes: 0,
+      isUnlocked: 0,
       quoteBits: 0,
       upgradeBits: 0,
       parallax: DC.D0,
@@ -1181,8 +1196,12 @@ window.player = {
     },
     reality:{
       upgradebits: 0
-    }
+    },
+    challengersEssence: DC.D0,
+    challengerUpgradebits: 0,
+    hardChallengerUpgradebits: 0
   },
+  pelleResets: 0,
   meta: {
     metaRelays: DC.D0,
     metas: DC.D0,
@@ -1232,7 +1251,7 @@ export const Player = {
   },
 
   get metaGoal() {
-    return new Decimal("ee50");
+    return DC.PREMETAMAX;
   },
 
   get bestRunIPPM() {

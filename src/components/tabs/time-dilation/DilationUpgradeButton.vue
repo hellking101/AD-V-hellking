@@ -65,13 +65,15 @@ export default {
       };
     },
     isUseless() {
+      if (ChallengerUpgrade(9).isBought) return false;
       const tpip = this.upgrade.id === 3 || this.upgrade.id === 7;
       return Pelle.isDoomed && tpip;
     }
   },
   watch: {
     isAutobuyerOn(newValue) {
-      Autobuyer.dilationUpgrade(this.upgrade.id).isActive = newValue;
+      if (this.upgrade.id > 10) Autobuyer.dilationUpgrade(this.upgrade.id - 7).isActive = newValue;
+      else Autobuyer.dilationUpgrade(this.upgrade.id).isActive = newValue;
     }
   },
   methods: {
@@ -84,7 +86,7 @@ export default {
       if (this.isRebuyable) {
         this.isAffordable = upgrade.isAffordable;
         this.isCapped = upgrade.isCapped;
-        const autobuyer = Autobuyer.dilationUpgrade(upgrade.id);
+        const autobuyer = (upgrade.id > 10) ? Autobuyer.dilationUpgrade(upgrade.id - 7) : Autobuyer.dilationUpgrade(upgrade.id);
         this.boughtAmount.copyFrom(upgrade.boughtAmount);
         if (!autobuyer) return;
         this.isAutoUnlocked = autobuyer.isUnlocked;

@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     update() {
-      this.isDoomed = Pelle.isDoomed;
+      this.isDoomed = Pelle.isDoomed && !ChallengerUpgrade(13).isBought;
       this.isUnlocked = BlackHoles.areUnlocked;
       this.isPaused = BlackHoles.arePaused;
       // If stop running enslaved, re-mount the black hole animation as it reappears

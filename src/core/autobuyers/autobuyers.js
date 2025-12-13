@@ -42,8 +42,10 @@ import { TesseractAutobuyerState } from "./tessearact-autobuyer";
 
 import { GalaxyGeneratorUpgradeAutobuyerState } from './galgen-autobuyer';
 import { GalaxyGeneratorSacrificeAutobuyerState } from './galgen-autobuyer';
+import { PelleUpgradeAutobuyerState } from './pelle-upgrade-autobuyer';
 
 import { MetaAutobuyerState } from "./meta-autobuyer";
+import { ChaosDimensionAutobuyerState } from "./chaos-dimension-autobuyer";
 
 import { CanteReplicatorAutobuyerState } from "./cante-replicator-autobuyer";
 import { NullCycleAutobuyerState } from "./null-cycle-autobuyer";
@@ -92,10 +94,12 @@ export const Autobuyer = {
   singCap: new SingularityCapAutobuyerState(),
   tess: new TesseractAutobuyerState(),
 
+  pelleUpgrades: PelleUpgradeAutobuyerState.createAccessor(),
   galgenUpgrade: GalaxyGeneratorUpgradeAutobuyerState.createAccessor(),
   galgenSac: new GalaxyGeneratorSacrificeAutobuyerState(),
 
   meta: new MetaAutobuyerState(),
+  chaosDims: ChaosDimensionAutobuyerState.createAccessor(),
 
   replicator: CanteReplicatorAutobuyerState.createAccessor(),
   cycle: NullCycleAutobuyerState.createAccessor(),
@@ -106,10 +110,11 @@ export const Autobuyers = (function() {
   const antimatterDimensions = Autobuyer.antimatterDimension.zeroIndexed;
   const infinityDimensions = Autobuyer.infinityDimension.zeroIndexed;
   const timeDimensions = Autobuyer.timeDimension.zeroIndexed;
+  const chaos = Autobuyer.chaosDims.zeroIndexed;
   const replicator = Autobuyer.replicator.zeroIndexed;
   const cycle = Autobuyer.cycle.zeroIndexed;
 
-  const dimensions = [antimatterDimensions, infinityDimensions, timeDimensions, replicator, cycle,];
+  const dimensions = [antimatterDimensions, infinityDimensions, timeDimensions, chaos, replicator, cycle];
 
   const prestige = [
     Autobuyer.bigCrunch,
@@ -160,12 +165,15 @@ export const Autobuyers = (function() {
     Autobuyer.nullMem.zeroIndexed,
     Autobuyer.glitchUpgrades.zeroIndexed,
     Autobuyer.galgenUpgrade.zeroIndexed,
+    Autobuyer.pelleUpgrades.zeroIndexed
   ];
+  
   const all = dimensions.concat(prestige, singleComplex, arrays);
   const multiple = [
     Autobuyer.antimatterDimension,
     Autobuyer.infinityDimension,
     Autobuyer.timeDimension,
+    Autobuyer.chaosDims,
     Autobuyer.replicator,
     Autobuyer.cycle,
     Autobuyer.replicantiUpgrade,
@@ -184,6 +192,7 @@ export const Autobuyers = (function() {
 
     Autobuyer.glitchUpgrades,
     Autobuyer.galgenUpgrade,
+    Autobuyer.pelleUpgrades
   ];
 
   return {

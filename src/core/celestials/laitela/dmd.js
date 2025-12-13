@@ -64,7 +64,7 @@ export class DarkMatterDimensionState extends DimensionState {
     return Decimal.clampMin(this.intervalPurchaseCap, this.rawInterval);
   }
 
-  get commonDarkMult() {
+  static get commonDarkMult() {
     return DC.D1.timesEffectsOf(
       SingularityMilestone.darkFromTesseracts,
       SingularityMilestone.darkFromGlyphLevel,
@@ -84,25 +84,25 @@ export class DarkMatterDimensionState extends DimensionState {
     return Decimal.pow(1.15, this.data.powerDMUpgrades).mul(2).add(1)
       .times(Laitela.realityReward)
       .times(Laitela.darkMatterMult)
-      .times(this.commonDarkMult)
+      .times(GameCache.commonDMDDarkMult.value)
       .times(Decimal.pow(this.powerDMPerAscension, this.ascensions)).mul(realityUG(10).effectOrDefault(1))
-      .timesEffectsOf(SingularityMilestone.darkMatterMult, SingularityMilestone.multFromInfinitied).pow(GlitchRealityUpgrade(12).isBought ? 2.5 : 1)
+      .timesEffectsOf(SingularityMilestone.darkMatterMult, SingularityMilestone.multFromInfinitied).pow(GlitchRealityUpgrade(12).isBought ? 1.05 : 1)
       .dividedBy(Decimal.pow(1e4, Decimal.pow(this.tier - 1, 0.5)));
   }
 
   get powerDE() {
-    if (!this.isUnlocked || Pelle.isDoomed) return DC.D0;
+    if (!this.isUnlocked) return DC.D0;
     const tierFactor = Decimal.pow(15, this.tier - 1);
     const destabilizeBoost = Laitela.isFullyDestabilized ? 8 : 1;
     return this.data.powerDEUpgrades.div(10).add(1)
       .mul(Decimal.pow(1.005, this.data.powerDEUpgrades)).mul(tierFactor).div(1000)
-      .times(this.commonDarkMult)
+      .times(GameCache.commonDMDDarkMult.value)
       .times(Decimal.pow(POWER_DE_PER_ASCENSION, this.ascensions)).mul(realityUG(10).effectOrDefault(1))
       .timesEffectsOf(
         SingularityMilestone.darkEnergyMult,
         SingularityMilestone.realityDEMultiplier,
         SingularityMilestone.multFromInfinitied
-      ).mul(destabilizeBoost).pow(GlitchRealityUpgrade(12).isBought ? 2.5 : 1);
+      ).mul(destabilizeBoost).pow(GlitchRealityUpgrade(12).isBought ? 1.05 : 1);
   }
 
   get intervalAfterAscension() {
@@ -299,6 +299,7 @@ export const DarkMatterDimensions = {
 
   tick(realDiff) {
     if (!Laitela.isUnlocked) return;
+    GameCache.commonDMDDarkMult.invalidate(); // slightly faster
     for (let tier = 4; tier >= 1; tier--) {
       const dim = DarkMatterDimension(tier);
       if (!dim.isUnlocked) continue;

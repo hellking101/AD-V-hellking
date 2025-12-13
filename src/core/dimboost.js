@@ -74,11 +74,13 @@ export class DimBoost {
       return DC.D5;
     }
 
+    if (Enslaved.isRunning) return DC.E6;
+
     if(Ra.unlocks.nullCharge.isUnlocked){
       return DC.BEMAX;
     }
 
-    return DC.E12;
+    return DC.BEMAX;
   }
 
   static get canBeBought() {
@@ -122,8 +124,6 @@ export class DimBoost {
     if (InfinityChallenge(5).isCompleted) amount = amount.sub(1);
 
     amount = amount.times(InfinityUpgrade.resetBoost.chargedEffect.effectOrDefault(1));
-
-    if(targetResets.gt(1e12)) amount = amount.mul(targetResets.sub(1e12).mul(DC.D20.sub(discount)).pow(1.25));
 
     amount = Decimal.round(amount);
 
@@ -182,11 +182,6 @@ export class DimBoost {
     return DC.D0;
   }
   
-  static softcap(amount){
-    if(amount.gt(1e12)) amount = amount.div(amount.div(1e12).pow(0.8));
-
-    return amount;
-  }
 }
 
 // eslint-disable-next-line max-params
@@ -195,7 +190,7 @@ export function softReset(tempBulk, forcedADReset = false, forcedAMReset = false
   const bulk = Decimal.min(new Decimal(tempBulk).min(DimBoost.maxBoosts), DimBoost.maxBoosts.sub(player.dimensionBoosts));
   EventHub.dispatch(GAME_EVENT.DIMBOOST_BEFORE, bulk);
   
-  player.dimensionBoosts = Decimal.max(DC.D0, DimBoost.softcap(player.dimensionBoosts.add(bulk)));
+  player.dimensionBoosts = Decimal.max(DC.D0, player.dimensionBoosts.add(bulk));
 
   resetChallengeStuff();
   const canKeepDimensions = Pelle.isDoomed

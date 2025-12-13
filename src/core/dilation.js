@@ -82,7 +82,7 @@ export function buyDilationUpgrade(id, bulk = 1) {
     Currency.dilatedTime.subtract(cost);
     player.dilation.rebuyables[id] = player.dilation.rebuyables[id].add(buying);
     if (id === 2) {
-      if (!Perk.bypassTGReset.isBought || Pelle.isDoomed) Currency.dilatedTime.reset();
+      if (!Perk.bypassTGReset.isBought || Pelle.isDoomed && !ChallengerUpgrade(9).isBought) Currency.dilatedTime.reset();
       player.dilation.nextThreshold = DC.E3;
       player.dilation.baseTachyonGalaxies = DC.D0;
       player.dilation.totalTachyonGalaxies = DC.D0;
@@ -158,7 +158,7 @@ export function getTachyonGalaxyMult(thresholdUpgrade) {
 }
 
 export function getDilationGainPerSecond() {
-  if (Pelle.isDoomed) {
+  if (Pelle.isDoomed && !ChallengerUpgrade(9).isBought) {
     const tachyonEffect = Currency.tachyonParticles.value.pow(PelleRifts.paradox.milestones[1].effectOrDefault(1));
     return new Decimal(tachyonEffect)
       .timesEffectsOf(DilationUpgrade.dtGain, DilationUpgrade.dtGainPelle, DilationUpgrade.flatDilationMult)
@@ -173,8 +173,10 @@ export function getDilationGainPerSecond() {
       RealityUpgrade(1),
       AlchemyResource.dilation,
       Ra.unlocks.continuousTTBoost.effects.dilatedTime,
-      Ra.unlocks.peakGamespeedDT
-    );
+      Ra.unlocks.peakGamespeedDT,
+      DilationUpgrade.dtGainPelle,
+      DilationUpgrade.flatDilationMult
+    ).times(Pelle.specialGlyphEffect.dilation).div(1e5);
   if(player.realities.lt(5))dtRate = dtRate.times(3);
   dtRate = dtRate.times(realityUGs.all[1].effectOrDefault(1));
   dtRate = dtRate.times(getAdjustedGlyphEffect("dilationDT"));

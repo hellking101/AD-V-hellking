@@ -97,9 +97,9 @@ export default {
     </div>
     
     <br>
-    <p>
+    <!-- <p>
       run tier {{tier}} of {{sName}} Reality
-    </p>
+    </p> -->
     <br><br>
     <div v-if="isRunning"> time in this reality {{time + " " + decay()}}</div>
   </button>

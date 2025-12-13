@@ -140,11 +140,7 @@ class CanteReplicatorState extends DimensionState {
   productionForDiff(diff) {
     return this.totalAmount.mul(this.multiplier.mul(diff.div(1000)));
   }
-
-  // produceCurrency(currency, diff) {
-  //   currency.add(this.productionForDiff(diff));
-  // }
-
+  
   produceDimensions(dimension, diff) {
     dimension.amount = dimension.amount.add(this.productionForDiff(diff));
   }
