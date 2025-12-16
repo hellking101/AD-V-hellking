@@ -26,7 +26,7 @@ export const eternityUG = [
   {
   name: "Rifted",
     id: 2,
-    requirement: () => `Have exactly ${format(15)} Replacnti Galaxies`,
+    requirement: () => `Have exactly ${format(15)} Replicanti Galaxies`,
     progLock: () => false,
     checkRequirement: () => player.replicanti.galaxies.eq(15),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,

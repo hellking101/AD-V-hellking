@@ -267,7 +267,7 @@ export function buyOneDimension(tier) {
   const allow = (Enslaved.isRunning && !Glitch.isRunning);
   const allowed = (allow || Glitch.augmentEffectActive(3));
   
-  if (tier === 8 && allowed && AntimatterDimension(8).bought.gte(0)) return false;
+  if (tier === 8 && allowed && AntimatterDimension(8).bought.gt(0)) return false;
 
   if(dimension.currencyAmount.lt('ee15')) dimension.currencyAmount = dimension.currencyAmount.minus(cost);
 
@@ -688,10 +688,11 @@ class AntimatterDimensionState extends DimensionState {
   }
 
   get isAvailableForPurchase() {
+    if (this.tier > 6 && NormalChallenge(10).isRunning) return false;
     if (EternityMilestone.unlockAllND.isReached) return true;
     if (DimBoost.totalBoosts.add(4).lt(this.tier)) return false;
     if (!(this.tier === 1 || AntimatterDimension(this.tier - 1).totalAmount.gt(0))) return false;
-    return this.tier < 7 || !NormalChallenge(10).isRunning;
+    return true;
   }
 
   reset() {

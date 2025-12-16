@@ -31,7 +31,7 @@ export const realityUG = [
     progLock: () => PlayerProgress.realityUnlocked(),
     checkRequirement: () => player.eternityPoints.gte('1e8000'),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Gain 25 more Perks Points and Realities",
+    description: "Gain 25 more Perk Points and Realities",
     effect: () => 25,
   },
   {
@@ -45,14 +45,14 @@ export const realityUG = [
     effect: () => Decimal.add(1e100),
   },
   {
-    name: "Sacrifisal Power",
+    name: "Sacrificial Power",
     id: 4,
     requirement: () => `Reach ${format("1e5000")} eternity points in Teresa's Reality before any completions`,
     hasFailed: () => false,
     progLock: () => player.celestials.teresa.bestRunAM.gte('1e308'),
     checkRequirement: () => player.eternityPoints.gte('1e5000') && Teresa.isRunning,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "EC4 and EC8 have no path requierment",
+    description: "EC4 and EC8 have no path requirement",
     effect: 1,
   },
   {
@@ -68,7 +68,7 @@ export const realityUG = [
 {
     name: "External Dilation",
     id: 6,
-    requirement: () => `Reach ${format(Number.MAX_VALUE, 2)} Antimatter in Effarigs Reality (Infinity Layer) with three Glyphs maximum`,
+    requirement: () => `Reach ${format(Number.MAX_VALUE, 2)} Antimatter in Effarig's Reality (Infinity Layer) with three Glyphs maximum`,
     hasFailed: () => Effarig.currentStage != 1,
     checkRequirement: () => player.antimatter.gte(1.79e308) && Effarig.isRunning && ((Effarig.currentStage == 1 && player.reality.glyphs.active.length <= 3) || PlayerProgress.metaUnlocked()),
     progLock: () => Effarig.currentStage > 1,
@@ -77,13 +77,13 @@ export const realityUG = [
     effect: 1,
   },
   {
-    name: "Alternitve Realitive",
+    name: "Alternative Realitive",
     id: 7,
     requirement: "Fill the Nameless ones Real time storage",
     progLock: () => false,
     checkRequirement: () =>  player.celestials.enslaved.storedReal.gte(Enslaved.storedRealTimeCap),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Real time storing is fulled automatically and 60 times faster",
+    description: "Real time storing is filled automatically and 60 times faster",
     effect: 60,
   },
   {
@@ -93,7 +93,7 @@ export const realityUG = [
     progLock: () => false,
     checkRequirement: () =>  player.celestials.v.unlockBits != 0,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: () => `Gain ${format(10)} space theorem`,
+    description: () => `Gain ${format(10)} space theorems`,
     effect: 10,
   },
   {
@@ -113,7 +113,7 @@ export const realityUG = [
     progLock: () => false,
     checkRequirement: () =>  Laitela.isUnlocked,
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: () => `Gain ${format(50)} times more Dark Matter and Energy`,
+    description: () => `Gain ${format(50)} times more Dark Matter and Dark Energy`,
     effect: 50,
   },
   {
@@ -129,14 +129,14 @@ export const realityUG = [
     formatEffect: value => format(value, 2, 2)
   },
   {
-    name: "Pre Galactic",
+    name: "Pre-Galactic",
     id: 12,
     requirement: () => `Reach ${format("1e66.66E9")} Antimatter in Effarig's Reality with 5 Cursed Glyphs, before destablizing Latela's Reality thrice`,
     hasFailed: () => false,
     progLock: () => Laitela.difficultyTier > 2,
     checkRequirement: () =>  player.requirementChecks.reality.maxGlyphs <= -15 && Effarig.isRunning && Currency.antimatter.gt("1e6.666E10"),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Unlock two new Treasa shop items",
+    description: "Unlock two new Terasa shop items",
     effect: () => 1,
   },
   {

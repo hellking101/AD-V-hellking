@@ -84,7 +84,7 @@ export const glitchSpeedUpgrades = [
     checkRequirement: () => Glitch.chaosCoresBoost.gt(1.5e4),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: "The first Chaos Dimension gains a multiplier based on Challenger Essence",
-    effect: () =>  Currency.challengersEssence.value.pow(3),
+    effect: () =>  Currency.challengersEssence.value.add(1).pow(3),
     formatEffect: value => formatX(value, 2, 2)
   },
   {

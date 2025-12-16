@@ -54,7 +54,7 @@ export const breakInfinityUG = [
     checkRequirement: () => player.replicanti.amount.gte(10) && player.replicanti.chance.eq(0.01) && player.replicanti.interval.gte(1000),
     progLock: () => PlayerProgress.eternityUnlocked(),
     checkEvent: GAME_EVENT.GAME_TICK_BEFORE,
-    description: "Replicanti speed is increased by it's own amount",
+    description: "Replicanti speed is increased by its own amount",
     effect: () => player.replicanti.amount.log10().sqrt().add(1),
     formatEffect: value => formatX(value, 2, 2),
     isUseless: () => Pelle.isDoomed && !ChallengerUpgrade(10).isBought
