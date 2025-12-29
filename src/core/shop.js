@@ -187,7 +187,7 @@ shop.purchaseTimeSkip = function() {
 };
 
 shop.purchaseLongerTimeSkip = function() {
-  let time = 3600 * 24;
+  let time = 3600 * 240;
   Speedrun.setSTDUse(true);
   
   if(Enslaved.isStoringRealTime){
