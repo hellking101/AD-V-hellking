@@ -27,7 +27,7 @@ export const glitchRealityUpgrades = [
     name: "Rift OverDrive",
     id: 1,
     initialCost: DC.D1,
-    costMult: DC.D20,
+    costMult: DC.D20 * 1000,
     textTemplate: "You gain {value} more Rift Force",
     effect: () => GlitchRealityUpgrades.all[13].effectOrDefault(DC.D1).mul(GlitchRealityUpgrades.all[12].isBought ? 2.5 : 2)
   }),
@@ -37,7 +37,7 @@ export const glitchRealityUpgrades = [
     initialCost: new Decimal(5),
     costMult: new Decimal(40),
     textTemplate: "The max Glyph Sacrifice is {value} times higher, also some effects are increased past 1e300",
-    effect: 1e10
+    effect: 1e10000
   }),
   rebuyable({
     name: "Rifting Refinement",
@@ -45,7 +45,7 @@ export const glitchRealityUpgrades = [
     initialCost: new Decimal(100),
     costMult: new Decimal(45),
     textTemplate: "The Glyph Refinement cap is increased by {value}",
-    effect: 250
+    effect: 250000
   }),
   rebuyable({
     name: "Cosmic Flight",
@@ -53,7 +53,7 @@ export const glitchRealityUpgrades = [
     initialCost: new Decimal(15),
     costMult: new Decimal(30),
     textTemplate: "You gain {value} more Singularities",
-    effect: 5
+    effect: 500
   }),
   {
     name: "Augmented Infinity",
