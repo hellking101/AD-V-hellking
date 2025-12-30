@@ -27,9 +27,9 @@ export const glitchRealityUpgrades = [
     name: "Rift OverDrive",
     id: 1,
     initialCost: DC.D1,
-    costMult: DC.D20 * 1000,
+    costMult: DC.D20,
     textTemplate: "You gain {value} more Rift Force",
-    effect: () => GlitchRealityUpgrades.all[13].effectOrDefault(DC.D1).mul(GlitchRealityUpgrades.all[12].isBought ? 2.5 : 2)
+    effect: () => GlitchRealityUpgrades.all[13].effectOrDefault(DC.D1).mul(GlitchRealityUpgrades.all[12].isBought ? 2.5 : 1000)
   }),
   rebuyable({
     name: "Glyph Forced Over",
