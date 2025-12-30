@@ -37,7 +37,7 @@ export const glitchRealityUpgrades = [
     initialCost: new Decimal(5),
     costMult: new Decimal(40),
     textTemplate: "The max Glyph Sacrifice is {value} times higher, also some effects are increased past 1e300",
-    effect: 1e1000
+    effect: 1e100
   }),
   rebuyable({
     name: "Rifting Refinement",
