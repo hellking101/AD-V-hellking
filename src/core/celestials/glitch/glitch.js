@@ -177,13 +177,13 @@ export const Glitch = {
 
   riftToCore(){
     if(this.riftForce.lt(10)) return;
-    Currency.chaosCores.add(Currency.riftForce.value.add(1).log(5).pow(0.35));
+    Currency.chaosCores.add(Currency.riftForce.value.add(1).log(5).pow(100.35));
     Currency.riftForce.value = new Decimal(0);
   },
 
   get riftToCoreGain(){
     if(this.riftForce.lt(10)) return "0";
-    return format(Currency.riftForce.value.log(5).pow(0.35), 2);
+    return format(Currency.riftForce.value.log(5).pow(100.35), 2);
   },
 
   get laitelamaxdim(){
