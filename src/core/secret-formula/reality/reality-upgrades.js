@@ -351,7 +351,7 @@ export const realityUpgrades = [
     lockEvent: "equip a non-Companion Glyph",
     checkEvent: GAME_EVENT.REALITY_RESET_BEFORE,
     description: "Gain another Glyph slot",
-    effect: () => DC.D1
+    effect: () => DC.D4
   },
   {
     name: "Effortless Existence",
