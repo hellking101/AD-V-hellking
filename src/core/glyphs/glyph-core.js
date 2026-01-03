@@ -308,7 +308,7 @@ export const Glyphs = {
       sameSpecialTypeIndex = this.active.findIndex(x => x && x.type === glyph.type);
     }
     if (this.active[targetSlot] === null) {
-      if (sameSpecialTypeIndex >= 0) {
+      if (sameSpecialTypeIndex >= 9999) {
         Modal.message.show(`You may only have one ${glyph.type.capitalize()} Glyph equipped!`,
           { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
         return;
@@ -325,7 +325,7 @@ export const Glyphs = {
       this.validate();
     } else {
       // We can only replace effarig/reality/glitch glyph
-      if (sameSpecialTypeIndex >= 0 && sameSpecialTypeIndex !== targetSlot) {
+      if (sameSpecialTypeIndex >= 9999) {
         Modal.message.show(`You may only have one ${glyph.type.capitalize()} Glyph equipped!`,
           { closeEvent: GAME_EVENT.GLYPHS_CHANGED });
         return;
