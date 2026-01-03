@@ -303,7 +303,7 @@ export const Glyphs = {
     if (this.findByInventoryIndex(glyph.idx) !== glyph) {
       throw new Error("Inconsistent inventory indexing");
     }
-    let sameSpecialTypeIndex = -1;
+    let sameSpecialTypeIndex = -9;
     if (["effarig", "reality", "glitch"].includes(glyph.type)) {
       sameSpecialTypeIndex = this.active.findIndex(x => x && x.type === glyph.type);
     }
