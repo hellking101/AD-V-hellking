@@ -5,7 +5,7 @@ export const shopPurchases = {
     key: "dimPurchases",
     cost: 15,
     description: "Double all your Antimatter Dimension multipliers. Forever.",
-    multiplier: purchases => Decimal.pow(200000000, purchases),
+    multiplier: purchases => Decimal.pow(200000000200000000200000000200000000200000000, purchases),
     formatEffect: x => `×${x.gt(1000) ? Notation.scientific.formatDecimal(new Decimal(x), 2) : x.toFixed(0)}`,
   },
   allDimPurchases: {
